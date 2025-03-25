@@ -7,10 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
-// Add React Three Fiber packages
-<lov-add-dependency>@react-three/fiber@^8.15.12</lov-add-dependency>
-<lov-add-dependency>@react-three/drei@^9.92.7</lov-add-dependency>
-<lov-add-dependency>three@^0.160.0</lov-add-dependency>
+// React Three Fiber packages are installed as dependencies
 
 const queryClient = new QueryClient();
 
