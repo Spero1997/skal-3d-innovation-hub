@@ -48,10 +48,10 @@ const Contact: React.FC = () => {
           ref={sectionRef}
           className="text-center mb-16 opacity-0"
         >
-          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-blue/10">
-            <span className="text-skal-blue text-sm font-medium">Contact</span>
+          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
+            <span className="text-skal-orange text-sm font-medium">Contact</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-skal-dark">
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-skal-black">
             Parlons de Votre Projet
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
@@ -63,11 +63,11 @@ const Contact: React.FC = () => {
           <div className="lg:col-span-2 space-y-6">
             <div className="glass-card rounded-xl p-6">
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-skal-blue/10 text-skal-blue">
+                <div className="p-3 rounded-lg bg-skal-orange/10 text-skal-orange">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2 text-skal-dark">Téléphone</h3>
+                  <h3 className="text-lg font-semibold mb-2 text-skal-black">Téléphone</h3>
                   <p className="text-gray-600">+33 1 23 45 67 89</p>
                 </div>
               </div>
@@ -75,11 +75,11 @@ const Contact: React.FC = () => {
             
             <div className="glass-card rounded-xl p-6">
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-skal-blue/10 text-skal-blue">
+                <div className="p-3 rounded-lg bg-skal-orange/10 text-skal-orange">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2 text-skal-dark">Email</h3>
+                  <h3 className="text-lg font-semibold mb-2 text-skal-black">Email</h3>
                   <p className="text-gray-600">contact@skalservice.com</p>
                 </div>
               </div>
@@ -87,11 +87,11 @@ const Contact: React.FC = () => {
             
             <div className="glass-card rounded-xl p-6">
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-skal-blue/10 text-skal-blue">
+                <div className="p-3 rounded-lg bg-skal-orange/10 text-skal-orange">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2 text-skal-dark">Adresse</h3>
+                  <h3 className="text-lg font-semibold mb-2 text-skal-black">Adresse</h3>
                   <p className="text-gray-600">123 Avenue de l'Innovation<br />75001 Paris, France</p>
                 </div>
               </div>
@@ -110,7 +110,7 @@ const Contact: React.FC = () => {
                     id="name"
                     name="name"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-skal-blue focus:border-skal-blue"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-skal-orange focus:border-skal-orange"
                   />
                 </div>
                 <div>
@@ -122,7 +122,7 @@ const Contact: React.FC = () => {
                     id="email"
                     name="email"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-skal-blue focus:border-skal-blue"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-skal-orange focus:border-skal-orange"
                   />
                 </div>
               </div>
@@ -136,7 +136,7 @@ const Contact: React.FC = () => {
                   id="subject"
                   name="subject"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-skal-blue focus:border-skal-blue"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-skal-orange focus:border-skal-orange"
                 />
               </div>
               
@@ -149,13 +149,13 @@ const Contact: React.FC = () => {
                   name="message"
                   rows={5}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-skal-blue focus:border-skal-blue"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-skal-orange focus:border-skal-orange"
                 ></textarea>
               </div>
               
               <button
                 type="submit"
-                className="w-full px-6 py-3 bg-skal-blue text-white font-medium rounded-md hover:bg-skal-blue/90 transition-colors"
+                className="w-full px-6 py-3 bg-skal-orange text-white font-medium rounded-md hover:bg-opacity-90 transition-colors"
               >
                 Envoyer le message
               </button>

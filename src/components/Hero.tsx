@@ -43,14 +43,14 @@ const Hero: React.FC = () => {
       <div className="container mx-auto relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <div 
-            className="inline-block px-4 py-1 mb-6 rounded-full bg-skal-blue/10 animate-fade-in"
+            className="inline-block px-4 py-1 mb-6 rounded-full bg-skal-orange/10 animate-fade-in"
             style={{ animationDelay: '0.2s' }}
           >
-            <span className="text-skal-blue text-sm font-medium">Innovation et Précision</span>
+            <span className="text-skal-orange text-sm font-medium">Innovation et Précision</span>
           </div>
           
           <h1 
-            className="text-4xl md:text-6xl font-display font-bold leading-tight tracking-tight text-skal-dark mb-6 animate-fade-in"
+            className="text-4xl md:text-6xl font-display font-bold leading-tight tracking-tight text-skal-black mb-6 animate-fade-in"
             style={{ animationDelay: '0.4s' }}
           >
             Votre Partenaire en Conception, Arpentage, Cartographie et IA
@@ -69,13 +69,13 @@ const Hero: React.FC = () => {
           >
             <a 
               href="#services" 
-              className="px-8 py-3 rounded-md bg-skal-blue text-white font-medium hover:bg-skal-blue/90 transition-colors"
+              className="px-8 py-3 rounded-md bg-skal-orange text-white font-medium hover:bg-skal-orange/90 transition-colors"
             >
               Découvrir nos services
             </a>
             <a 
               href="#contact" 
-              className="px-8 py-3 rounded-md bg-transparent border border-skal-dark text-skal-dark font-medium hover:bg-skal-dark hover:text-white transition-colors"
+              className="px-8 py-3 rounded-md bg-transparent border border-skal-black text-skal-black font-medium hover:bg-skal-black hover:text-white transition-colors"
             >
               Nous contacter
             </a>
@@ -84,7 +84,7 @@ const Hero: React.FC = () => {
       </div>
       
       <div className="absolute bottom-10 left-0 right-0 flex justify-center animate-bounce">
-        <a href="#services" className="text-skal-dark opacity-70 hover:opacity-100 transition-opacity">
+        <a href="#services" className="text-skal-black opacity-70 hover:opacity-100 transition-opacity">
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
             width="24" 

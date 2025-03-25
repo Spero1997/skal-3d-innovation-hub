@@ -72,7 +72,9 @@ export default {
 					'gray': '#F8F9FA',
 					'dark': '#1A1A1A',
 					'light': '#FFFFFF',
-					'accent': '#00A8E8',
+					'accent': '#F97316', // Orange color from the logo
+					'orange': '#F97316', // Same orange color from logo for consistency
+					'black': '#121212', // Deep black for the main text
 				}
 			},
 			borderRadius: {

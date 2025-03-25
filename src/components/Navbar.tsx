@@ -28,9 +28,17 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between">
           <Link 
             to="/" 
-            className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight text-skal-dark"
+            className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight text-skal-black"
           >
-            <span className="text-skal-blue">Skal</span> Service
+            <span className="flex items-center text-skal-black">
+              <span>SK</span>
+              <span className="relative">
+                <span className="absolute inset-0 text-skal-orange">▲</span>
+                A
+              </span>
+              <span>L</span>
+            </span>
+            <span className="text-skal-black">Service</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -39,12 +47,12 @@ const Navbar: React.FC = () => {
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="text-sm font-medium text-gray-700 hover:text-skal-blue transition-colors"
+                className="text-sm font-medium text-gray-700 hover:text-skal-orange transition-colors"
               >
                 {item}
               </a>
             ))}
-            <button className="bg-skal-blue text-white px-5 py-2 rounded-md hover:bg-opacity-90 transition-colors">
+            <button className="bg-skal-orange text-white px-5 py-2 rounded-md hover:bg-opacity-90 transition-colors">
               Contact Us
             </button>
           </nav>
@@ -52,7 +60,7 @@ const Navbar: React.FC = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-gray-700 hover:text-skal-blue transition-colors"
+            className="md:hidden text-gray-700 hover:text-skal-orange transition-colors"
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -68,14 +76,14 @@ const Navbar: React.FC = () => {
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="text-base font-medium text-gray-700 hover:text-skal-blue transition-colors py-2"
+                className="text-base font-medium text-gray-700 hover:text-skal-orange transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item}
               </a>
             ))}
             <button 
-              className="bg-skal-blue text-white w-full px-5 py-2 rounded-md hover:bg-opacity-90 transition-colors mt-2"
+              className="bg-skal-orange text-white w-full px-5 py-2 rounded-md hover:bg-opacity-90 transition-colors mt-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Contact Us

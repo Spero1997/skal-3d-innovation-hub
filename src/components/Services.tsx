@@ -79,10 +79,10 @@ const ServiceCard: React.FC<{
       className="glass-card rounded-xl p-6 transition-all duration-300 hover:shadow-xl opacity-0"
       style={{ animationDelay: `${delay}s` }}
     >
-      <div className="mb-4 p-3 rounded-lg bg-skal-blue/10 inline-block text-skal-blue">
+      <div className="mb-4 p-3 rounded-lg bg-skal-orange/10 inline-block text-skal-orange">
         {icon}
       </div>
-      <h3 className="text-xl font-semibold mb-3 text-skal-dark">{title}</h3>
+      <h3 className="text-xl font-semibold mb-3 text-skal-black">{title}</h3>
       <p className="text-gray-600">{description}</p>
     </div>
   );
@@ -122,10 +122,10 @@ const Services: React.FC = () => {
           ref={sectionRef}
           className="text-center mb-16 opacity-0"
         >
-          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-blue/10">
-            <span className="text-skal-blue text-sm font-medium">Nos Services</span>
+          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
+            <span className="text-skal-orange text-sm font-medium">Nos Services</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-skal-dark">
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-skal-black">
             Expertise Complète pour Vos Projets
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">

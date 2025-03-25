@@ -17,7 +17,7 @@ function Model() {
     <mesh ref={meshRef}>
       <torusKnotGeometry args={[1, 0.3, 128, 32]} />
       <meshStandardMaterial 
-        color="#3b82f6" 
+        color="#F97316" // Orange color from the SKAL logo
         roughness={0.3} 
         metalness={0.8} 
       />
