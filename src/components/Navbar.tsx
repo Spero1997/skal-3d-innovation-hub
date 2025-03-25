@@ -30,31 +30,45 @@ const Navbar: React.FC = () => {
             to="/" 
             className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight text-skal-black"
           >
-            <span className="flex items-center text-skal-black">
-              <span>SK</span>
-              <span className="relative">
-                <span className="absolute inset-0 text-skal-orange">▲</span>
-                A
-              </span>
-              <span>L</span>
-            </span>
-            <span className="text-skal-black">Service</span>
+            <img 
+              src="/lovable-uploads/1f7a8d37-3d09-4661-a1c6-b81a7614539c.png" 
+              alt="SKAL Service Logo" 
+              className="h-10" 
+            />
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {['Services', 'Expertise', 'Projects', 'Contact'].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-sm font-medium text-gray-700 hover:text-skal-orange transition-colors"
-              >
-                {item}
-              </a>
-            ))}
-            <button className="bg-skal-orange text-white px-5 py-2 rounded-md hover:bg-opacity-90 transition-colors">
+            <Link
+              to="/services"
+              className="text-sm font-medium text-gray-700 hover:text-skal-orange transition-colors"
+            >
+              Services
+            </Link>
+            <Link
+              to="/expertise"
+              className="text-sm font-medium text-gray-700 hover:text-skal-orange transition-colors"
+            >
+              Expertise
+            </Link>
+            <Link
+              to="/projects"
+              className="text-sm font-medium text-gray-700 hover:text-skal-orange transition-colors"
+            >
+              Projets
+            </Link>
+            <Link
+              to="/contact"
+              className="text-sm font-medium text-gray-700 hover:text-skal-orange transition-colors"
+            >
+              Contact
+            </Link>
+            <Link 
+              to="/contact" 
+              className="bg-skal-orange text-white px-5 py-2 rounded-md hover:bg-opacity-90 transition-colors"
+            >
               Contact Us
-            </button>
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -72,22 +86,41 @@ const Navbar: React.FC = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white glass-card absolute top-full left-0 right-0 p-4 animate-fade-in-fast">
           <nav className="flex flex-col space-y-3">
-            {['Services', 'Expertise', 'Projects', 'Contact'].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-base font-medium text-gray-700 hover:text-skal-orange transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item}
-              </a>
-            ))}
-            <button 
+            <Link
+              to="/services"
+              className="text-base font-medium text-gray-700 hover:text-skal-orange transition-colors py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Services
+            </Link>
+            <Link
+              to="/expertise"
+              className="text-base font-medium text-gray-700 hover:text-skal-orange transition-colors py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Expertise
+            </Link>
+            <Link
+              to="/projects"
+              className="text-base font-medium text-gray-700 hover:text-skal-orange transition-colors py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Projets
+            </Link>
+            <Link
+              to="/contact"
+              className="text-base font-medium text-gray-700 hover:text-skal-orange transition-colors py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Contact
+            </Link>
+            <Link 
+              to="/contact" 
               className="bg-skal-orange text-white w-full px-5 py-2 rounded-md hover:bg-opacity-90 transition-colors mt-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Contact Us
-            </button>
+            </Link>
           </nav>
         </div>
       )}

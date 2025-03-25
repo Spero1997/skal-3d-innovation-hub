@@ -1,10 +1,10 @@
 
 import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
+import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
-const Index: React.FC = () => {
+const ContactPage: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -12,10 +12,12 @@ const Index: React.FC = () => {
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
       <Navbar />
-      <Hero />
+      <div className="pt-32">
+        <Contact />
+      </div>
       <Footer />
     </div>
   );
 };
 
-export default Index;
+export default ContactPage;
