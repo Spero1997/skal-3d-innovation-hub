@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,6 +6,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+
+// Add React Three Fiber packages
+<lov-add-dependency>@react-three/fiber@^8.15.12</lov-add-dependency>
+<lov-add-dependency>@react-three/drei@^9.92.7</lov-add-dependency>
+<lov-add-dependency>three@^0.160.0</lov-add-dependency>
 
 const queryClient = new QueryClient();
 
