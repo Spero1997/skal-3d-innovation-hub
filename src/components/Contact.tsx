@@ -1,34 +1,9 @@
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { Mail, MapPin, Phone } from 'lucide-react';
 
 const Contact: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,10 +19,7 @@ const Contact: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-white to-transparent h-32" />
       
       <div className="container mx-auto">
-        <div 
-          ref={sectionRef}
-          className="text-center mb-16 opacity-0"
-        >
+        <div className="text-center mb-16 animate-fade-in">
           <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
             <span className="text-skal-orange text-sm font-medium">Contact</span>
           </div>
@@ -61,7 +33,7 @@ const Contact: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <div className="glass-card rounded-xl p-6">
+            <div className="glass-card rounded-xl p-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-skal-orange/10 text-skal-orange">
                   <Phone className="w-5 h-5" />
@@ -73,7 +45,7 @@ const Contact: React.FC = () => {
               </div>
             </div>
             
-            <div className="glass-card rounded-xl p-6">
+            <div className="glass-card rounded-xl p-6 animate-fade-in" style={{ animationDelay: "0.2s" }}>
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-skal-orange/10 text-skal-orange">
                   <Mail className="w-5 h-5" />
@@ -85,7 +57,7 @@ const Contact: React.FC = () => {
               </div>
             </div>
             
-            <div className="glass-card rounded-xl p-6">
+            <div className="glass-card rounded-xl p-6 animate-fade-in" style={{ animationDelay: "0.3s" }}>
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-skal-orange/10 text-skal-orange">
                   <MapPin className="w-5 h-5" />
@@ -99,7 +71,7 @@ const Contact: React.FC = () => {
           </div>
           
           <div className="lg:col-span-3">
-            <form ref={formRef} onSubmit={handleSubmit} className="glass-card rounded-xl p-8">
+            <form ref={formRef} onSubmit={handleSubmit} className="glass-card rounded-xl p-8 animate-fade-in" style={{ animationDelay: "0.4s" }}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">

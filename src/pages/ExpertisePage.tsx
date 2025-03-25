@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BrainCircuit, Layers, Medal, Target, Lightbulb, Users } from 'lucide-react';
@@ -49,36 +49,9 @@ const ExpertiseCard: React.FC<{
   description: string;
   delay: number;
 }> = ({ icon, title, description, delay }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
-      }
-    };
-  }, []);
-
   return (
     <div 
-      ref={cardRef}
-      className="glass-card rounded-xl p-6 transition-all duration-300 hover:shadow-xl opacity-0"
+      className="glass-card rounded-xl p-6 transition-all duration-300 hover:shadow-xl animate-fade-in"
       style={{ animationDelay: `${delay}s` }}
     >
       <div className="mb-4 p-3 rounded-lg bg-skal-orange/10 inline-block text-skal-orange">
@@ -91,32 +64,8 @@ const ExpertiseCard: React.FC<{
 };
 
 const ExpertisePage: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
   }, []);
 
   return (
@@ -124,10 +73,7 @@ const ExpertisePage: React.FC = () => {
       <Navbar />
       <section className="section-padding bg-white relative z-10 pt-32">
         <div className="container mx-auto">
-          <div 
-            ref={sectionRef}
-            className="text-center mb-16 opacity-0"
-          >
+          <div className="text-center mb-16 animate-fade-in">
             <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
               <span className="text-skal-orange text-sm font-medium">Notre Expertise</span>
             </div>
