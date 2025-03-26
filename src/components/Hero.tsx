@@ -37,7 +37,7 @@ const Hero: React.FC = () => {
       } as React.CSSProperties}
     >
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-skal-gray/80 to-white/90 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-skal-gray/60 to-white/90 z-10" />
         <Scene3D />
       </div>
       
