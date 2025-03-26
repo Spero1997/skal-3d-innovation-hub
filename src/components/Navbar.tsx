@@ -33,8 +33,19 @@ const Navbar: React.FC = () => {
             <img 
               src="/lovable-uploads/1f7a8d37-3d09-4661-a1c6-b81a7614539c.png" 
               alt="SKAL Service Logo" 
-              className="h-10" 
+              className={`h-10 ${
+                isScrolled 
+                  ? 'opacity-100' 
+                  : 'opacity-0 absolute'
+              }`}
             />
+            <span className={`font-bold ${
+              isScrolled 
+                ? 'opacity-0 absolute' 
+                : 'opacity-100'
+            }`}>
+              SKAL Service
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
