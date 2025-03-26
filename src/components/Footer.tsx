@@ -10,17 +10,7 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-1">
-            <Link to="/" className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight text-white mb-4">
-              <span className="flex items-center">
-                <span>SK</span>
-                <span className="relative">
-                  <span className="absolute inset-0 text-skal-orange">▲</span>
-                  A
-                </span>
-                <span>L</span>
-              </span>
-              <span className="text-white">Service</span>
-            </Link>
+            <h2 className="text-xl font-semibold tracking-tight text-white mb-4">Skal Service</h2>
             <p className="text-gray-400 mb-6 max-w-md">
               Nous combinons expertise technique, créativité et innovation pour donner vie à vos projets avec précision et excellence.
             </p>
