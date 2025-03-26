@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import ServicesPage from "./pages/ServicesPage";
 import ExpertisePage from "./pages/ExpertisePage";
@@ -25,7 +25,11 @@ const App = () => (
           <Route path="/expertise" element={<ExpertisePage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          
+          {/* Redirection des routes malformées vers NotFound */}
+          <Route path="/projets" element={<Navigate to="/projects" replace />} />
+          
+          {/* Attraper toutes les autres routes non-définies */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
