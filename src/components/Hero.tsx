@@ -1,6 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { Scene3D } from './Scene3D';
+import { Link } from 'react-router-dom';
 
 const Hero: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -67,24 +68,24 @@ const Hero: React.FC = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in"
             style={{ animationDelay: '0.8s' }}
           >
-            <a 
-              href="#services" 
+            <Link 
+              to="/services" 
               className="px-8 py-3 rounded-md bg-skal-orange text-white font-medium hover:bg-skal-orange/90 transition-colors"
             >
               Découvrir nos services
-            </a>
-            <a 
-              href="#contact" 
+            </Link>
+            <Link 
+              to="/contact" 
               className="px-8 py-3 rounded-md bg-transparent border border-skal-black text-skal-black font-medium hover:bg-skal-black hover:text-white transition-colors"
             >
               Nous contacter
-            </a>
+            </Link>
           </div>
         </div>
       </div>
       
       <div className="absolute bottom-10 left-0 right-0 flex justify-center animate-bounce">
-        <a href="#services" className="text-skal-black opacity-70 hover:opacity-100 transition-opacity">
+        <Link to="/services" className="text-skal-black opacity-70 hover:opacity-100 transition-opacity">
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
             width="24" 
@@ -98,7 +99,7 @@ const Hero: React.FC = () => {
           >
             <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
           </svg>
-        </a>
+        </Link>
       </div>
     </section>
   );
