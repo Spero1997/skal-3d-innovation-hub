@@ -51,14 +51,14 @@ const ExpertiseCard: React.FC<{
 }> = ({ icon, title, description, delay }) => {
   return (
     <div 
-      className="glass-card rounded-xl p-6 transition-all duration-300 hover:shadow-xl animate-fade-in"
+      className="expertise-card rounded-xl p-6 transition-all duration-500 hover:translate-y-[-5px] animate-fade-in card-3d transform-gpu"
       style={{ animationDelay: `${delay}s` }}
     >
-      <div className="mb-4 p-3 rounded-lg bg-skal-orange/10 inline-block text-skal-orange">
+      <div className="mb-4 p-3 rounded-lg bg-blue-500/20 inline-block text-blue-500">
         {icon}
       </div>
-      <h3 className="text-xl font-semibold mb-3 text-skal-black">{title}</h3>
-      <p className="text-gray-600">{description}</p>
+      <h3 className="text-xl font-semibold mb-3 text-slate-800">{title}</h3>
+      <p className="text-slate-700">{description}</p>
     </div>
   );
 };
@@ -69,18 +69,18 @@ const ExpertisePage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden">
+    <div className="min-h-screen w-full overflow-x-hidden bg-expertise-gradient">
       <Navbar />
-      <section className="section-padding bg-white relative z-10 pt-32">
+      <section className="section-padding relative z-10 pt-32">
         <div className="container mx-auto">
           <div className="text-center mb-16 animate-fade-in">
-            <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
-              <span className="text-skal-orange text-sm font-medium">Notre Expertise</span>
+            <div className="inline-block px-4 py-1 mb-4 rounded-full bg-blue-500/20 backdrop-blur-md border border-white/30">
+              <span className="text-white text-sm font-medium drop-shadow-md">Notre Expertise</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-skal-black">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-white drop-shadow-md">
               Domaines de Spécialisation
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-white/90 max-w-2xl mx-auto drop-shadow">
               Notre équipe d'experts vous apporte des compétences pointues dans plusieurs domaines techniques et stratégiques pour répondre à vos besoins les plus exigeants.
             </p>
           </div>
@@ -99,6 +99,27 @@ const ExpertisePage: React.FC = () => {
         </div>
       </section>
       <Footer />
+
+      <style jsx>{`
+        .expertise-card {
+          background-color: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.5);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+          will-change: transform, box-shadow;
+        }
+        
+        .expertise-card:hover {
+          box-shadow: 0 15px 30px rgba(0, 0, 150, 0.25);
+        }
+        
+        .bg-expertise-gradient {
+          background-image: url('/lovable-uploads/a4c72fd7-1a3a-49a1-b21e-c89afae66cd0.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+      `}</style>
     </div>
   );
 };
