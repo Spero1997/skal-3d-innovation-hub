@@ -10,7 +10,11 @@ const ServicesPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden">
+    <div className="min-h-screen w-full overflow-x-hidden relative">
+      <div 
+        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: 'url("/lovable-uploads/f5f2b783-770e-4cb8-9a4b-44dd50597241.png")' }}
+      />
       <Navbar />
       <div className="pt-32">
         <Services />

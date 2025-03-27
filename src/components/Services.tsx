@@ -1,5 +1,5 @@
 
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { Code, Compass, Image, Map, PenTool, BrainCircuit } from 'lucide-react';
 
 const services = [
@@ -49,30 +49,30 @@ const ServiceCard: React.FC<{
 }> = ({ icon, title, description, delay }) => {
   return (
     <div 
-      className="glass-card rounded-xl p-6 transition-all duration-300 hover:shadow-xl animate-fade-in"
+      className="glass-card rounded-xl p-6 transition-all duration-300 hover:shadow-xl animate-fade-in backdrop-blur-md bg-white/30 border border-white/20"
       style={{ animationDelay: `${delay}s` }}
     >
-      <div className="mb-4 p-3 rounded-lg bg-skal-orange/10 inline-block text-skal-orange">
+      <div className="mb-4 p-3 rounded-lg bg-skal-orange/20 inline-block text-white">
         {icon}
       </div>
-      <h3 className="text-xl font-semibold mb-3 text-skal-black">{title}</h3>
-      <p className="text-gray-600">{description}</p>
+      <h3 className="text-xl font-semibold mb-3 text-white">{title}</h3>
+      <p className="text-white/90">{description}</p>
     </div>
   );
 };
 
 const Services: React.FC = () => {
   return (
-    <section id="services" className="section-padding bg-white relative z-10">
+    <section id="services" className="section-padding relative z-10">
       <div className="container mx-auto">
         <div className="text-center mb-16 animate-fade-in">
-          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
-            <span className="text-skal-orange text-sm font-medium">Nos Services</span>
+          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/20 backdrop-blur-sm">
+            <span className="text-white text-sm font-medium">Nos Services</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-skal-black">
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-white">
             Expertise Complète pour Vos Projets
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-white/90 max-w-2xl mx-auto">
             Nous offrons une gamme complète de services spécialisés pour répondre à tous vos besoins en conception, arpentage, cartographie et conseil en IA.
           </p>
         </div>
