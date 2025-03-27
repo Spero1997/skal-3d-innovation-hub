@@ -49,14 +49,14 @@ const ServiceCard: React.FC<{
 }> = ({ icon, title, description, delay }) => {
   return (
     <div 
-      className="glass-card rounded-xl p-6 transition-all duration-300 hover:shadow-xl animate-fade-in backdrop-blur-md bg-white/30 border border-white/20"
+      className="service-card rounded-xl p-6 transition-all duration-500 hover:translate-y-[-5px] hover:shadow-[0_15px_30px_rgba(249,115,22,0.3)] animate-fade-in backdrop-blur-md bg-white/40 border border-white/30 shadow-[0_10px_20px_rgba(0,0,0,0.2)] transform-gpu"
       style={{ animationDelay: `${delay}s` }}
     >
-      <div className="mb-4 p-3 rounded-lg bg-skal-orange/20 inline-block text-white">
+      <div className="mb-4 p-3 rounded-lg bg-skal-orange/20 inline-block text-skal-orange">
         {icon}
       </div>
-      <h3 className="text-xl font-semibold mb-3 text-white">{title}</h3>
-      <p className="text-white/90">{description}</p>
+      <h3 className="text-xl font-semibold mb-3 text-skal-black">{title}</h3>
+      <p className="text-slate-800">{description}</p>
     </div>
   );
 };
@@ -66,13 +66,13 @@ const Services: React.FC = () => {
     <section id="services" className="section-padding relative z-10">
       <div className="container mx-auto">
         <div className="text-center mb-16 animate-fade-in">
-          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/20 backdrop-blur-sm">
+          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/20 backdrop-blur-sm border border-white/30">
             <span className="text-white text-sm font-medium">Nos Services</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-white">
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-white drop-shadow-md">
             Expertise Complète pour Vos Projets
           </h2>
-          <p className="text-white/90 max-w-2xl mx-auto">
+          <p className="text-white/90 max-w-2xl mx-auto drop-shadow">
             Nous offrons une gamme complète de services spécialisés pour répondre à tous vos besoins en conception, arpentage, cartographie et conseil en IA.
           </p>
         </div>
@@ -89,6 +89,18 @@ const Services: React.FC = () => {
           ))}
         </div>
       </div>
+
+      <style jsx>{`
+        .service-card {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          transform: translateZ(0);
+          will-change: transform, box-shadow;
+        }
+        
+        .service-card:hover {
+          transform: translateY(-5px) translateZ(0);
+        }
+      `}</style>
     </section>
   );
 };
