@@ -100,7 +100,8 @@ const ExpertisePage: React.FC = () => {
       </section>
       <Footer />
 
-      <style jsx>{`
+      <style>
+        {`
         .expertise-card {
           background-color: rgba(255, 255, 255, 0.85);
           backdrop-filter: blur(8px);
@@ -119,7 +120,8 @@ const ExpertisePage: React.FC = () => {
           background-position: center;
           background-repeat: no-repeat;
         }
-      `}</style>
+        `}
+      </style>
     </div>
   );
 };

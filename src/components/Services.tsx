@@ -90,7 +90,8 @@ const Services: React.FC = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>
+        {`
         .service-card {
           transition: transform 0.3s ease, box-shadow 0.3s ease;
           transform: translateZ(0);
@@ -100,7 +101,8 @@ const Services: React.FC = () => {
         .service-card:hover {
           transform: translateY(-5px) translateZ(0);
         }
-      `}</style>
+        `}
+      </style>
     </section>
   );
 };
