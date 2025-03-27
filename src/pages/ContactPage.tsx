@@ -12,7 +12,7 @@ const ContactPage: React.FC = () => {
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
       <Navbar />
-      <div className="pt-32">
+      <div className="pt-32 pb-0">
         <Contact />
       </div>
       <Footer />

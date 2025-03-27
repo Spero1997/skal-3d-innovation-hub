@@ -40,7 +40,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold mb-2 text-skal-black">Téléphone</h3>
-                  <p className="text-gray-600">+33 1 23 45 67 89</p>
+                  <p className="text-gray-600">+229 01 90315546</p>
                 </div>
               </div>
             </div>
@@ -52,7 +52,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold mb-2 text-skal-black">Email</h3>
-                  <p className="text-gray-600">contact@skalservice.com</p>
+                  <p className="text-gray-600">skalservice.0@gmail.com</p>
                 </div>
               </div>
             </div>
@@ -64,7 +64,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold mb-2 text-skal-black">Adresse</h3>
-                  <p className="text-gray-600">123 Avenue de l'Innovation<br />75001 Paris, France</p>
+                  <p className="text-gray-600">Abomey-Calavi, Tokan, de l'EPP Tokan</p>
                 </div>
               </div>
             </div>

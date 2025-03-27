@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Scene3D } from './Scene3D';
 import { Link } from 'react-router-dom';
@@ -39,9 +38,7 @@ const Hero: React.FC = () => {
       } as React.CSSProperties}
     >
       <div className="absolute inset-0 -z-10">
-        <div className={`absolute inset-0 bg-gradient-to-b ${isMobile 
-          ? 'from-skal-gray/80 to-white/95' 
-          : 'from-skal-gray/70 to-white/90'} z-10`} />
+        <div className="absolute inset-0 bg-gradient-to-b from-skal-gray/80 to-white/80 z-10" />
         <Scene3D />
       </div>
       
