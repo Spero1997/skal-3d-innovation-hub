@@ -51,14 +51,23 @@ const ExpertiseCard: React.FC<{
 }> = ({ icon, title, description, delay }) => {
   return (
     <div 
-      className="glass-card rounded-xl p-6 transition-all duration-300 hover:shadow-xl animate-fade-in"
-      style={{ animationDelay: `${delay}s` }}
+      className="glass-card rounded-2xl p-6 transition-all duration-300 
+        hover:shadow-2xl hover:scale-105 
+        bg-white/70 backdrop-blur-md 
+        border border-white/20 
+        shadow-lg shadow-blue-500/30
+        transform hover:-translate-y-2
+        animate-fade-in"
+      style={{ 
+        animationDelay: `${delay}s`,
+        boxShadow: '0 15px 30px rgba(0,0,0,0.1), 0 10px 20px rgba(0,0,0,0.05)'
+      }}
     >
       <div className="mb-4 p-3 rounded-lg bg-skal-orange/10 inline-block text-skal-orange">
         {icon}
       </div>
       <h3 className="text-xl font-semibold mb-3 text-skal-black">{title}</h3>
-      <p className="text-gray-600">{description}</p>
+      <p className="text-gray-700 font-medium">{description}</p>
     </div>
   );
 };
@@ -69,9 +78,15 @@ const ExpertisePage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden">
+    <div 
+      className="min-h-screen w-full overflow-x-hidden bg-cover bg-center"
+      style={{ 
+        backgroundImage: `url('/public/lovable-uploads/0f1279b8-34da-4abd-8798-c1297f424772.png')`,
+        backgroundAttachment: 'fixed'
+      }}
+    >
       <Navbar />
-      <section className="section-padding bg-white relative z-10 pt-32">
+      <section className="section-padding relative z-10 pt-32">
         <div className="container mx-auto">
           <div className="text-center mb-16 animate-fade-in">
             <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
@@ -80,7 +95,7 @@ const ExpertisePage: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-skal-black">
               Domaines de Spécialisation
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-700 max-w-2xl mx-auto font-medium">
               Notre équipe d'experts vous apporte des compétences pointues dans plusieurs domaines techniques et stratégiques pour répondre à vos besoins les plus exigeants.
             </p>
           </div>
