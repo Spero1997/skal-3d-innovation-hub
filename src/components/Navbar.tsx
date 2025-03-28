@@ -2,13 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import MarqueeBanner from './MarqueeBanner';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const marqueeText = "TECHNOLOGIES MODERNES • FIABLES • CONCEPTION • ARPENTAGE • CARTOGRAPHIE • IA • INNOVATION • PRÉCISION • EXPERTISE • SOLUTIONS GÉOMATIQUES DE POINTE";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,13 +20,11 @@ const Navbar: React.FC = () => {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ease-in-out ${
         isScrolled 
-          ? 'py-0 bg-white/90 backdrop-blur-md shadow-sm' 
-          : 'py-0 bg-transparent'
+          ? 'py-4 bg-white/90 backdrop-blur-md shadow-sm' 
+          : 'py-6 bg-transparent'
       }`}
     >
-      <MarqueeBanner text={marqueeText} />
-      
-      <div className={`container mx-auto px-4 md:px-6 ${isScrolled ? 'py-4' : 'py-6'}`}>
+      <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           <Link 
             to="/" 
