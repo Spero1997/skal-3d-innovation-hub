@@ -32,7 +32,7 @@ const Hero: React.FC = () => {
   return (
     <section 
       ref={heroRef}
-      className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center section-padding pt-32" // Augmenté de pt-24 à pt-32
+      className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center section-padding pt-40" // Increased from pt-32 to pt-40 for more vertical space
       style={{ 
         '--x': '0px',
         '--y': '0px',
