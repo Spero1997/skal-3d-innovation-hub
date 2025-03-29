@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Scene3D } from './Scene3D';
 import { Link } from 'react-router-dom';
@@ -46,7 +45,7 @@ const Hero: React.FC = () => {
       <div className="container mx-auto relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <div 
-            className="inline-block px-4 py-1 mb-8 rounded-full bg-skal-orange/10 animate-fade-in"
+            className="inline-block px-4 py-1 mb-10 rounded-full bg-skal-orange/10 animate-fade-in"
             style={{ animationDelay: '0.2s' }}
           >
             <span className="text-skal-orange text-sm font-medium">Innovation et Précision</span>
