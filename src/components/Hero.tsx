@@ -32,7 +32,7 @@ const Hero: React.FC = () => {
   return (
     <section 
       ref={heroRef}
-      className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center section-padding pt-40" // Increased from pt-32 to pt-40 for more vertical space
+      className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center section-padding pt-40"
       style={{ 
         '--x': '0px',
         '--y': '0px',
@@ -46,7 +46,7 @@ const Hero: React.FC = () => {
       <div className="container mx-auto relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <div 
-            className="inline-block px-4 py-1 mb-6 rounded-full bg-skal-orange/10 animate-fade-in"
+            className="inline-block px-4 py-1 mb-8 rounded-full bg-skal-orange/10 animate-fade-in"
             style={{ animationDelay: '0.2s' }}
           >
             <span className="text-skal-orange text-sm font-medium">Innovation et Précision</span>
