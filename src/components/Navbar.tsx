@@ -24,6 +24,17 @@ const Navbar: React.FC = () => {
           : 'py-6 bg-transparent'
       }`}
     >
+      {/* Bande défilante horizontale */}
+      <div className="marquee bg-skal-orange text-white py-1 px-2 text-sm font-medium">
+        <div className="marquee-content">
+          TECHNOLOGIES MODERNES • FIABLES • CONCEPTION • ARPENTAGE • 
+          CARTOGRAPHIE • IA • INNOVATION • PRÉCISION • EXPERTISE • SOLUTIONS GÉOMATIQUES DE 
+          POINTE • TECHNOLOGIES MODERNES • FIABLES • CONCEPTION • ARPENTAGE • 
+          CARTOGRAPHIE • IA • INNOVATION • PRÉCISION • EXPERTISE • SOLUTIONS GÉOMATIQUES DE 
+          POINTE
+        </div>
+      </div>
+      
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           <Link 
