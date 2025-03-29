@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 import { Scene3D } from './Scene3D';
 import { Link } from 'react-router-dom';
@@ -31,7 +32,7 @@ const Hero: React.FC = () => {
   return (
     <section 
       ref={heroRef}
-      className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center section-padding pt-24"
+      className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center section-padding pt-32" // Augmenté de pt-24 à pt-32
       style={{ 
         '--x': '0px',
         '--y': '0px',
