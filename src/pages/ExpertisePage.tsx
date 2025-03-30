@@ -86,7 +86,7 @@ const ExpertisePage: React.FC = () => {
       }}
     >
       <Navbar />
-      <section className="section-padding relative z-10 pt-32">
+      <section className="section-padding relative z-10 pt-40 md:pt-48">
         <div className="container mx-auto">
           <div className="text-center mb-16 animate-fade-in">
             <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
