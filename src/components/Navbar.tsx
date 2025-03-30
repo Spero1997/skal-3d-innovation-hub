@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
@@ -6,6 +5,7 @@ import { Menu, X } from 'lucide-react';
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const marqueeText = "TECHNOLOGIES MODERNES • FIABLES • CONCEPTION • ARPENTAGE • CARTOGRAPHIE • IA • INNOVATION • PRÉCISION • EXPERTISE • SOLUTIONS GÉOMATIQUES DE POINTE";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,12 +26,8 @@ const Navbar: React.FC = () => {
     >
       {/* Bande défilante horizontale */}
       <div className="marquee bg-skal-orange text-white py-1 px-2 text-sm font-medium">
-        <div className="marquee-content">
-          TECHNOLOGIES MODERNES • FIABLES • CONCEPTION • ARPENTAGE • 
-          CARTOGRAPHIE • IA • INNOVATION • PRÉCISION • EXPERTISE • SOLUTIONS GÉOMATIQUES DE 
-          POINTE • TECHNOLOGIES MODERNES • FIABLES • CONCEPTION • ARPENTAGE • 
-          CARTOGRAPHIE • IA • INNOVATION • PRÉCISION • EXPERTISE • SOLUTIONS GÉOMATIQUES DE 
-          POINTE
+        <div className="marquee-content" data-content={marqueeText}>
+          {marqueeText}
         </div>
       </div>
       
