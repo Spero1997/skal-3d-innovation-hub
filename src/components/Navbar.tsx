@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
@@ -81,12 +82,6 @@ const Navbar: React.FC = () => {
             >
               Contact
             </Link>
-            <Link 
-              to="/contact" 
-              className="bg-skal-orange text-white px-5 py-2 rounded-md hover:bg-opacity-90 transition-colors"
-            >
-              Contact Us
-            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -132,13 +127,6 @@ const Navbar: React.FC = () => {
             >
               Contact
             </Link>
-            <Link 
-              to="/contact" 
-              className="bg-skal-orange text-white w-full px-5 py-2 rounded-md hover:bg-opacity-90 transition-colors mt-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Contact Us
-            </Link>
           </nav>
         </div>
       )}
@@ -147,3 +135,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+
