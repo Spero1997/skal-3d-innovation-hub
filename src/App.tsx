@@ -10,6 +10,9 @@ import ExpertisePage from "./pages/ExpertisePage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
+import LegalNotice from "./pages/LegalNotice";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfSale from "./pages/TermsOfSale";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +28,9 @@ const App = () => (
           <Route path="/expertise" element={<ExpertisePage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/legal" element={<LegalNotice />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfSale />} />
           
           {/* Redirection des routes malformées vers NotFound */}
           <Route path="/projets" element={<Navigate to="/projects" replace />} />

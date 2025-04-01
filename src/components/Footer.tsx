@@ -55,13 +55,13 @@ const Footer: React.FC = () => {
             <div className="mt-4 md:mt-0">
               <ul className="flex justify-center md:justify-end space-x-6">
                 <li>
-                  <Link to="#" className="text-gray-400 hover:text-white transition-colors text-sm">Mentions Légales</Link>
+                  <Link to="/legal" className="text-gray-400 hover:text-white transition-colors text-sm">Mentions Légales</Link>
                 </li>
                 <li>
-                  <Link to="#" className="text-gray-400 hover:text-white transition-colors text-sm">Politique de Confidentialité</Link>
+                  <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors text-sm">Politique de Confidentialité</Link>
                 </li>
                 <li>
-                  <Link to="#" className="text-gray-400 hover:text-white transition-colors text-sm">CGV</Link>
+                  <Link to="/terms" className="text-gray-400 hover:text-white transition-colors text-sm">CGV</Link>
                 </li>
               </ul>
             </div>
