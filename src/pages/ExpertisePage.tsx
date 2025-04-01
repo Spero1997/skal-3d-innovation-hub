@@ -81,7 +81,7 @@ const ExpertisePage: React.FC = () => {
     <div 
       className="min-h-screen w-full overflow-x-hidden bg-cover bg-center"
       style={{ 
-        backgroundImage: `url('/lovable-uploads/44ac242b-7e54-4b97-a3a4-ae367129f850.png')`,
+        backgroundImage: `url('/lovable-uploads/0aedf2d6-4a59-4ec7-87ce-e4b00eb41bc4.png')`,
         backgroundAttachment: 'fixed'
       }}
     >
