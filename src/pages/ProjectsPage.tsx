@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -92,7 +91,7 @@ const ProjectsPage: React.FC = () => {
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
       <Navbar />
-      <section className="section-padding bg-white relative z-10 pt-32">
+      <section className="section-padding bg-white relative z-10 pt-40 md:pt-56">
         <div className="container mx-auto">
           <div className="text-center mb-16 animate-fade-in">
             <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
