@@ -78,41 +78,41 @@ const ExpertisePage: React.FC = () => {
   }, []);
 
   return (
-    <div 
-      className="min-h-screen w-full overflow-x-hidden bg-cover bg-center"
-      style={{ 
-        backgroundImage: `url('/lovable-uploads/0aedf2d6-4a59-4ec7-87ce-e4b00eb41bc4.png')`,
-        backgroundAttachment: 'fixed'
-      }}
-    >
+    <div className="min-h-screen w-full overflow-x-hidden relative">
+      <div 
+        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: 'url("/lovable-uploads/0aedf2d6-4a59-4ec7-87ce-e4b00eb41bc4.png")' }}
+      />
       <Navbar />
-      <section className="section-padding relative z-10 pt-56 md:pt-64">
-        <div className="container mx-auto">
-          <div className="text-center mb-16 animate-fade-in">
-            <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
-              <span className="text-skal-orange text-sm font-medium">Notre Expertise</span>
+      <div className="pt-32">
+        <section className="section-padding relative z-10">
+          <div className="container mx-auto">
+            <div className="text-center mb-16 animate-fade-in">
+              <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
+                <span className="text-skal-orange text-sm font-medium">Notre Expertise</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-skal-black">
+                Domaines de Spécialisation
+              </h2>
+              <p className="text-gray-700 max-w-2xl mx-auto font-medium">
+                Notre équipe d'experts vous apporte des compétences pointues dans plusieurs domaines techniques et stratégiques pour répondre à vos besoins les plus exigeants.
+              </p>
             </div>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-skal-black">
-              Domaines de Spécialisation
-            </h2>
-            <p className="text-gray-700 max-w-2xl mx-auto font-medium">
-              Notre équipe d'experts vous apporte des compétences pointues dans plusieurs domaines techniques et stratégiques pour répondre à vos besoins les plus exigeants.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {expertiseList.map((expertise, index) => (
-              <ExpertiseCard 
-                key={index}
-                icon={expertise.icon}
-                title={expertise.title}
-                description={expertise.description}
-                delay={expertise.delay}
-              />
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {expertiseList.map((expertise, index) => (
+                <ExpertiseCard 
+                  key={index}
+                  icon={expertise.icon}
+                  title={expertise.title}
+                  description={expertise.description}
+                  delay={expertise.delay}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
       <Footer />
     </div>
   );

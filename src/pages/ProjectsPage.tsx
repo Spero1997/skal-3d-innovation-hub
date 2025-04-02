@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -89,36 +90,41 @@ const ProjectsPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden">
+    <div className="min-h-screen w-full overflow-x-hidden relative">
+      <div 
+        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat bg-white"
+      />
       <Navbar />
-      <section className="section-padding bg-white relative z-10 pt-40 md:pt-56">
-        <div className="container mx-auto">
-          <div className="text-center mb-16 animate-fade-in">
-            <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
-              <span className="text-skal-orange text-sm font-medium">Nos Projets</span>
+      <div className="pt-32">
+        <section className="section-padding relative z-10">
+          <div className="container mx-auto">
+            <div className="text-center mb-16 animate-fade-in">
+              <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
+                <span className="text-skal-orange text-sm font-medium">Nos Projets</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-skal-black">
+                Réalisations Récentes
+              </h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                Découvrez quelques-uns de nos projets récents qui démontrent notre expertise et notre capacité à délivrer des solutions innovantes.
+              </p>
             </div>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-skal-black">
-              Réalisations Récentes
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Découvrez quelques-uns de nos projets récents qui démontrent notre expertise et notre capacité à délivrer des solutions innovantes.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <ProjectCard 
-                key={index}
-                title={project.title}
-                category={project.category}
-                description={project.description}
-                image={project.image}
-                delay={project.delay}
-              />
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((project, index) => (
+                <ProjectCard 
+                  key={index}
+                  title={project.title}
+                  category={project.category}
+                  description={project.description}
+                  image={project.image}
+                  delay={project.delay}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
       <Footer />
     </div>
   );
