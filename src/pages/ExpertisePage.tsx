@@ -80,7 +80,7 @@ const ExpertisePage: React.FC = () => {
     
     // Preload the background image
     const img = new Image();
-    img.src = "/lovable-uploads/0aedf2d6-4a59-4ec7-87ce-e4b00eb41bc4.png";
+    img.src = "/lovable-uploads/09498611-bf02-4ce5-810c-ffa7798e8158.png";
     img.onload = () => setIsLoading(false);
     
     // Fallback in case image loading takes too long
@@ -96,7 +96,7 @@ const ExpertisePage: React.FC = () => {
       <div 
         className="fixed inset-0 -z-10 bg-white"
         style={{ 
-          backgroundImage: 'url("/lovable-uploads/0aedf2d6-4a59-4ec7-87ce-e4b00eb41bc4.png")',
+          backgroundImage: 'url("/lovable-uploads/09498611-bf02-4ce5-810c-ffa7798e8158.png")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
