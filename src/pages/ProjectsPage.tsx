@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { ExternalLink } from 'lucide-react';
@@ -85,14 +85,27 @@ const ProjectCard: React.FC<{
 };
 
 const ProjectsPage: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  
   useEffect(() => {
     window.scrollTo(0, 0);
+    
+    // Simple preloading mechanism
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 200); // Short timeout to ensure smooth transition
+    
+    return () => clearTimeout(timer);
   }, []);
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden relative">
       <div 
-        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat bg-white"
+        className="fixed inset-0 -z-10 bg-white"
+        style={{ 
+          opacity: isLoading ? 0.3 : 1,
+          transition: 'opacity 0.5s ease-in-out'
+        }}
       />
       <Navbar />
       <div className="pt-32">

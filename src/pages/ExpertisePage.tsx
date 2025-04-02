@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BrainCircuit, Layers, Medal, Target, Lightbulb, Users } from 'lucide-react';
@@ -73,15 +73,36 @@ const ExpertiseCard: React.FC<{
 };
 
 const ExpertisePage: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  
   useEffect(() => {
     window.scrollTo(0, 0);
+    
+    // Preload the background image
+    const img = new Image();
+    img.src = "/lovable-uploads/0aedf2d6-4a59-4ec7-87ce-e4b00eb41bc4.png";
+    img.onload = () => setIsLoading(false);
+    
+    // Fallback in case image loading takes too long
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden relative">
       <div 
-        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: 'url("/lovable-uploads/0aedf2d6-4a59-4ec7-87ce-e4b00eb41bc4.png")' }}
+        className="fixed inset-0 -z-10 bg-white"
+        style={{ 
+          backgroundImage: 'url("/lovable-uploads/0aedf2d6-4a59-4ec7-87ce-e4b00eb41bc4.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          opacity: isLoading ? 0.3 : 1,
+          transition: 'opacity 0.5s ease-in-out'
+        }}
       />
       <Navbar />
       <div className="pt-32">
