@@ -15,9 +15,10 @@ const projects = [
   },
   {
     title: "Rebrand Entreprise Tech",
+    subtitle: "La Ruche d'Or",
     category: "Design & Identité",
     description: "Refonte complète de l'identité visuelle d'une entreprise tech en croissance, incluant logo, charte graphique et supports de communication.",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
+    image: "/lovable-uploads/9efd85a7-d43b-417b-b9c8-3f70c6457503.png",
     delay: 0.2,
   },
   {
