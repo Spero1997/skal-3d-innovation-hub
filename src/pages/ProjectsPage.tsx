@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -38,7 +39,7 @@ const projects = [
     title: "Relevé Topographique Domaine Viticole",
     category: "Arpentage & Analyse",
     description: "Étude topographique complète d'un domaine viticole avec recommandations pour l'optimisation des parcelles et l'irrigation.",
-    image: "https://images.unsplash.com/photo-1596131353736-be8bf050e48e?q=80&w=2070&auto=format&fit=crop",
+    image: "/lovable-uploads/49270745-eea2-49da-b9c3-df16cc6d7efb.png",
     delay: 0.5,
   },
   {
