@@ -1,8 +1,10 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
 import Footer from '@/components/Footer';
+
+// Lazy load the Hero component which contains the 3D scene
+const Hero = lazy(() => import('@/components/Hero'));
 
 const Index: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +39,13 @@ const Index: React.FC = () => {
         }}
       ></div>
       <Navbar />
-      <Hero />
+      <Suspense fallback={
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="w-16 h-16 border-4 border-skal-orange border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      }>
+        <Hero />
+      </Suspense>
       <Footer />
     </div>
   );
