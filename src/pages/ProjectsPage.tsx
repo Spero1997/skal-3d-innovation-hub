@@ -6,10 +6,11 @@ import { ExternalLink } from 'lucide-react';
 
 const projects = [
   {
-    title: "Cartographie 3D de Paris",
-    category: "Arpentage & Cartographie",
-    description: "Création d'une cartographie 3D détaillée du centre-ville de Paris avec modélisation des bâtiments historiques et analyse urbaine.",
-    image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2073&auto=format&fit=crop",
+    title: "Projets Poumons verts de Cotonou",
+    subtitle: "Création du Parc urbain de Fifadji / Houéyihô",
+    category: "Urbanisme & Environnement",
+    description: "Le projet Poumon vert consiste à regénérer des zones naturelles dans la ville de Cotonou (Fifadji et Houéyihô), un grand parc urbain de 83 hectares pour contenir en partie les besoins d'assainissement, d'espace vert, d'écotourisme et de distraction.",
+    image: "/lovable-uploads/83485b7c-e7fb-40f0-808e-fa101e256af0.png",
     delay: 0.1,
   },
   {
@@ -51,11 +52,12 @@ const projects = [
 
 const ProjectCard: React.FC<{
   title: string;
+  subtitle?: string;
   category: string;
   description: string;
   image: string;
   delay: number;
-}> = ({ title, category, description, image, delay }) => {
+}> = ({ title, subtitle, category, description, image, delay }) => {
   return (
     <div 
       className="glass-card rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-xl animate-fade-in"
@@ -77,7 +79,8 @@ const ProjectCard: React.FC<{
       </div>
       <div className="p-6">
         <span className="text-xs font-medium text-skal-orange mb-2 block">{category}</span>
-        <h3 className="text-xl font-semibold mb-3 text-skal-black">{title}</h3>
+        <h3 className="text-xl font-semibold mb-1 text-skal-black">{title}</h3>
+        {subtitle && <h4 className="text-md font-medium mb-2 text-gray-600">{subtitle}</h4>}
         <p className="text-gray-600 text-sm">{description}</p>
       </div>
     </div>
@@ -137,6 +140,7 @@ const ProjectsPage: React.FC = () => {
                 <ProjectCard 
                   key={index}
                   title={project.title}
+                  subtitle={project.subtitle}
                   category={project.category}
                   description={project.description}
                   image={project.image}
