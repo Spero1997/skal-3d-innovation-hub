@@ -48,8 +48,7 @@ const TermsOfSale: React.FC = () => {
           </p>
           <ul className="list-disc pl-6 my-4">
             <li>40% à la commande</li>
-            <li>30% à mi-projet</li>
-            <li>30% à la livraison</li>
+            <li>60% à la livraison</li>
           </ul>
           <p>
             Tout retard de paiement entraînera des pénalités calculées au taux légal en vigueur.
