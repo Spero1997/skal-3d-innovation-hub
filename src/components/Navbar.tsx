@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
@@ -6,7 +5,7 @@ import { Menu, X } from 'lucide-react';
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const marqueeText = "TECHNOLOGIES MODERNES • FIABLES • CONCEPTION • ARPENTAGE • CARTOGRAPHIE • IA • INNOVATION • PRÉCISION • EXPERTISE • SOLUTIONS GÉOMATIQUES DE POINTE";
+  const marqueeText = "TECHNOLOGIES MODERNES • CONCEPTION • ARPENTAGE • CARTOGRAPHIE • IA • INNOVATION • PRÉCISION • EXPERTISE • SOLUTIONS GÉOMATIQUES DE POINTE";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -135,4 +134,3 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
-
