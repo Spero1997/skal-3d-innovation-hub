@@ -47,7 +47,8 @@ export const Scene3D: React.FC = () => {
       
       <Suspense fallback={<LoadingPlaceholder />}>
         <Model />
-        <Environment preset="sunset" />
+        {/* Replace the preset with a simple color environment to avoid HDR loading errors */}
+        <Environment background={false} preset="city" />
       </Suspense>
       
       <OrbitControls 
