@@ -23,17 +23,10 @@ const LegalNotice: React.FC = () => {
             Email: skalservice.0@gmail.com
           </p>
 
-          <h2 className="text-2xl font-semibold mt-8 mb-4">Hébergement</h2>
-          <p>
-            Ce site est hébergé par [Nom de l'hébergeur]<br />
-            Adresse: [Adresse de l'hébergeur]<br />
-            Téléphone: [Téléphone de l'hébergeur]
-          </p>
-
           <h2 className="text-2xl font-semibold mt-8 mb-4">Directeur de la publication</h2>
           <p>
-            [Nom du directeur de publication]<br />
-            Contactable à l'adresse email: [Email du directeur]
+            TOMETIN Spéro Mariano Astrido Mahussi<br />
+            Contactable à l'adresse email: speromarianotometin@gmail.com
           </p>
 
           <h2 className="text-2xl font-semibold mt-8 mb-4">Propriété intellectuelle</h2>
