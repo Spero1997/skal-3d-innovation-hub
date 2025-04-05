@@ -43,7 +43,7 @@ const services = [
     icon: <BrainCircuit className="w-6 h-6" />,
     title: "Conseil en Intelligence Artificielle",
     description: "Accompagnement stratégique pour l'intégration des technologies d'IA dans vos processus métier afin d'optimiser vos opérations et d'innover.",
-    image: "https://images.unsplash.com/photo-1677442135136-760c813460dc?q=80&w=2000&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=2000&auto=format&fit=crop",
     delay: 0.6,
   },
 ];
