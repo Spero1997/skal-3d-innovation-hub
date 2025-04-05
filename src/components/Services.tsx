@@ -1,42 +1,49 @@
 
 import React from 'react';
 import { Code, Compass, Image, Map, PenTool, BrainCircuit } from 'lucide-react';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const services = [
   {
     icon: <PenTool className="w-6 h-6" />,
     title: "Design Graphique et Identité",
     description: "Création d'identités visuelles distinctives, de logos impactants et de supports de communication cohérents pour renforcer votre image de marque.",
+    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000&auto=format&fit=crop",
     delay: 0.1,
   },
   {
     icon: <Image className="w-6 h-6" />,
     title: "Stratégie de Création de Marque",
     description: "Développement de stratégies de marque complètes pour positionner votre entreprise et communiquer efficacement vos valeurs auprès de votre public cible.",
+    image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2000&auto=format&fit=crop",
     delay: 0.2,
   },
   {
     icon: <Code className="w-6 h-6" />,
     title: "Conception et Développement Web",
     description: "Création de sites web modernes, responsifs et optimisés qui reflètent votre identité et offrent une expérience utilisateur exceptionnelle.",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2000&auto=format&fit=crop",
     delay: 0.3,
   },
   {
     icon: <Map className="w-6 h-6" />,
     title: "Cartographie de Précision",
     description: "Production de cartes professionnelles détaillées pour la planification urbaine, l'analyse environnementale, ou la visualisation de données géospatiales.",
+    image: "https://images.unsplash.com/photo-1477936821694-ec4233a9a1a0?q=80&w=2000&auto=format&fit=crop",
     delay: 0.4,
   },
   {
     icon: <Compass className="w-6 h-6" />,
     title: "Arpentage Topographique",
     description: "Services spécialisés d'arpentage utilisant des technologies de pointe pour des mesures précises et des relevés topographiques détaillés.",
+    image: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?q=80&w=2000&auto=format&fit=crop",
     delay: 0.5,
   },
   {
     icon: <BrainCircuit className="w-6 h-6" />,
     title: "Conseil en Intelligence Artificielle",
     description: "Accompagnement stratégique pour l'intégration des technologies d'IA dans vos processus métier afin d'optimiser vos opérations et d'innover.",
+    image: "https://images.unsplash.com/photo-1677442135136-760c813460dc?q=80&w=2000&auto=format&fit=crop",
     delay: 0.6,
   },
 ];
@@ -45,18 +52,34 @@ const ServiceCard: React.FC<{
   icon: JSX.Element;
   title: string;
   description: string;
+  image: string;
   delay: number;
-}> = ({ icon, title, description, delay }) => {
+}> = ({ icon, title, description, image, delay }) => {
   return (
     <div 
-      className="service-card rounded-xl p-6 transition-all duration-500 hover:translate-y-[-5px] hover:shadow-[0_15px_30px_rgba(249,115,22,0.3)] animate-fade-in backdrop-blur-md bg-white/40 border border-white/30 shadow-[0_10px_20px_rgba(0,0,0,0.2)] transform-gpu"
+      className="service-card rounded-xl overflow-hidden transition-all duration-500 hover:translate-y-[-5px] hover:shadow-[0_15px_30px_rgba(249,115,22,0.3)] animate-fade-in backdrop-blur-md bg-white/50 border border-white/30 shadow-[0_10px_20px_rgba(0,0,0,0.2)] transform-gpu"
       style={{ animationDelay: `${delay}s` }}
     >
-      <div className="mb-4 p-3 rounded-lg bg-skal-orange/20 inline-block text-skal-orange">
-        {icon}
+      <div className="relative">
+        <AspectRatio ratio={16 / 9}>
+          <img 
+            src={image} 
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          />
+        </AspectRatio>
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+          <div className="flex items-center">
+            <div className="p-3 rounded-lg bg-skal-orange/80 text-white mr-3">
+              {icon}
+            </div>
+            <h3 className="text-xl font-semibold text-white">{title}</h3>
+          </div>
+        </div>
       </div>
-      <h3 className="text-xl font-semibold mb-3 text-skal-black">{title}</h3>
-      <p className="text-slate-800">{description}</p>
+      <div className="p-6">
+        <p className="text-slate-800">{description}</p>
+      </div>
     </div>
   );
 };
@@ -84,6 +107,7 @@ const Services: React.FC = () => {
               icon={service.icon}
               title={service.title}
               description={service.description}
+              image={service.image}
               delay={service.delay}
             />
           ))}
