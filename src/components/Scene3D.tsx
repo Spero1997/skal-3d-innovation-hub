@@ -4,32 +4,35 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 
-// Separate Model component for improved performance
+// Improved Model component with better geometry
 function Model() {
   const meshRef = useRef<THREE.Mesh>(null);
   
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.15;
+      // Smoother rotation
+      meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.1;
     }
   });
 
   return (
     <mesh ref={meshRef}>
-      <torusKnotGeometry args={[1, 0.3, 64, 16]} /> {/* Reduced geometry complexity */}
+      {/* Higher quality torusKnot with more segments for smoother appearance */}
+      <torusKnotGeometry args={[1, 0.4, 128, 32]} />
       <meshStandardMaterial 
         color="#F97316"
-        roughness={0.3} 
-        metalness={0.8} 
+        roughness={0.2} 
+        metalness={0.9}
+        envMapIntensity={1.5}
       />
     </mesh>
   );
 }
 
-// Simple loading placeholder
+// Improved loading placeholder
 function LoadingPlaceholder() {
   return <mesh>
-    <sphereGeometry args={[0.5, 8, 8]} />
+    <sphereGeometry args={[0.5, 16, 16]} />
     <meshBasicMaterial color="#cccccc" wireframe />
   </mesh>;
 }
@@ -37,26 +40,42 @@ function LoadingPlaceholder() {
 export const Scene3D: React.FC = () => {
   return (
     <Canvas
-      camera={{ position: [0, 0, 5], fov: 50 }}
+      camera={{ position: [0, 0, 5], fov: 45 }}
       className="w-full h-full"
-      dpr={[1, 1.5]} // Limit pixel ratio for performance
-      performance={{ min: 0.5 }} // Allow performance scaling
+      dpr={[1, 2]} // Better resolution on high-DPI screens
+      gl={{ 
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance'
+      }}
     >
-      <ambientLight intensity={0.5} />
-      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+      {/* Improved lighting for better visual quality */}
+      <ambientLight intensity={0.3} />
+      <spotLight 
+        position={[10, 10, 10]} 
+        angle={0.15} 
+        penumbra={1}
+        intensity={1.5}
+        castShadow
+      />
+      <directionalLight 
+        position={[-5, 5, 5]} 
+        intensity={1}
+        color="#ffffff"
+      />
       
       <Suspense fallback={<LoadingPlaceholder />}>
         <Model />
-        {/* Replace the preset with a simple color environment to avoid HDR loading errors */}
-        <Environment background={false} preset="city" />
+        {/* Use a more suitable environment preset for better reflections */}
+        <Environment background={false} preset="studio" />
       </Suspense>
       
       <OrbitControls 
         enableZoom={false}
         enablePan={false}
-        rotateSpeed={0.5}
+        rotateSpeed={0.25} // Reduced for smoother rotation
         autoRotate
-        autoRotateSpeed={0.5}
+        autoRotateSpeed={0.3} // Slowed down for more elegant movement
       />
     </Canvas>
   );
