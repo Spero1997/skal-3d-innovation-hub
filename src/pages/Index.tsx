@@ -10,19 +10,25 @@ const Index: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Don't scroll to top on initial load (it's unnecessary and causes jank)
+    if (window.location.hash) {
+      // If there's a hash, let the browser handle scrolling to the element
+      return;
+    }
     
-    // Preload the background image
-    const img = new Image();
-    img.src = "/lovable-uploads/09498611-bf02-4ce5-810c-ffa7798e8158.png";
-    img.onload = () => setIsLoading(false);
+    // Optimize background image loading
+    const bgImg = new Image();
+    bgImg.src = "/lovable-uploads/09498611-bf02-4ce5-810c-ffa7798e8158.png";
+    bgImg.fetchPriority = "high";
     
-    // Fallback in case image loading takes too long
-    const timer = setTimeout(() => {
+    // Use load event and add a timeout to ensure we don't wait too long
+    const loadTimeout = setTimeout(() => setIsLoading(false), 400);
+    bgImg.onload = () => {
+      clearTimeout(loadTimeout);
       setIsLoading(false);
-    }, 800);
+    };
     
-    return () => clearTimeout(timer);
+    return () => clearTimeout(loadTimeout);
   }, []);
 
   return (
@@ -41,7 +47,7 @@ const Index: React.FC = () => {
       <Navbar />
       <Suspense fallback={
         <div className="flex items-center justify-center min-h-screen">
-          <div className="w-16 h-16 border-4 border-skal-orange border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-skal-orange border-t-transparent rounded-full animate-spin"></div>
         </div>
       }>
         <Hero />
