@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Code, Compass, Image, Map, PenTool, BrainCircuit } from 'lucide-react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
@@ -6,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Button } from '@/components/ui/button';
+import TrustIndicators from './TrustIndicators';
 
 const services = [
   {
@@ -61,7 +61,7 @@ const services = [
       "Systèmes d'information géographique (SIG) personnalisés",
       "Cartes interactives pour sites web et applications mobiles"
     ],
-    image: "https://images.unsplash.com/photo-1477936821694-ec4233a9a1a0?q=80&w=2000&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1477936821694-ec4233a900cd?q=80&w=2000&auto=format&fit=crop",
     delay: 0.4,
   },
   {
@@ -177,6 +177,11 @@ const Services: React.FC = () => {
           <p className="text-white/90 max-w-2xl mx-auto drop-shadow">
             Nous offrons une gamme complète de services spécialisés pour répondre à tous vos besoins en conception, arpentage, cartographie et conseil en IA.
           </p>
+          
+          <div className="mt-8 p-4 bg-skal-orange/90 rounded-lg shadow-lg text-white inline-flex items-center">
+            <span className="font-semibold mr-2">Notre garantie :</span> 
+            Satisfaction complète ou remboursement intégral sur tous nos services
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -192,6 +197,10 @@ const Services: React.FC = () => {
               delay={service.delay}
             />
           ))}
+        </div>
+        
+        <div className="mt-20">
+          <TrustIndicators />
         </div>
       </div>
 
