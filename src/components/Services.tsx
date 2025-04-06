@@ -1,9 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Code, Compass, Image, Map, PenTool, BrainCircuit } from 'lucide-react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription } from '@/components/ui/card';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Button } from '@/components/ui/button';
 
 const services = [
   {
@@ -101,6 +103,8 @@ const ServiceCard: React.FC<{
   delay: number;
   index: number;
 }> = ({ icon, title, description, detailedDescription, image, delay, index }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div 
       className="service-card rounded-xl overflow-hidden transition-all duration-500 hover:translate-y-[-5px] hover:shadow-[0_15px_30px_rgba(249,115,22,0.3)] animate-fade-in backdrop-blur-md bg-white/50 border border-white/30 shadow-[0_10px_20px_rgba(0,0,0,0.2)] transform-gpu"
@@ -126,11 +130,20 @@ const ServiceCard: React.FC<{
       <div className="p-6">
         <p className="text-slate-800 mb-4">{description}</p>
         
-        <Tabs defaultValue="details" className="w-full">
-          <TabsList className="w-full">
-            <TabsTrigger value="details" className="flex-1">En détail</TabsTrigger>
-          </TabsList>
-          <TabsContent value="details" className="mt-4">
+        <Collapsible 
+          open={isOpen} 
+          onOpenChange={setIsOpen}
+          className="w-full"
+        >
+          <CollapsibleTrigger asChild>
+            <Button 
+              variant="outline"
+              className="w-full border-skal-orange text-skal-orange hover:bg-skal-orange hover:text-white justify-center"
+            >
+              {isOpen ? "Fermer" : "En détail"}
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="mt-4">
             <Card>
               <CardContent className="pt-4">
                 <ul className="space-y-2">
@@ -143,8 +156,8 @@ const ServiceCard: React.FC<{
                 </ul>
               </CardContent>
             </Card>
-          </TabsContent>
-        </Tabs>
+          </CollapsibleContent>
+        </Collapsible>
       </div>
     </div>
   );
