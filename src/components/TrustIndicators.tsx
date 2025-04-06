@@ -70,8 +70,8 @@ const TrustIndicators: React.FC = () => {
           {trustStats.map((stat, index) => (
             <div 
               key={index} 
-              className="p-6 rounded-xl bg-white/80 backdrop-blur-sm border border-white/30 shadow-lg flex flex-col items-center animate-fade-in"
-              style={{ animationDelay: `${0.1 * index}s` }}
+              className="p-6 rounded-xl bg-white/80 backdrop-blur-sm border border-white/30 shadow-lg flex flex-col items-center"
+              style={{ animation: `fadeIn 0.5s ease-out forwards`, animationDelay: `${0.1 * index}s` }}
             >
               {stat.icon}
               <span className="text-3xl font-bold mt-3 text-skal-black">{stat.value}</span>
@@ -87,8 +87,8 @@ const TrustIndicators: React.FC = () => {
           {testimonials.map((testimonial, index) => (
             <div 
               key={index} 
-              className="p-6 rounded-xl bg-white/80 backdrop-blur-sm border border-white/30 shadow-lg flex flex-col animate-fade-in"
-              style={{ animationDelay: `${0.1 * index}s` }}
+              className="p-6 rounded-xl bg-white/80 backdrop-blur-sm border border-white/30 shadow-lg flex flex-col"
+              style={{ animation: `fadeIn 0.5s ease-out forwards`, animationDelay: `${0.1 * index}s` }}
             >
               <div className="flex mb-4">
                 {Array(testimonial.rating).fill(0).map((_, i) => (
@@ -111,8 +111,8 @@ const TrustIndicators: React.FC = () => {
           {certifications.map((certification, index) => (
             <div 
               key={index} 
-              className="p-6 rounded-xl bg-white/80 backdrop-blur-sm border border-white/30 shadow-lg flex items-center animate-fade-in"
-              style={{ animationDelay: `${0.1 * index}s` }}
+              className="p-6 rounded-xl bg-white/80 backdrop-blur-sm border border-white/30 shadow-lg flex items-center"
+              style={{ animation: `fadeIn 0.5s ease-out forwards`, animationDelay: `${0.1 * index}s` }}
             >
               <ShieldCheck className="w-10 h-10 text-skal-orange mr-4 flex-shrink-0" />
               <div>
@@ -123,6 +123,19 @@ const TrustIndicators: React.FC = () => {
           ))}
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 };
