@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 import { Scene3D } from './Scene3D';
 import { Link } from 'react-router-dom';
@@ -55,7 +56,7 @@ const Hero: React.FC = () => {
             className="text-4xl md:text-6xl font-display font-bold leading-tight tracking-tight text-skal-black mb-6 animate-fade-in"
             style={{ animationDelay: '0.4s' }}
           >
-            Votre Partenaire en Conception, Arpentage, Cartographie et IA
+            Votre Partenaire en Conception, Arpentage, Cartographie et votre conseiller en Intelligence artificielle
           </h1>
           
           <p 
