@@ -1,8 +1,10 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
-import Services from '@/components/Services';
 import Footer from '@/components/Footer';
+
+// Lazy load the Services component
+const Services = lazy(() => import('@/components/Services'));
 
 const ServicesPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -50,7 +52,13 @@ const ServicesPage: React.FC = () => {
       <div className="fixed inset-0 -z-5 bg-gradient-to-b from-black/30 to-transparent pointer-events-none" />
       <Navbar />
       <div className="pt-32 pb-16">
-        <Services />
+        <Suspense fallback={
+          <div className="flex items-center justify-center min-h-[50vh]">
+            <div className="w-16 h-16 border-4 border-skal-orange border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        }>
+          <Services />
+        </Suspense>
       </div>
       <Footer />
     </div>
