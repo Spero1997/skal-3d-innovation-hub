@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Services from '@/components/Services';
-import FloatingCTA from '@/components/FloatingCTA';
-import Chatbot from '@/components/Chatbot';
 
 const ServicesPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -60,8 +58,6 @@ const ServicesPage: React.FC = () => {
           <Services />
         )}
       </div>
-      <FloatingCTA />
-      <Chatbot />
       <Footer />
     </div>
   );
