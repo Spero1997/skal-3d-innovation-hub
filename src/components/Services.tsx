@@ -1,12 +1,14 @@
 
 import React, { useState } from 'react';
-import { Code, Compass, Image, Map, PenTool, BrainCircuit } from 'lucide-react';
+import { Code, Compass, Image, Map, PenTool, BrainCircuit, ArrowRight } from 'lucide-react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import TrustIndicators from './TrustIndicators';
+import { Progress } from '@/components/ui/progress';
 
 const services = [
   {
@@ -134,7 +136,7 @@ const ServiceCard: React.FC<{
         <Collapsible 
           open={isOpen} 
           onOpenChange={setIsOpen}
-          className="w-full"
+          className="w-full mb-4"
         >
           <CollapsibleTrigger asChild>
             <Button 
@@ -159,7 +161,140 @@ const ServiceCard: React.FC<{
             </Card>
           </CollapsibleContent>
         </Collapsible>
+
+        <div className="flex gap-3 mt-2">
+          <Button 
+            className="flex-1 bg-skal-orange hover:bg-skal-orange/90 text-white"
+            onClick={() => window.location.href = '/contact'}
+          >
+            Demander un devis
+          </Button>
+          <Button 
+            variant="outline" 
+            className="border-skal-orange text-skal-orange hover:bg-skal-orange hover:text-white"
+            onClick={() => window.location.href = '/contact'}
+          >
+            Contactez-nous
+          </Button>
+        </div>
       </div>
+    </div>
+  );
+};
+
+// Nouvelle section FAQ
+const FAQSection = () => {
+  const [openItem, setOpenItem] = useState<number | null>(null);
+
+  const faqItems = [
+    {
+      question: "Quels sont les délais moyens pour vos prestations ?",
+      answer: "Nos délais varient selon la complexité du projet. Pour un projet de design graphique ou de développement web standard, comptez entre 2 et 4 semaines. Pour des projets d'arpentage ou de cartographie, les délais sont généralement de 1 à 2 semaines. Nous pouvons également proposer un service accéléré pour les projets urgents."
+    },
+    {
+      question: "Comment se déroule votre processus de travail ?",
+      answer: "Notre processus commence toujours par une consultation approfondie pour comprendre vos besoins. Nous établissons ensuite un cahier des charges détaillé, suivi d'une proposition et d'un devis. Après validation, nous entamons la phase de production avec des points d'étape réguliers pour vous tenir informé et recueillir vos retours. Une fois le projet finalisé, nous offrons un suivi post-livraison pour garantir votre satisfaction."
+    },
+    {
+      question: "Proposez-vous des forfaits ou uniquement du sur-mesure ?",
+      answer: "Nous proposons à la fois des forfaits pour les services les plus courants (création de logo, site vitrine, etc.) et des solutions entièrement personnalisées pour répondre à des besoins spécifiques. Nos forfaits permettent de bénéficier de tarifs avantageux tout en garantissant un service de qualité professionnelle."
+    },
+    {
+      question: "Comment garantissez-vous la confidentialité de mes données ?",
+      answer: "La sécurité de vos données est notre priorité. Nous utilisons des protocoles de cryptage avancés, des systèmes de sauvegarde sécurisés, et nous signons systématiquement des accords de confidentialité. Tous nos services sont conformes au RGPD et nous vous garantissons que vos informations ne sont jamais partagées avec des tiers sans votre autorisation explicite."
+    },
+    {
+      question: "Assurez-vous la formation à l'utilisation des outils développés ?",
+      answer: "Absolument ! Nous incluons systématiquement une formation adaptée dans nos prestations pour que vous puissiez maîtriser parfaitement les outils que nous développons. Des sessions de formation personnalisées, des tutoriels vidéo et une documentation complète sont fournis. Notre équipe reste également disponible pour répondre à vos questions après la livraison du projet."
+    }
+  ];
+
+  const toggleItem = (index: number) => {
+    setOpenItem(openItem === index ? null : index);
+  };
+
+  return (
+    <div className="mt-16 bg-white/50 backdrop-blur-sm rounded-xl p-8 border border-white/20 shadow-lg">
+      <h3 className="text-2xl font-semibold text-center mb-8 text-skal-black">Questions Fréquentes</h3>
+      <div className="space-y-4">
+        {faqItems.map((item, index) => (
+          <Collapsible key={index} open={openItem === index} onOpenChange={() => toggleItem(index)}>
+            <div className="border border-gray-200 rounded-lg overflow-hidden">
+              <CollapsibleTrigger className="w-full p-4 flex justify-between items-center bg-white hover:bg-gray-50 text-left">
+                <h4 className="text-lg font-medium text-skal-black">{item.question}</h4>
+                <ArrowRight className={`w-5 h-5 text-skal-orange transition-transform ${openItem === index ? 'rotate-90' : ''}`} />
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <div className="p-4 pt-0 bg-gray-50 border-t border-gray-200">
+                  <p className="text-slate-700">{item.answer}</p>
+                </div>
+              </CollapsibleContent>
+            </div>
+          </Collapsible>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// Nouvelle section pour l'offre limitée
+const OffreLimitee = () => {
+  return (
+    <div className="mb-8 p-4 bg-gradient-to-r from-skal-orange/90 to-skal-orange rounded-lg shadow-lg text-white mx-auto max-w-full lg:max-w-3xl animate-pulse-slow">
+      <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-4">
+        <div className="flex items-center">
+          <Badge variant="secondary" className="bg-white text-skal-orange mr-3">OFFRE SPÉCIALE</Badge>
+          <span className="font-semibold text-sm md:text-base whitespace-nowrap">1ère analyse IA gratuite pour les 10 premiers clients de chaque mois !</span>
+        </div>
+        <Button 
+          variant="secondary" 
+          className="whitespace-nowrap bg-white hover:bg-white/90 text-skal-orange"
+          onClick={() => window.location.href = '/contact'}
+        >
+          J'en profite maintenant
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+// Nouvelle section pour la barre de progression
+const DemandeProgress = () => {
+  // On simule que 5 demandes ont été traitées sur un maximum de 20
+  const traites = 5;
+  const capaciteMax = 20;
+  const pourcentage = (traites / capaciteMax) * 100;
+
+  return (
+    <div className="mb-12 mt-8 bg-white/70 backdrop-blur-sm rounded-lg p-6 max-w-lg mx-auto border border-white/20 shadow-md">
+      <div className="flex justify-between items-center mb-2">
+        <p className="text-sm font-medium text-slate-700">Demandes traitées aujourd'hui</p>
+        <Badge variant="outline" className="text-skal-orange border-skal-orange">
+          {traites}/{capaciteMax}
+        </Badge>
+      </div>
+      <Progress value={pourcentage} className="h-2 bg-gray-200" />
+      <p className="text-xs text-slate-500 mt-2 text-center">Capacité disponible : {capaciteMax - traites} demandes restantes aujourd'hui</p>
+    </div>
+  );
+};
+
+// Section de sécurité avec badges
+const SecurityBadges = () => {
+  return (
+    <div className="flex flex-wrap justify-center gap-3 mb-8">
+      <Badge className="bg-green-100 text-green-800 hover:bg-green-200 border border-green-300 px-3 py-1 rounded-full">
+        Données 100% sécurisées
+      </Badge>
+      <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200 border border-blue-300 px-3 py-1 rounded-full">
+        Paiements sécurisés
+      </Badge>
+      <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200 border border-purple-300 px-3 py-1 rounded-full">
+        Conformité RGPD
+      </Badge>
+      <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-200 border border-amber-300 px-3 py-1 rounded-full">
+        Confidentialité garantie
+      </Badge>
     </div>
   );
 };
@@ -176,14 +311,18 @@ const Services: React.FC = () => {
             Expertise Complète pour Vos Projets
           </h2>
           <p className="text-white/90 max-w-2xl mx-auto drop-shadow">
-            Nous offrons une gamme complète de services spécialisés pour répondre à tous vos besoins en conception, arpentage, cartographie et conseil en IA.
+            Découvrez notre gamme de services professionnels conçus pour transformer vos idées en réalité et propulser votre entreprise vers le succès.
           </p>
           
-          <div className="mt-8 p-4 bg-skal-orange/90 rounded-lg shadow-lg text-white mx-auto max-w-sm md:max-w-md lg:inline-flex lg:items-center">
+          <div className="mt-8 p-4 bg-skal-orange/90 rounded-lg shadow-lg text-white mx-auto max-w-sm md:max-w-md lg:max-w-lg">
             <span className="font-semibold mr-2">Notre garantie :</span> 
             Satisfaction complète ou remboursement intégral sur tous nos services
           </div>
         </div>
+
+        <OffreLimitee />
+        <SecurityBadges />
+        <DemandeProgress />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
@@ -200,6 +339,8 @@ const Services: React.FC = () => {
           ))}
         </div>
         
+        <FAQSection />
+        
         <div className="mt-20">
           <TrustIndicators />
         </div>
@@ -214,6 +355,17 @@ const Services: React.FC = () => {
         
         .service-card:hover {
           transform: translateY(-5px) translateZ(0);
+        }
+        
+        @media (max-width: 768px) {
+          .service-card .flex {
+            flex-direction: column;
+          }
+          
+          .service-card .flex-1 {
+            width: 100%;
+            margin-bottom: 0.5rem;
+          }
         }
       `}</style>
     </section>
