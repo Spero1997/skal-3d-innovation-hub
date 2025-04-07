@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Code, Compass, Image, Map, PenTool, BrainCircuit } from 'lucide-react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
@@ -178,7 +179,7 @@ const Services: React.FC = () => {
             Nous offrons une gamme complète de services spécialisés pour répondre à tous vos besoins en conception, arpentage, cartographie et conseil en IA.
           </p>
           
-          <div className="mt-8 p-4 bg-skal-orange/90 rounded-lg shadow-lg text-white inline-flex items-center">
+          <div className="mt-8 p-4 bg-skal-orange/90 rounded-lg shadow-lg text-white mx-auto max-w-sm md:max-w-md lg:inline-flex lg:items-center">
             <span className="font-semibold mr-2">Notre garantie :</span> 
             Satisfaction complète ou remboursement intégral sur tous nos services
           </div>
