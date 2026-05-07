@@ -15,66 +15,65 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="section-padding bg-skal-gray relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-white to-transparent h-32" />
-      
+    <section id="contact" className="section-padding relative">
+
       <div className="container mx-auto">
         <div className="text-center mb-16 animate-fade-in">
-          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
-            <span className="text-skal-orange text-sm font-medium">Contact</span>
+          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-[hsl(var(--optimind-glow)/0.1)]">
+            <span className="text-[hsl(var(--optimind-glow))] text-sm font-medium">Contact</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-skal-black">
-            Parlons de Votre Projet
+          <h2 className="text-3xl md:text-4xl optimind-heading mb-4 text-foreground">
+            PARLONS DE VOTRE PROJET
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-2xl mx-auto">
             Prêt à démarrer votre prochain projet avec nous ? Contactez-nous dès aujourd'hui et découvrez comment notre expertise peut vous aider.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <div className="glass-card rounded-xl p-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+            <div className="optimind-service-card rounded-2xl animate-fade-in" style={{ animationDelay: "0.1s" }}>
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-skal-orange/10 text-skal-orange">
+                <div className="p-3 rounded-lg bg-[hsl(var(--optimind-glow)/0.1)] text-[hsl(var(--optimind-glow))]">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2 text-skal-black">Téléphone</h3>
-                  <p className="text-gray-600">+229 01 90315546</p>
+                  <h3 className="text-lg font-semibold mb-2 text-foreground">Téléphone</h3>
+                  <p className="text-muted-foreground text-sm">+229 01 90315546</p>
                 </div>
               </div>
             </div>
             
-            <div className="glass-card rounded-xl p-6 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+            <div className="optimind-service-card rounded-2xl animate-fade-in" style={{ animationDelay: "0.2s" }}>
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-skal-orange/10 text-skal-orange">
+                <div className="p-3 rounded-lg bg-[hsl(var(--optimind-glow)/0.1)] text-[hsl(var(--optimind-glow))]">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2 text-skal-black">Email</h3>
-                  <p className="text-gray-600">skalservice.0@gmail.com</p>
+                  <h3 className="text-lg font-semibold mb-2 text-foreground">Email</h3>
+                  <p className="text-muted-foreground text-sm">skalservice.0@gmail.com</p>
                 </div>
               </div>
             </div>
             
-            <div className="glass-card rounded-xl p-6 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+            <div className="optimind-service-card rounded-2xl animate-fade-in" style={{ animationDelay: "0.3s" }}>
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-skal-orange/10 text-skal-orange">
+                <div className="p-3 rounded-lg bg-[hsl(var(--optimind-glow)/0.1)] text-[hsl(var(--optimind-glow))]">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2 text-skal-black">Adresse</h3>
-                  <p className="text-gray-600">Abomey-Calavi, Tokan, de l'EPP Tokan</p>
+                  <h3 className="text-lg font-semibold mb-2 text-foreground">Adresse</h3>
+                  <p className="text-muted-foreground text-sm">Abomey-Calavi, Tokan, de l'EPP Tokan</p>
                 </div>
               </div>
             </div>
           </div>
           
           <div className="lg:col-span-3">
-            <form ref={formRef} onSubmit={handleSubmit} className="glass-card rounded-xl p-8 animate-fade-in" style={{ animationDelay: "0.4s" }}>
+            <form ref={formRef} onSubmit={handleSubmit} className="optimind-service-card rounded-2xl p-8 animate-fade-in" style={{ animationDelay: "0.4s" }}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="name" className="block text-xs font-medium text-muted-foreground mb-1 uppercase tracking-wider">
                     Nom
                   </label>
                   <input
@@ -82,11 +81,11 @@ const Contact: React.FC = () => {
                     id="name"
                     name="name"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-skal-orange focus:border-skal-orange"
+                    className="w-full px-4 py-2.5 border border-[hsl(var(--border))] rounded-lg bg-[hsl(var(--secondary))] text-foreground text-sm"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="email" className="block text-xs font-medium text-muted-foreground mb-1 uppercase tracking-wider">
                     Email
                   </label>
                   <input
@@ -94,13 +93,13 @@ const Contact: React.FC = () => {
                     id="email"
                     name="email"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-skal-orange focus:border-skal-orange"
+                    className="w-full px-4 py-2.5 border border-[hsl(var(--border))] rounded-lg bg-[hsl(var(--secondary))] text-foreground text-sm"
                   />
                 </div>
               </div>
               
               <div className="mb-6">
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="subject" className="block text-xs font-medium text-muted-foreground mb-1 uppercase tracking-wider">
                   Sujet
                 </label>
                 <input
@@ -108,12 +107,12 @@ const Contact: React.FC = () => {
                   id="subject"
                   name="subject"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-skal-orange focus:border-skal-orange"
+                  className="w-full px-4 py-2.5 border border-[hsl(var(--border))] rounded-lg bg-[hsl(var(--secondary))] text-foreground text-sm"
                 />
               </div>
               
               <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="message" className="block text-xs font-medium text-muted-foreground mb-1 uppercase tracking-wider">
                   Message
                 </label>
                 <textarea
@@ -121,13 +120,13 @@ const Contact: React.FC = () => {
                   name="message"
                   rows={5}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-skal-orange focus:border-skal-orange"
+                  className="w-full px-4 py-2.5 border border-[hsl(var(--border))] rounded-lg bg-[hsl(var(--secondary))] text-foreground text-sm"
                 ></textarea>
               </div>
               
               <button
                 type="submit"
-                className="w-full px-6 py-3 bg-skal-orange text-white font-medium rounded-md hover:bg-opacity-90 transition-colors"
+                className="w-full px-6 py-3 bg-foreground text-[hsl(var(--optimind-card))] font-medium rounded-full hover:opacity-90 transition-opacity text-sm uppercase tracking-wider"
               >
                 Envoyer le message
               </button>
