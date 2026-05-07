@@ -6,27 +6,27 @@ const CTABanner: React.FC = () => {
   return (
     <section className="py-16 px-4 relative z-10">
       <div className="container mx-auto">
-        <div className="rounded-3xl bg-foreground p-10 md:p-16 text-center relative overflow-hidden">
+        <div className="rounded-3xl bg-gradient-to-br from-[hsl(var(--optimind-glow))] to-[hsl(24,95%,40%)] p-10 md:p-16 text-center relative overflow-hidden">
           {/* Decorative glow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-[hsl(var(--optimind-glow)/0.15)] rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-white/10 rounded-full blur-[100px] pointer-events-none" />
           
-          <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-wider text-[hsl(var(--optimind-card))] mb-4 relative z-10">
+          <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-wider text-white mb-4 relative z-10">
             Prêt à donner vie à votre projet ?
           </h2>
-          <p className="text-[hsl(var(--optimind-card)/0.7)] max-w-lg mx-auto mb-8 text-sm relative z-10">
+          <p className="text-white/80 max-w-lg mx-auto mb-8 text-sm relative z-10">
             Obtenez un devis gratuit et personnalisé sous 48h. Sans engagement, 
             avec une première consultation offerte pour comprendre vos besoins.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
             <Link
               to="/devis"
-              className="px-8 py-3 rounded-full bg-[hsl(var(--optimind-glow))] text-white text-sm font-medium uppercase tracking-wider hover:opacity-90 transition-opacity flex items-center gap-2"
+              className="px-8 py-3 rounded-full bg-white text-[hsl(var(--optimind-glow))] text-sm font-medium uppercase tracking-wider hover:bg-white/90 transition-colors flex items-center gap-2 shadow-lg"
             >
               Demander un devis <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               to="/contact"
-              className="px-8 py-3 rounded-full border border-[hsl(var(--optimind-card)/0.3)] text-[hsl(var(--optimind-card))] text-sm font-medium uppercase tracking-wider hover:border-[hsl(var(--optimind-card))] transition-colors"
+              className="px-8 py-3 rounded-full border border-white/30 text-white text-sm font-medium uppercase tracking-wider hover:bg-white/10 transition-colors"
             >
               Nous contacter
             </Link>

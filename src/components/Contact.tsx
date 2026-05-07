@@ -126,7 +126,7 @@ const Contact: React.FC = () => {
               
               <button
                 type="submit"
-                className="w-full px-6 py-3 bg-foreground text-[hsl(var(--optimind-card))] font-medium rounded-full hover:opacity-90 transition-opacity text-sm uppercase tracking-wider"
+                className="w-full px-6 py-3 bg-[hsl(var(--optimind-glow))] text-white font-medium rounded-full hover:brightness-110 transition-all text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--optimind-glow)/0.3)]"
               >
                 Envoyer le message
               </button>

@@ -30,13 +30,13 @@ const Hero: React.FC = () => {
         >
           <Link 
             to="/contact" 
-            className="px-6 py-2.5 rounded-full bg-foreground text-[hsl(var(--optimind-card))] text-sm font-medium uppercase tracking-wider hover:opacity-90 transition-opacity"
+            className="px-6 py-2.5 rounded-full bg-[hsl(var(--optimind-glow))] text-white text-sm font-medium uppercase tracking-wider hover:brightness-110 transition-all shadow-[0_0_20px_hsl(var(--optimind-glow)/0.3)]"
           >
             Contactez-nous
           </Link>
           <Link 
             to="/services" 
-            className="px-6 py-2.5 rounded-full border border-foreground text-foreground text-sm font-medium uppercase tracking-wider hover:bg-foreground hover:text-[hsl(var(--optimind-card))] transition-colors"
+            className="px-6 py-2.5 rounded-full border border-white/20 text-foreground text-sm font-medium uppercase tracking-wider hover:bg-white/10 transition-colors"
           >
             Nos Services
           </Link>

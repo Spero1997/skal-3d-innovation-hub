@@ -108,7 +108,7 @@ const ServiceCard: React.FC<{
 
   return (
     <div 
-      className="service-card rounded-xl overflow-hidden transition-all duration-500 hover:translate-y-[-5px] hover:shadow-[0_15px_30px_rgba(249,115,22,0.3)] animate-fade-in backdrop-blur-md bg-white/50 border border-white/30 shadow-[0_10px_20px_rgba(0,0,0,0.2)] transform-gpu"
+      className="service-card rounded-xl overflow-hidden transition-all duration-500 hover:translate-y-[-5px] hover:shadow-[0_15px_30px_rgba(249,115,22,0.25)] animate-fade-in backdrop-blur-md bg-white/5 border border-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.3)] transform-gpu"
       style={{ animationDelay: `${delay}s` }}
     >
       <div className="relative rounded-t-2xl overflow-hidden">
@@ -121,7 +121,7 @@ const ServiceCard: React.FC<{
         </AspectRatio>
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
           <div className="flex items-center">
-            <div className="p-3 rounded-lg bg-[hsl(var(--optimind-glow)/0.8)] text-white mr-3">
+            <div className="p-3 rounded-lg bg-[hsl(var(--optimind-glow))] text-white mr-3 shadow-[0_0_15px_hsl(var(--optimind-glow)/0.4)]">
               {icon}
             </div>
             <h3 className="text-lg font-semibold text-white uppercase tracking-wider">{title}</h3>
@@ -139,7 +139,7 @@ const ServiceCard: React.FC<{
           <CollapsibleTrigger asChild>
             <Button 
               variant="outline"
-              className="w-full border-foreground text-foreground hover:bg-foreground hover:text-[hsl(var(--optimind-card))] justify-center rounded-full text-xs uppercase tracking-wider"
+              className="w-full border-[hsl(var(--optimind-glow))] text-[hsl(var(--optimind-glow))] hover:bg-[hsl(var(--optimind-glow))] hover:text-white justify-center rounded-full text-xs uppercase tracking-wider transition-all"
             >
               {isOpen ? "Fermer" : "En détail"}
             </Button>
@@ -179,7 +179,7 @@ const Services: React.FC = () => {
             Nous offrons une gamme complète de services spécialisés pour répondre à tous vos besoins en conception, arpentage, cartographie et conseil en IA.
           </p>
           
-          <div className="mt-8 p-4 bg-foreground rounded-full text-[hsl(var(--optimind-card))] mx-auto max-w-sm md:max-w-md lg:inline-flex lg:items-center text-sm">
+          <div className="mt-8 p-4 bg-[hsl(var(--optimind-glow))] rounded-full text-white mx-auto max-w-sm md:max-w-md lg:inline-flex lg:items-center text-sm shadow-[0_0_30px_hsl(var(--optimind-glow)/0.3)]">
             <span className="font-semibold mr-2">Notre garantie :</span> 
             Satisfaction complète ou remboursement intégral sur tous nos services
           </div>
