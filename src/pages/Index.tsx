@@ -1,8 +1,13 @@
-
 import React, { useEffect, lazy, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import OptimindLayout from '@/components/OptimindLayout';
+import Services from '@/components/Services';
+import Contact from '@/components/Contact';
+import AboutSection from '@/components/AboutSection';
+import FeaturedProjects from '@/components/FeaturedProjects';
+import FAQ from '@/components/FAQ';
+import CTABanner from '@/components/CTABanner';
 
 const Hero = lazy(() => import('@/components/Hero'));
 
@@ -21,6 +26,12 @@ const Index: React.FC = () => {
       }>
         <Hero />
       </Suspense>
+      <AboutSection />
+      <Services />
+      <FeaturedProjects />
+      <CTABanner />
+      <FAQ />
+      <Contact />
       <Footer />
     </OptimindLayout>
   );
