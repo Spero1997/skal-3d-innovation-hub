@@ -1,42 +1,30 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { projects } from '@/data/projects';
+import OptimindLayout from '@/components/OptimindLayout';
 
 const ProjectDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [isLoading, setIsLoading] = useState(true);
+  const [activeImage, setActiveImage] = useState(0);
   
-  // Find the project based on the ID
   const project = projects.find(p => p.id === parseInt(id || '0'));
+  const gallery = project?.gallery || (project ? [project.image] : []);
   
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    // Preload the background image
-    const img = new Image();
-    img.src = "/lovable-uploads/ecc4cd20-90cc-4af6-8781-13a25c8c2314.png";
-    img.onload = () => setIsLoading(false);
-    
-    // Fallback in case image loading takes too long
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 800);
-    
-    return () => clearTimeout(timer);
   }, []);
 
   if (!project) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <OptimindLayout>
         <Navbar />
-        <div className="flex-grow flex flex-col items-center justify-center">
-          <h1 className="text-2xl font-bold mb-4">Projet non trouvé</h1>
-          <p className="mb-6">Le projet que vous recherchez n'existe pas.</p>
+        <div className="flex-grow flex flex-col items-center justify-center min-h-[60vh]">
+          <h1 className="text-2xl font-bold mb-4 text-foreground">Projet non trouvé</h1>
+          <p className="mb-6 text-muted-foreground">Le projet que vous recherchez n'existe pas.</p>
           <Link to="/projects">
             <Button variant="outline">
               <ArrowLeft className="mr-2 h-4 w-4" /> Retour aux projets
@@ -44,84 +32,119 @@ const ProjectDetailPage: React.FC = () => {
           </Link>
         </div>
         <Footer />
-      </div>
+      </OptimindLayout>
     );
   }
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden relative">
-      <div 
-        className="fixed inset-0 -z-10 bg-white"
-        style={{ 
-          backgroundImage: 'url("/lovable-uploads/ecc4cd20-90cc-4af6-8781-13a25c8c2314.png")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          opacity: isLoading ? 0.3 : 1,
-          transition: 'opacity 0.5s ease-in-out'
-        }}
-      />
+    <OptimindLayout>
       <Navbar />
       
       <div className="pt-32 pb-16">
         <div className="container mx-auto px-4 md:px-6">
-          <Link to="/projects" className="inline-flex items-center text-skal-orange hover:text-skal-orange/80 mb-6">
+          <Link to="/projects" className="inline-flex items-center text-[hsl(var(--optimind-glow))] hover:opacity-80 mb-6 text-sm uppercase tracking-wider">
             <ArrowLeft className="mr-2 h-4 w-4" /> Retour aux projets
           </Link>
           
-          <div className="glass-card rounded-xl overflow-hidden animate-fade-in">
-            <div className="h-64 md:h-80 overflow-hidden">
+          <div className="optimind-service-card rounded-2xl overflow-hidden animate-fade-in p-0">
+            {/* Gallery */}
+            <div className="relative h-64 md:h-96 overflow-hidden">
               <img 
-                src={project.image} 
+                src={gallery[activeImage]} 
                 alt={project.title} 
-                className="w-full h-full object-cover" 
+                className="w-full h-full object-cover transition-opacity duration-300" 
               />
+              {gallery.length > 1 && (
+                <>
+                  <button 
+                    onClick={() => setActiveImage(i => (i - 1 + gallery.length) % gallery.length)}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button 
+                    onClick={() => setActiveImage(i => (i + 1) % gallery.length)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+                    {gallery.map((_, i) => (
+                      <button 
+                        key={i}
+                        onClick={() => setActiveImage(i)}
+                        className={`w-2 h-2 rounded-full transition-colors ${i === activeImage ? 'bg-white' : 'bg-white/40'}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
             
-            <div className="p-6 md:p-8">
+            <div className="p-6 md:p-10">
               <div className="mb-6">
-                <span className="text-xs font-medium text-skal-orange mb-2 block">{project.category}</span>
-                <h1 className="text-2xl md:text-3xl font-semibold mb-2 text-skal-black">{project.title}</h1>
-                {project.subtitle && <h2 className="text-lg md:text-xl font-medium mb-4 text-gray-600">{project.subtitle}</h2>}
+                <span className="text-xs font-medium text-[hsl(var(--optimind-glow))] mb-2 block uppercase tracking-wider">{project.category}</span>
+                <h1 className="text-2xl md:text-3xl font-semibold mb-2 text-foreground">{project.title}</h1>
+                {project.subtitle && <h2 className="text-lg md:text-xl font-medium mb-4 text-muted-foreground">{project.subtitle}</h2>}
               </div>
               
-              <div className="prose max-w-none text-gray-600">
-                <p className="text-base leading-relaxed mb-6">{project.description}</p>
-                
-                {/* Ici vous pouvez ajouter plus de contenu spécifique au projet */}
-                <p className="text-base leading-relaxed mb-6">
-                  Notre équipe a travaillé avec passion et expertise pour mener ce projet à bien. 
-                  Nous avons utilisé des technologies de pointe et des méthodologies innovantes pour garantir 
-                  des résultats exceptionnels.
-                </p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                  <div>
-                    <h3 className="text-lg font-medium mb-3 text-skal-black">Objectifs du projet</h3>
-                    <ul className="list-disc pl-5 space-y-2">
-                      <li>Analyse complète des besoins du client</li>
-                      <li>Conception d'une solution adaptée et innovante</li>
-                      <li>Mise en œuvre précise et efficace</li>
-                      <li>Suivi et optimisation des résultats</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-lg font-medium mb-3 text-skal-black">Technologies utilisées</h3>
-                    <ul className="list-disc pl-5 space-y-2">
-                      <li>Cartographie avancée</li>
-                      <li>Analyse de données spatiales</li>
-                      <li>Modélisation 3D</li>
-                      <li>Systèmes d'information géographique</li>
-                    </ul>
-                  </div>
+              <p className="text-muted-foreground leading-relaxed mb-8">{project.description}</p>
+
+              {/* Services utilisés */}
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold mb-4 text-foreground uppercase tracking-wider">Services mobilisés</h3>
+                <div className="flex flex-wrap gap-2">
+                  {project.services.map((service, i) => (
+                    <span key={i} className="px-4 py-1.5 rounded-full bg-[hsl(var(--optimind-glow)/0.1)] text-[hsl(var(--optimind-glow))] text-sm font-medium">
+                      {service}
+                    </span>
+                  ))}
                 </div>
               </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 text-foreground uppercase tracking-wider">Objectifs</h3>
+                  <ul className="space-y-3">
+                    {project.objectives.map((obj, i) => (
+                      <li key={i} className="flex items-start gap-3 text-muted-foreground text-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--optimind-glow))] mt-2 flex-shrink-0" />
+                        {obj}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 text-foreground uppercase tracking-wider">Technologies</h3>
+                  <ul className="space-y-3">
+                    {project.technologies.map((tech, i) => (
+                      <li key={i} className="flex items-start gap-3 text-muted-foreground text-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--optimind-glow))] mt-2 flex-shrink-0" />
+                        {tech}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Testimonial */}
+              {project.testimonial && (
+                <div className="border border-[hsl(var(--border))] rounded-2xl p-6 md:p-8 mb-8 bg-[hsl(var(--secondary))]">
+                  <Quote className="w-8 h-8 text-[hsl(var(--optimind-glow))] mb-4 opacity-50" />
+                  <blockquote className="text-foreground italic leading-relaxed mb-4">
+                    "{project.testimonial.quote}"
+                  </blockquote>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">{project.testimonial.author}</p>
+                    <p className="text-xs text-muted-foreground">{project.testimonial.role}</p>
+                  </div>
+                </div>
+              )}
               
-              <div className="mt-12">
-                <h3 className="text-lg font-medium mb-4 text-skal-black">Vous avez un projet similaire ?</h3>
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold mb-4 text-foreground">Vous avez un projet similaire ?</h3>
                 <Link to="/contact">
-                  <Button className="bg-skal-orange hover:bg-skal-orange/90 text-white">
+                  <Button className="bg-foreground text-[hsl(var(--optimind-card))] hover:opacity-90 rounded-full px-8 uppercase tracking-wider text-sm">
                     Contactez-nous
                   </Button>
                 </Link>
@@ -132,7 +155,7 @@ const ProjectDetailPage: React.FC = () => {
       </div>
       
       <Footer />
-    </div>
+    </OptimindLayout>
   );
 };
 
