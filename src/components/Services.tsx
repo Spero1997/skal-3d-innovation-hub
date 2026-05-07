@@ -111,7 +111,7 @@ const ServiceCard: React.FC<{
       className="service-card rounded-xl overflow-hidden transition-all duration-500 hover:translate-y-[-5px] hover:shadow-[0_15px_30px_rgba(249,115,22,0.3)] animate-fade-in backdrop-blur-md bg-white/50 border border-white/30 shadow-[0_10px_20px_rgba(0,0,0,0.2)] transform-gpu"
       style={{ animationDelay: `${delay}s` }}
     >
-      <div className="relative">
+      <div className="relative rounded-t-2xl overflow-hidden">
         <AspectRatio ratio={16 / 9}>
           <img 
             src={image} 
@@ -121,15 +121,15 @@ const ServiceCard: React.FC<{
         </AspectRatio>
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
           <div className="flex items-center">
-            <div className="p-3 rounded-lg bg-skal-orange/80 text-white mr-3">
+            <div className="p-3 rounded-lg bg-[hsl(var(--optimind-glow)/0.8)] text-white mr-3">
               {icon}
             </div>
-            <h3 className="text-xl font-semibold text-white">{title}</h3>
+            <h3 className="text-lg font-semibold text-white uppercase tracking-wider">{title}</h3>
           </div>
         </div>
       </div>
       <div className="p-6">
-        <p className="text-slate-800 mb-4">{description}</p>
+        <p className="text-muted-foreground text-sm mb-4">{description}</p>
         
         <Collapsible 
           open={isOpen} 
@@ -139,19 +139,19 @@ const ServiceCard: React.FC<{
           <CollapsibleTrigger asChild>
             <Button 
               variant="outline"
-              className="w-full border-skal-orange text-skal-orange hover:bg-skal-orange hover:text-white justify-center"
+              className="w-full border-foreground text-foreground hover:bg-foreground hover:text-[hsl(var(--optimind-card))] justify-center rounded-full text-xs uppercase tracking-wider"
             >
               {isOpen ? "Fermer" : "En détail"}
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-4">
-            <Card>
+            <Card className="bg-[hsl(var(--secondary))] border-[hsl(var(--border))]">
               <CardContent className="pt-4">
                 <ul className="space-y-2">
                   {detailedDescription.map((item, i) => (
                     <li key={i} className="flex items-start">
-                      <span className="text-skal-orange mr-2 mt-1">•</span>
-                      <CardDescription className="text-sm text-slate-700">{item}</CardDescription>
+                      <span className="text-[hsl(var(--optimind-glow))] mr-2 mt-1">•</span>
+                      <CardDescription className="text-sm text-muted-foreground">{item}</CardDescription>
                     </li>
                   ))}
                 </ul>
@@ -169,17 +169,17 @@ const Services: React.FC = () => {
     <section id="services" className="section-padding relative z-10">
       <div className="container mx-auto">
         <div className="text-center mb-16 animate-fade-in">
-          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/20 backdrop-blur-sm border border-white/30">
-            <span className="text-white text-sm font-medium">Nos Services</span>
+          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-[hsl(var(--optimind-glow)/0.1)]">
+            <span className="text-[hsl(var(--optimind-glow))] text-sm font-medium">Nos Services</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-white drop-shadow-md">
-            Expertise Complète pour Vos Projets
+          <h2 className="text-3xl md:text-4xl optimind-heading mb-4 text-foreground">
+            DÉCOUVREZ NOS SERVICES
           </h2>
-          <p className="text-white/90 max-w-2xl mx-auto drop-shadow">
+          <p className="text-muted-foreground max-w-2xl mx-auto">
             Nous offrons une gamme complète de services spécialisés pour répondre à tous vos besoins en conception, arpentage, cartographie et conseil en IA.
           </p>
           
-          <div className="mt-8 p-4 bg-skal-orange/90 rounded-lg shadow-lg text-white mx-auto max-w-sm md:max-w-md lg:inline-flex lg:items-center">
+          <div className="mt-8 p-4 bg-foreground rounded-full text-[hsl(var(--optimind-card))] mx-auto max-w-sm md:max-w-md lg:inline-flex lg:items-center text-sm">
             <span className="font-semibold mr-2">Notre garantie :</span> 
             Satisfaction complète ou remboursement intégral sur tous nos services
           </div>
@@ -205,17 +205,6 @@ const Services: React.FC = () => {
         </div>
       </div>
 
-      <style>{`
-        .service-card {
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          transform: translateZ(0);
-          will-change: transform, box-shadow;
-        }
-        
-        .service-card:hover {
-          transform: translateY(-5px) translateZ(0);
-        }
-      `}</style>
     </section>
   );
 };
