@@ -19,7 +19,7 @@ function Model({ isMobile }: { isMobile: boolean }) {
     <mesh ref={meshRef}>
       <icosahedronGeometry args={[1.8, isMobile ? 1 : 3]} />
       <meshStandardMaterial 
-        color="#8B7355"
+        color="#F97316"
         roughness={isMobile ? 0.3 : 0.15} 
         metalness={isMobile ? 0.8 : 0.95}
         envMapIntensity={isMobile ? 1 : 2}
@@ -32,7 +32,7 @@ function Model({ isMobile }: { isMobile: boolean }) {
 function LoadingPlaceholder() {
   return <mesh>
     <sphereGeometry args={[0.5, 16, 16]} />
-    <meshBasicMaterial color="#8B7355" wireframe />
+    <meshBasicMaterial color="#F97316" wireframe />
   </mesh>;
 }
 
@@ -88,19 +88,19 @@ export const Scene3D: React.FC = () => {
             penumbra={1}
             intensity={2}
             castShadow
-            color="#D4A76A"
+            color="#F97316"
           />
         )}
         <directionalLight 
           position={[-5, 5, 5]} 
           intensity={isMobile ? 1.2 : 0.8}
-          color="#F5E6D3"
+          color="#FED7AA"
         />
         {!isMobile && (
           <pointLight
             position={[0, -3, 2]}
             intensity={1}
-            color="#D4A76A"
+            color="#F97316"
           />
         )}
         
