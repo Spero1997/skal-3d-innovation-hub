@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import LegalNotice from "./pages/LegalNotice";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfSale from "./pages/TermsOfSale";
+import DevisPage from "./pages/DevisPage";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/legal" element={<LegalNotice />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfSale />} />
+          <Route path="/devis" element={<DevisPage />} />
           
           {/* Redirection des routes malformées vers NotFound */}
           <Route path="/projets" element={<Navigate to="/projects" replace />} />
