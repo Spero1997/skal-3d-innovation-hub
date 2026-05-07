@@ -5,10 +5,13 @@ import { Menu, X, Phone, Mail } from 'lucide-react';
 const navLinks = [
   { to: '/', label: 'HOME' },
   { to: '/services', label: 'SERVICES' },
-  { to: '/projects', label: 'PROJETS' },
-  { to: '/expertise', label: 'EXPERTISE' },
+  { to: '/projects', label: 'WORK' },
+  { to: '/devis', label: 'PLANS' },
+];
+
+const navLinksRight = [
+  { to: '/expertise', label: 'TEAM' },
   { to: '/contact', label: 'CONTACT' },
-  { to: '/devis', label: 'DEVIS' },
 ];
 
 const mobileLinks = [
@@ -68,37 +71,46 @@ const Navbar: React.FC = () => {
   }, [isMenuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[hsl(var(--optimind-card))] border-b border-[hsl(var(--border))]">
-      {/* Subtle gold accent line */}
-      <div className="h-[2px] bg-gradient-to-r from-transparent via-[hsl(var(--optimind-glow))] to-transparent" />
+    <header className="sticky top-0 z-50 w-full bg-[hsl(var(--optimind-card))]">
+      <div className="flex justify-center">
+        <div className="h-[2px] w-16 bg-gradient-to-r from-transparent via-[hsl(var(--optimind-glow))] to-transparent" />
+      </div>
       
-      <div className="container mx-auto px-4 md:px-6 py-4">
+      <div className="px-6 py-4">
         <div className="flex items-center justify-between">
           <Link 
             to="/" 
             className="flex items-center gap-2"
           >
-            <img 
-              src="/lovable-uploads/1f7a8d37-3d09-4661-a1c6-b81a7614539c.png" 
-              alt="SKAL Service Logo" 
-              className="h-8"
-            />
-            <span className="font-display font-bold uppercase tracking-[0.2em] text-sm text-foreground">
+            <span className="font-display font-bold uppercase tracking-[0.2em] text-sm text-foreground whitespace-nowrap">
               SKAL SERVICE
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+          <nav className="hidden md:flex items-center justify-between flex-1 ml-12">
+            <div className="flex items-center space-x-8">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+            <div className="flex items-center space-x-8">
+              {navLinksRight.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </nav>
 
           {/* Mobile Menu Button */}
