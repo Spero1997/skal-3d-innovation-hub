@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import OptimindLayout from '@/components/OptimindLayout';
 
 const ContactPage: React.FC = () => {
   useEffect(() => {
@@ -10,13 +11,13 @@ const ContactPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden">
+    <OptimindLayout>
       <Navbar />
       <div className="pt-32 pb-0">
         <Contact />
       </div>
       <Footer />
-    </div>
+    </OptimindLayout>
   );
 };
 

@@ -1,8 +1,9 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BrainCircuit, Layers, Medal, Target, Lightbulb, Users } from 'lucide-react';
+import OptimindLayout from '@/components/OptimindLayout';
 
 const expertiseList = [
   {
@@ -51,71 +52,39 @@ const ExpertiseCard: React.FC<{
 }> = ({ icon, title, description, delay }) => {
   return (
     <div 
-      className="glass-card rounded-2xl p-6 transition-all duration-300 
-        hover:shadow-2xl hover:scale-105 
-        bg-white/70 backdrop-blur-md 
-        border border-white/20 
-        shadow-lg shadow-blue-500/30
-        transform hover:-translate-y-2
-        animate-fade-in"
+      className="optimind-service-card animate-fade-in"
       style={{ 
         animationDelay: `${delay}s`,
-        boxShadow: '0 15px 30px rgba(0,0,0,0.1), 0 10px 20px rgba(0,0,0,0.05)'
       }}
     >
-      <div className="mb-4 p-3 rounded-lg bg-skal-orange/10 inline-block text-skal-orange">
+      <div className="mb-4 p-3 rounded-lg bg-[hsl(var(--optimind-glow)/0.1)] inline-block text-[hsl(var(--optimind-glow))]">
         {icon}
       </div>
-      <h3 className="text-xl font-semibold mb-3 text-skal-black">{title}</h3>
-      <p className="text-gray-700 font-medium">{description}</p>
+      <h3 className="text-xl font-semibold mb-3 text-foreground">{title}</h3>
+      <p className="text-muted-foreground">{description}</p>
     </div>
   );
 };
 
 const ExpertisePage: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    // Preload the background image
-    const img = new Image();
-    img.src = "/lovable-uploads/09498611-bf02-4ce5-810c-ffa7798e8158.png";
-    img.onload = () => setIsLoading(false);
-    
-    // Fallback in case image loading takes too long
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 800);
-    
-    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden relative">
-      <div 
-        className="fixed inset-0 -z-10 bg-white"
-        style={{ 
-          backgroundImage: 'url("/lovable-uploads/09498611-bf02-4ce5-810c-ffa7798e8158.png")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          opacity: isLoading ? 0.3 : 1,
-          transition: 'opacity 0.5s ease-in-out'
-        }}
-      />
+    <OptimindLayout>
       <Navbar />
       <div className="pt-32">
         <section className="section-padding relative z-10">
           <div className="container mx-auto">
             <div className="text-center mb-16 animate-fade-in">
-              <div className="inline-block px-4 py-1 mb-4 rounded-full bg-skal-orange/10">
-                <span className="text-skal-orange text-sm font-medium">Notre Expertise</span>
+              <div className="inline-block px-4 py-1 mb-4 rounded-full bg-[hsl(var(--optimind-glow)/0.1)]">
+                <span className="text-[hsl(var(--optimind-glow))] text-sm font-medium">Notre Expertise</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-skal-black">
-                Domaines de Spécialisation
+              <h2 className="text-3xl md:text-4xl optimind-heading mb-4 text-foreground">
+                DOMAINES DE SPÉCIALISATION
               </h2>
-              <p className="text-gray-700 max-w-2xl mx-auto font-medium">
+              <p className="text-muted-foreground max-w-2xl mx-auto">
                 Notre équipe d'experts vous apporte des compétences pointues dans plusieurs domaines techniques et stratégiques pour répondre à vos besoins les plus exigeants.
               </p>
             </div>
@@ -135,7 +104,7 @@ const ExpertisePage: React.FC = () => {
         </section>
       </div>
       <Footer />
-    </div>
+    </OptimindLayout>
   );
 };
 
