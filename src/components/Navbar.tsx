@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone, Mail } from 'lucide-react';
 
 const navLinks = [
   { to: '/', label: 'HOME' },
@@ -9,6 +9,16 @@ const navLinks = [
   { to: '/expertise', label: 'EXPERTISE' },
   { to: '/contact', label: 'CONTACT' },
   { to: '/devis', label: 'DEVIS' },
+];
+
+const mobileLinks = [
+  { to: '/devis', label: 'DEMANDER UN DEVIS' },
+  { to: '/contact', label: 'NOUS CONTACTER' },
+  { to: '/services', label: 'NOS SERVICES' },
+  { to: '/projects', label: 'NOS RÉALISATIONS' },
+  { to: '/expertise', label: 'NOTRE EXPERTISE' },
+  { to: '/legal', label: 'MENTIONS LÉGALES' },
+  { to: '/privacy', label: 'CONFIDENTIALITÉ' },
 ];
 
 const Navbar: React.FC = () => {
@@ -61,19 +71,28 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden bg-[hsl(var(--optimind-card))] border-t border-[hsl(var(--border))] p-4 animate-fade-in-fast">
-          <nav className="flex flex-col space-y-3">
-            {navLinks.map((link) => (
+        <div className="md:hidden bg-[hsl(var(--optimind-card))] border-t border-[hsl(var(--border))] p-6 animate-fade-in-fast">
+          <nav className="flex flex-col space-y-1">
+            {mobileLinks.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
-                className="text-sm font-medium uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors py-2"
+                className="text-sm font-medium uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors py-3 border-b border-[hsl(var(--border)/0.3)] last:border-b-0"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
           </nav>
+
+          <div className="mt-6 pt-5 border-t border-[hsl(var(--border))] space-y-3">
+            <a href="tel:+2290190315546" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors text-sm">
+              <Phone className="w-4 h-4 text-[hsl(var(--optimind-glow))]" /> +229 01 90315546
+            </a>
+            <a href="mailto:skalservice.0@gmail.com" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors text-sm">
+              <Mail className="w-4 h-4 text-[hsl(var(--optimind-glow))]" /> skalservice.0@gmail.com
+            </a>
+          </div>
         </div>
       )}
     </header>
