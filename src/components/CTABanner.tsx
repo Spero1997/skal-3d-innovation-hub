@@ -5,10 +5,9 @@ import { ArrowRight } from 'lucide-react';
 const CTABanner: React.FC = () => {
   return (
     <section className="py-16 px-4 relative z-10">
-      <div className="container mx-auto">
-        <div className="rounded-3xl bg-gradient-to-br from-[hsl(var(--optimind-glow))] to-[hsl(24,95%,40%)] p-10 md:p-16 text-center relative overflow-hidden">
-          {/* Decorative glow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-white/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="px-0">
+        <div className="rounded-2xl bg-foreground p-10 md:p-16 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-[hsl(var(--optimind-glow)/0.15)] rounded-full blur-[100px] pointer-events-none" />
           
           <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-wider text-white mb-4 relative z-10">
             Prêt à donner vie à votre projet ?
@@ -20,13 +19,13 @@ const CTABanner: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
             <Link
               to="/devis"
-              className="px-8 py-3 rounded-full bg-white text-[hsl(var(--optimind-glow))] text-sm font-medium uppercase tracking-wider hover:bg-white/90 transition-colors flex items-center gap-2 shadow-lg"
+              className="px-8 py-3 rounded-full bg-[hsl(var(--optimind-card))] text-foreground text-sm font-medium uppercase tracking-wider hover:opacity-90 transition-colors flex items-center gap-2 shadow-lg"
             >
               Demander un devis <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               to="/contact"
-              className="px-8 py-3 rounded-full border border-white/30 text-white text-sm font-medium uppercase tracking-wider hover:bg-white/10 transition-colors"
+              className="px-8 py-3 rounded-full border border-white/20 text-white text-sm font-medium uppercase tracking-wider hover:bg-white/10 transition-colors"
             >
               Nous contacter
             </Link>

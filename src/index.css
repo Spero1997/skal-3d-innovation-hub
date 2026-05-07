@@ -5,38 +5,38 @@
 
 @layer base {
   :root {
-    --background: 0 0% 7%;
-    --foreground: 0 0% 96%;
+    --background: 30 5% 92%;
+    --foreground: 0 0% 12%;
 
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 96%;
+    --card: 30 5% 95%;
+    --card-foreground: 0 0% 12%;
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 96%;
+    --popover: 30 5% 95%;
+    --popover-foreground: 0 0% 12%;
 
     --primary: 24 95% 53%;
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 0 0% 12%;
 
-    --secondary: 0 0% 14%;
-    --secondary-foreground: 0 0% 96%;
+    --secondary: 30 5% 90%;
+    --secondary-foreground: 0 0% 12%;
 
-    --muted: 0 0% 14%;
-    --muted-foreground: 0 0% 55%;
+    --muted: 30 5% 88%;
+    --muted-foreground: 0 0% 45%;
 
     --accent: 24 95% 53%;
-    --accent-foreground: 0 0% 100%;
+    --accent-foreground: 0 0% 12%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
+    --border: 0 0% 82%;
+    --input: 0 0% 82%;
     --ring: 24 95% 53%;
 
     --radius: 0.5rem;
 
-    --optimind-bg: 0 0% 5%;
-    --optimind-card: 0 0% 9%;
+    --optimind-bg: 30 3% 42%;
+    --optimind-card: 30 5% 94%;
     --optimind-glow: 24 95% 53%;
 
     --skal-orange: 24 95% 53%;
@@ -44,32 +44,32 @@
   }
 
   .dark {
-    --background: 0 0% 7%;
-    --foreground: 0 0% 96%;
+    --background: 30 5% 92%;
+    --foreground: 0 0% 12%;
 
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 96%;
+    --card: 30 5% 95%;
+    --card-foreground: 0 0% 12%;
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 96%;
+    --popover: 30 5% 95%;
+    --popover-foreground: 0 0% 12%;
 
     --primary: 24 95% 53%;
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 0 0% 12%;
 
-    --secondary: 0 0% 14%;
-    --secondary-foreground: 0 0% 96%;
+    --secondary: 30 5% 90%;
+    --secondary-foreground: 0 0% 12%;
 
-    --muted: 0 0% 14%;
-    --muted-foreground: 0 0% 55%;
+    --muted: 30 5% 88%;
+    --muted-foreground: 0 0% 45%;
 
     --accent: 24 95% 53%;
-    --accent-foreground: 0 0% 100%;
+    --accent-foreground: 0 0% 12%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
+    --border: 0 0% 82%;
+    --input: 0 0% 82%;
     --ring: 24 95% 53%;
   }
 }
@@ -79,13 +79,13 @@
     @apply border-border;
   }
   body {
-    @apply bg-[hsl(var(--optimind-bg))] text-foreground;
+    @apply bg-[hsl(var(--optimind-bg))] text-foreground overflow-x-hidden;
   }
 }
 
 @layer utilities {
   .glass-card {
-    @apply bg-white/5 backdrop-blur-xl shadow-lg border border-white/10;
+    @apply bg-white/40 backdrop-blur-xl shadow-lg border border-white/50;
   }
   
   .section-padding {
@@ -93,7 +93,7 @@
   }
 
   .optimind-container {
-    @apply bg-[hsl(var(--optimind-card))] rounded-2xl border border-white/10 shadow-2xl overflow-hidden;
+    @apply bg-[hsl(var(--optimind-card))] rounded-2xl border border-black/5 shadow-2xl overflow-hidden;
     max-width: 1200px;
     margin: 2rem auto;
     min-height: calc(100vh - 4rem);
@@ -118,12 +118,12 @@
   }
 
   .optimind-service-card {
-    @apply bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-6 transition-all duration-300;
+    @apply bg-black/[0.02] backdrop-blur-md rounded-2xl border border-black/5 p-6 transition-all duration-300;
   }
 
   .optimind-service-card:hover {
-    box-shadow: 0 0 40px hsl(var(--optimind-glow) / 0.25);
-    border-color: hsl(var(--optimind-glow) / 0.3);
+    box-shadow: 0 0 40px hsl(var(--optimind-glow) / 0.15);
+    border-color: hsl(var(--optimind-glow) / 0.2);
     transform: translateY(-4px);
   }
 }

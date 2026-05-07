@@ -15,14 +15,10 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="section-padding relative">
-
-      <div className="container mx-auto">
-        <div className="text-center mb-16 animate-fade-in">
-          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-[hsl(var(--optimind-glow)/0.1)]">
-            <span className="text-[hsl(var(--optimind-glow))] text-sm font-medium">Contact</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl optimind-heading mb-4 text-foreground">
+    <section id="contact" className="py-16 md:py-24 px-6 relative">
+      <div>
+        <div className="text-center mb-16">
+          <h2 className="text-2xl md:text-4xl font-display font-bold uppercase tracking-wide mb-4 text-foreground">
             PARLONS DE VOTRE PROJET
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -34,7 +30,7 @@ const Contact: React.FC = () => {
           <div className="lg:col-span-2 space-y-6">
             <div className="optimind-service-card rounded-2xl animate-fade-in" style={{ animationDelay: "0.1s" }}>
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-[hsl(var(--optimind-glow)/0.1)] text-[hsl(var(--optimind-glow))]">
+                <div className="p-3 rounded-lg bg-black/[0.04] text-foreground">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
@@ -46,7 +42,7 @@ const Contact: React.FC = () => {
             
             <div className="optimind-service-card rounded-2xl animate-fade-in" style={{ animationDelay: "0.2s" }}>
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-[hsl(var(--optimind-glow)/0.1)] text-[hsl(var(--optimind-glow))]">
+                <div className="p-3 rounded-lg bg-black/[0.04] text-foreground">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
@@ -58,7 +54,7 @@ const Contact: React.FC = () => {
             
             <div className="optimind-service-card rounded-2xl animate-fade-in" style={{ animationDelay: "0.3s" }}>
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-[hsl(var(--optimind-glow)/0.1)] text-[hsl(var(--optimind-glow))]">
+                <div className="p-3 rounded-lg bg-black/[0.04] text-foreground">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>

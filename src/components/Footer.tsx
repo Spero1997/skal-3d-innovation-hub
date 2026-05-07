@@ -6,12 +6,12 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-black text-white py-12 relative z-10 border-t border-white/10">
-      <div className="container mx-auto px-4 md:px-6">
+    <footer className="bg-foreground text-[hsl(var(--optimind-card))] py-12 relative z-10 border-t border-black/5">
+      <div className="px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-1">
-            <h2 className="text-xl font-semibold tracking-tight text-white mb-4">Skal Service</h2>
-            <p className="text-gray-400 mb-6 max-w-md">
+            <h2 className="text-xl font-semibold tracking-tight mb-4">Skal Service</h2>
+            <p className="text-white/50 mb-6 max-w-md">
               Nous combinons expertise technique, créativité et innovation pour donner vie à vos projets avec précision et excellence.
             </p>
           </div>
@@ -20,23 +20,23 @@ const Footer: React.FC = () => {
             <h3 className="text-lg font-semibold mb-4">Liens Rapides</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/services" className="text-gray-400 hover:text-white transition-colors">Services</Link>
+                <Link to="/services" className="text-white/50 hover:text-white transition-colors">Services</Link>
               </li>
               <li>
-                <Link to="/expertise" className="text-gray-400 hover:text-white transition-colors">Expertise</Link>
+                <Link to="/expertise" className="text-white/50 hover:text-white transition-colors">Expertise</Link>
               </li>
               <li>
-                <Link to="/projects" className="text-gray-400 hover:text-white transition-colors">Projets</Link>
+                <Link to="/projects" className="text-white/50 hover:text-white transition-colors">Projets</Link>
               </li>
               <li>
-                <Link to="/contact" className="text-gray-400 hover:text-white transition-colors">Contact</Link>
+                <Link to="/contact" className="text-white/50 hover:text-white transition-colors">Contact</Link>
               </li>
             </ul>
           </div>
           
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
-            <address className="not-italic text-gray-400 space-y-2">
+            <address className="not-italic text-white/50 space-y-2">
               <p>Abomey-Calavi, Tokan,</p>
               <p>von EPP Tokan</p>
               <p className="mt-4">
@@ -49,19 +49,19 @@ const Footer: React.FC = () => {
           </div>
         </div>
         
-        <div className="mt-12 pt-8 border-t border-gray-800 text-center md:text-left">
+        <div className="mt-12 pt-8 border-t border-white/10 text-center md:text-left">
           <div className="md:flex md:justify-between md:items-center">
-            <p className="text-gray-400">© {currentYear} Skal Service. Tous droits réservés.</p>
+            <p className="text-white/50">© {currentYear} Skal Service. Tous droits réservés.</p>
             <div className="mt-4 md:mt-0">
               <ul className="flex justify-center md:justify-end space-x-6">
                 <li>
-                  <Link to="/legal" className="text-gray-400 hover:text-white transition-colors text-sm">Mentions Légales</Link>
+                  <Link to="/legal" className="text-white/50 hover:text-white transition-colors text-sm">Mentions Légales</Link>
                 </li>
                 <li>
-                  <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors text-sm">Politique de Confidentialité</Link>
+                  <Link to="/privacy" className="text-white/50 hover:text-white transition-colors text-sm">Politique de Confidentialité</Link>
                 </li>
                 <li>
-                  <Link to="/terms" className="text-gray-400 hover:text-white transition-colors text-sm">CGV</Link>
+                  <Link to="/terms" className="text-white/50 hover:text-white transition-colors text-sm">CGV</Link>
                 </li>
               </ul>
             </div>

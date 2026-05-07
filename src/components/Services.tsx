@@ -1,210 +1,110 @@
-
-import React, { useState } from 'react';
-import { Code, Compass, Image, Map, PenTool, BrainCircuit } from 'lucide-react';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardDescription } from '@/components/ui/card';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Button } from '@/components/ui/button';
-import TrustIndicators from './TrustIndicators';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { MoreHorizontal } from 'lucide-react';
 
 const services = [
   {
-    icon: <PenTool className="w-6 h-6" />,
-    title: "Design Graphique et Identité",
-    description: "Création d'identités visuelles distinctives, de logos impactants et de supports de communication cohérents pour renforcer votre image de marque.",
-    detailedDescription: [
-      "Création de logos professionnels qui capturent l'essence de votre entreprise",
-      "Développement d'une charte graphique complète (couleurs, typographies, applications)",
-      "Conception de supports imprimés (cartes de visite, brochures, affiches)",
-      "Design d'emballages et de PLV pour une visibilité maximale",
-      "Infographies et illustrations personnalisées pour communiquer vos idées complexes"
-    ],
-    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000&auto=format&fit=crop",
-    delay: 0.1,
+    title: "Design Graphique",
+    description: "Nous créons vos identités visuelles en connectant vos valeurs à un design moderne, renforçant votre image et votre productivité.",
+    iconShape: 'circle' as const,
   },
   {
-    icon: <Image className="w-6 h-6" />,
-    title: "Stratégie de Création de Marque",
-    description: "Développement de stratégies de marque complètes pour positionner votre entreprise et communiquer efficacement vos valeurs auprès de votre public cible.",
-    detailedDescription: [
-      "Analyse de marché et identification de votre positionnement unique",
-      "Définition de la personnalité et des valeurs de votre marque",
-      "Élaboration d'une stratégie de communication multicanal cohérente",
-      "Développement de messages clés et d'une voix de marque distinctive",
-      "Création de guides de marque complets pour assurer une cohérence globale"
-    ],
-    image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2000&auto=format&fit=crop",
-    delay: 0.2,
+    title: "Cartographie & Arpentage",
+    description: "Nous développons des cartes et relevés de précision, capables de répondre aux besoins les plus complexes de vos projets.",
+    iconShape: 'triangle' as const,
   },
   {
-    icon: <Code className="w-6 h-6" />,
-    title: "Conception et Développement Web",
-    description: "Création de sites web modernes, responsifs et optimisés qui reflètent votre identité et offrent une expérience utilisateur exceptionnelle.",
-    detailedDescription: [
-      "Sites vitrines professionnels parfaitement adaptés à votre image de marque",
-      "Boutiques en ligne performantes avec gestion des stocks et paiements sécurisés",
-      "Applications web sur mesure pour répondre à vos besoins spécifiques",
-      "Sites responsifs optimisés pour tous les appareils et navigateurs",
-      "Optimisation SEO pour une meilleure visibilité dans les moteurs de recherche"
-    ],
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2000&auto=format&fit=crop",
-    delay: 0.3,
-  },
-  {
-    icon: <Map className="w-6 h-6" />,
-    title: "Cartographie de Précision",
-    description: "Production de cartes professionnelles détaillées pour la planification urbaine, l'analyse environnementale, ou la visualisation de données géospatiales.",
-    detailedDescription: [
-      "Cartographie numérique haute définition pour projets d'aménagement",
-      "Cartes thématiques pour visualiser des données démographiques ou environnementales",
-      "Modélisation 3D de terrains et d'environnements urbains",
-      "Systèmes d'information géographique (SIG) personnalisés",
-      "Cartes interactives pour sites web et applications mobiles"
-    ],
-    image: "https://images.unsplash.com/photo-1477936821694-ec4233a900cd?q=80&w=2000&auto=format&fit=crop",
-    delay: 0.4,
-  },
-  {
-    icon: <Compass className="w-6 h-6" />,
-    title: "Arpentage Topographique",
-    description: "Services spécialisés d'arpentage utilisant des technologies de pointe pour des mesures précises et des relevés topographiques détaillés.",
-    detailedDescription: [
-      "Levés topographiques de terrains pour projets de construction",
-      "Relevés d'intérieur de bâtiments et modélisation 3D",
-      "Mesures de volumes et calculs de déblais/remblais",
-      "Implantation de points d'appui pour projets d'ingénierie",
-      "Suivi de l'évolution des chantiers et contrôle de conformité"
-    ],
-    image: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?q=80&w=2000&auto=format&fit=crop",
-    delay: 0.5,
-  },
-  {
-    icon: <BrainCircuit className="w-6 h-6" />,
-    title: "Conseil en Intelligence Artificielle",
-    description: "Accompagnement stratégique pour l'intégration des technologies d'IA dans vos processus métier afin d'optimiser vos opérations et d'innover.",
-    detailedDescription: [
-      "Audit de vos processus et identification des opportunités d'implémentation d'IA",
-      "Conception de solutions sur mesure utilisant le machine learning et l'analyse prédictive",
-      "Automatisation intelligente des tâches répétitives pour gagner en productivité",
-      "Analyse avancée de données pour aide à la décision",
-      "Formation et accompagnement de vos équipes dans l'adoption des technologies d'IA"
-    ],
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=2000&auto=format&fit=crop",
-    delay: 0.6,
+    title: "Conseil en IA",
+    description: "Grâce à notre expertise, nous analysons votre organisation et vous conseillons sur l'adoption d'automatisations intelligentes.",
+    iconShape: 'diamond' as const,
   },
 ];
 
-const ServiceCard: React.FC<{
-  icon: JSX.Element;
-  title: string;
-  description: string;
-  detailedDescription: string[];
-  image: string;
-  delay: number;
-  index: number;
-}> = ({ icon, title, description, detailedDescription, image, delay, index }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const ServiceIcon: React.FC<{ shape: 'circle' | 'triangle' | 'diamond' }> = ({ shape }) => {
+  const size = 80;
   return (
-    <div 
-      className="service-card rounded-xl overflow-hidden transition-all duration-500 hover:translate-y-[-5px] hover:shadow-[0_15px_30px_rgba(249,115,22,0.25)] animate-fade-in backdrop-blur-md bg-white/5 border border-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.3)] transform-gpu"
-      style={{ animationDelay: `${delay}s` }}
-    >
-      <div className="relative rounded-t-2xl overflow-hidden">
-        <AspectRatio ratio={16 / 9}>
-          <img 
-            src={image} 
-            alt={title}
-            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-          />
-        </AspectRatio>
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-          <div className="flex items-center">
-            <div className="p-3 rounded-lg bg-[hsl(var(--optimind-glow))] text-white mr-3 shadow-[0_0_15px_hsl(var(--optimind-glow)/0.4)]">
-              {icon}
-            </div>
-            <h3 className="text-lg font-semibold text-white uppercase tracking-wider">{title}</h3>
-          </div>
-        </div>
-      </div>
-      <div className="p-6">
-        <p className="text-muted-foreground text-sm mb-4">{description}</p>
-        
-        <Collapsible 
-          open={isOpen} 
-          onOpenChange={setIsOpen}
-          className="w-full"
-        >
-          <CollapsibleTrigger asChild>
-            <Button 
-              variant="outline"
-              className="w-full border-[hsl(var(--optimind-glow))] text-[hsl(var(--optimind-glow))] hover:bg-[hsl(var(--optimind-glow))] hover:text-white justify-center rounded-full text-xs uppercase tracking-wider transition-all"
-            >
-              {isOpen ? "Fermer" : "En détail"}
-            </Button>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="mt-4">
-            <Card className="bg-[hsl(var(--secondary))] border-[hsl(var(--border))]">
-              <CardContent className="pt-4">
-                <ul className="space-y-2">
-                  {detailedDescription.map((item, i) => (
-                    <li key={i} className="flex items-start">
-                      <span className="text-[hsl(var(--optimind-glow))] mr-2 mt-1">•</span>
-                      <CardDescription className="text-sm text-muted-foreground">{item}</CardDescription>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
-      </div>
+    <div className="w-full aspect-square flex items-center justify-center relative">
+      <svg width={size} height={size} viewBox="0 0 80 80" fill="none" className="drop-shadow-[0_0_20px_rgba(245,166,35,0.4)]">
+        {shape === 'circle' && (
+          <>
+            <circle cx="40" cy="40" r="28" stroke="url(#goldGrad)" strokeWidth="3" fill="none" opacity="0.9" />
+            <circle cx="40" cy="40" r="20" stroke="url(#goldGrad)" strokeWidth="2" fill="none" opacity="0.5" strokeDasharray="6 4" />
+          </>
+        )}
+        {shape === 'triangle' && (
+          <>
+            <polygon points="40,10 70,65 10,65" stroke="url(#goldGrad)" strokeWidth="3" fill="none" opacity="0.9" />
+            <polygon points="40,22 60,58 20,58" stroke="url(#goldGrad)" strokeWidth="2" fill="none" opacity="0.5" />
+          </>
+        )}
+        {shape === 'diamond' && (
+          <>
+            <rect x="16" y="16" width="48" height="48" rx="4" stroke="url(#goldGrad)" strokeWidth="3" fill="none" opacity="0.9" transform="rotate(45 40 40)" />
+            <rect x="24" y="24" width="32" height="32" rx="2" stroke="url(#goldGrad)" strokeWidth="2" fill="none" opacity="0.5" transform="rotate(45 40 40)" />
+          </>
+        )}
+        <defs>
+          <linearGradient id="goldGrad" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#F5A623" />
+            <stop offset="50%" stopColor="#FFF5E6" />
+            <stop offset="100%" stopColor="#D4941A" />
+          </linearGradient>
+        </defs>
+      </svg>
     </div>
   );
 };
 
 const Services: React.FC = () => {
-  return (
-    <section id="services" className="section-padding relative z-10">
-      <div className="container mx-auto">
-        <div className="text-center mb-16 animate-fade-in">
-          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-[hsl(var(--optimind-glow)/0.1)]">
-            <span className="text-[hsl(var(--optimind-glow))] text-sm font-medium">Nos Services</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl optimind-heading mb-4 text-foreground">
-            DÉCOUVREZ NOS SERVICES
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Nous offrons une gamme complète de services spécialisés pour répondre à tous vos besoins en conception, arpentage, cartographie et conseil en IA.
-          </p>
-          
-          <div className="mt-8 p-4 bg-[hsl(var(--optimind-glow))] rounded-full text-white mx-auto max-w-sm md:max-w-md lg:inline-flex lg:items-center text-sm shadow-[0_0_30px_hsl(var(--optimind-glow)/0.3)]">
-            <span className="font-semibold mr-2">Notre garantie :</span> 
-            Satisfaction complète ou remboursement intégral sur tous nos services
-          </div>
-        </div>
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <ServiceCard 
-              key={index}
-              index={index}
-              icon={service.icon}
-              title={service.title}
-              description={service.description}
-              detailedDescription={service.detailedDescription}
-              image={service.image}
-              delay={service.delay}
-            />
-          ))}
+  return (
+    <section id="services" ref={sectionRef} className="py-16 md:py-24 px-6 relative z-10">
+      {/* Page counter */}
+      <div className="text-[11px] text-muted-foreground tracking-wider mb-8">
+        003 / 005
+      </div>
+
+      {/* Header */}
+      <div className="flex items-start justify-between mb-12">
+        <div>
+          <h2 className="text-2xl md:text-4xl font-display font-bold uppercase tracking-wide text-foreground leading-tight">
+            DÉCOUVREZ<br />NOS SERVICES
+          </h2>
         </div>
-        
-        <div className="mt-20">
-          <TrustIndicators />
+        <div className="flex items-start gap-4">
+          <p className="text-xs text-muted-foreground max-w-[200px] leading-relaxed hidden md:block">
+            Nous offrons des services complets de design, cartographie et IA sous un même toit.
+          </p>
+          <button className="text-muted-foreground hover:text-foreground transition-colors mt-1">
+            <MoreHorizontal className="w-5 h-5" />
+          </button>
         </div>
       </div>
 
+      {/* Service cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {services.map((service, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 60, scale: 0.95 }}
+            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+            transition={{ duration: 0.6, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="rounded-2xl border border-black/[0.06] bg-black/[0.02] p-6 flex flex-col hover:shadow-[0_0_30px_rgba(245,166,35,0.1)] hover:border-black/10 transition-all duration-500"
+          >
+            <div className="flex-1 flex items-center justify-center py-6">
+              <ServiceIcon shape={service.iconShape} />
+            </div>
+            <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-2">
+              {service.title}
+            </h3>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              {service.description}
+            </p>
+          </motion.div>
+        ))}
+      </div>
     </section>
   );
 };
