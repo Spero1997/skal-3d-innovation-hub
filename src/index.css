@@ -125,6 +125,19 @@
     display: inline-block;
   }
 
+  /* Legacy aliases for pages still using old optimind tokens */
+  .optimind-heading {
+    font-family: 'Fraunces', Georgia, serif;
+    font-optical-sizing: auto;
+    letter-spacing: -0.03em;
+    line-height: 0.92;
+  }
+  .optimind-service-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--ink) / 0.12);
+    border-radius: 1rem;
+  }
+
   .scribble-underline {
     background-image: linear-gradient(hsl(var(--tangerine)), hsl(var(--tangerine)));
     background-size: 100% 0.18em;
