@@ -5,9 +5,41 @@ import { OrbitControls, Environment, useGLTF, Center, useProgress, Html } from '
 import * as THREE from 'three';
 import { useIsMobile } from '@/hooks/use-mobile';
 
+const GLB_URL = '/skal_service.glb';
+const GLB_CACHE = 'skal-3d-assets-v1';
+
+/**
+ * Persistent cache strategy for the GLB:
+ *  - On idle, store the file in the Cache Storage API so future visits are instant
+ *    even without HTTP cache (cache-first, network fallback).
+ *  - useGLTF.preload() warms the in-memory three.js loader cache for the current session.
+ */
+function warmGlbCache() {
+  if (typeof window === 'undefined' || !('caches' in window)) return;
+  const run = async () => {
+    try {
+      const cache = await caches.open(GLB_CACHE);
+      const hit = await cache.match(GLB_URL);
+      if (hit) return;
+      const res = await fetch(GLB_URL, { cache: 'force-cache' });
+      if (res.ok) await cache.put(GLB_URL, res.clone());
+    } catch {
+      /* silent — cache is a nice-to-have */
+    }
+  };
+  const ric: typeof requestIdleCallback | undefined =
+    (window as any).requestIdleCallback;
+  if (ric) ric(() => run(), { timeout: 3000 });
+  else setTimeout(run, 1500);
+}
+
+if (typeof window !== 'undefined') {
+  warmGlbCache();
+}
+
 function LogoModel({ paused, speed }: { paused: boolean; speed: number }) {
   const spinRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF('/skal_service.glb');
+  const { scene } = useGLTF(GLB_URL);
 
   // Auto-orient: detect the flattest axis (depth) and turn it toward the camera (+Z).
   // Then auto-scale to fit a target size so the logo is always visible.
@@ -56,7 +88,7 @@ function LogoModel({ paused, speed }: { paused: boolean; speed: number }) {
   );
 }
 
-useGLTF.preload('/skal_service.glb');
+useGLTF.preload(GLB_URL);
 
 function ProgressLoader() {
   const { progress } = useProgress();
