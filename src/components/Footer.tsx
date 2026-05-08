@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import skalLogo from '@/assets/skal-logo.png';
+import LiveClock from './LiveClock';
 
 const Footer: React.FC = () => {
   const year = new Date().getFullYear();
