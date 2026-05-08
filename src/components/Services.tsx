@@ -17,40 +17,38 @@ const Services: React.FC = () => {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section ref={ref} id="services" className="px-6 md:px-10 py-24 border-t hairline">
-      <div className="grid grid-cols-12 gap-6 mb-14">
+    <section ref={ref} id="services" className="section-x section-y border-t hairline">
+      <div className="grid grid-cols-12 gap-6 mb-10 sm:mb-14">
         <div className="col-span-12 md:col-span-3">
           <span className="ticker-tag">§ Capacités</span>
         </div>
         <div className="col-span-12 md:col-span-9">
-          <h2 className="display-serif text-5xl md:text-7xl font-light leading-[0.95]">
+          <h2 className="display-serif fluid-display font-light leading-[0.95]">
             Six disciplines, <span className="italic">un seul</span><br />
             atelier — <span className="text-[hsl(var(--tangerine))]">à votre service.</span>
           </h2>
         </div>
       </div>
 
-      <div className="grid grid-cols-12 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {services.map((s, i) => {
           const Icon = s.icon;
-          // Bento sizing: items 0,3 wider; others normal
-          const span = i === 0 || i === 3 ? 'md:col-span-5' : 'md:col-span-3.5';
           return (
             <motion.article
               key={s.num}
               initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.07, ease: [0.2, 0.7, 0.2, 1] }}
-              className={`col-span-12 md:col-span-4 group relative border hairline rounded-md p-6 bg-[hsl(var(--cream))] hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500 cursor-pointer min-h-[260px] flex flex-col`}
+              className="group relative border hairline rounded-md p-5 sm:p-6 bg-[hsl(var(--cream))] hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500 cursor-pointer min-h-[240px] sm:min-h-[260px] flex flex-col"
             >
               <div className="flex items-start justify-between">
                 <span className="mono text-[10px] uppercase tracking-[0.25em] opacity-60">{s.num} / 06</span>
                 <ArrowUpRight className="w-5 h-5 opacity-40 group-hover:opacity-100 group-hover:rotate-45 transition-all duration-500" />
               </div>
 
-              <Icon className="w-7 h-7 mt-8 stroke-[1.2] text-[hsl(var(--tangerine))]" />
+              <Icon className="w-6 h-6 sm:w-7 sm:h-7 mt-6 sm:mt-8 stroke-[1.2] text-[hsl(var(--tangerine))]" />
 
-              <h3 className="display-serif text-3xl md:text-4xl font-normal mt-auto pt-6 leading-[0.95]">
+              <h3 className="display-serif text-2xl sm:text-3xl md:text-4xl font-normal mt-auto pt-6 leading-[0.95]">
                 {s.title}
               </h3>
               <p className="text-sm mt-3 leading-relaxed opacity-70 group-hover:opacity-90">
