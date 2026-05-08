@@ -50,13 +50,6 @@ function LogoModel({ isMobile }: { isMobile: boolean }) {
 }
 
 function LoadingPlaceholder() {
-  return <mesh>
-    <sphereGeometry args={[0.5, 16, 16]} />
-    <meshBasicMaterial color="#F97316" wireframe />
-  </mesh>;
-}
-
-function LoadingPlaceholder() {
   return (
     <mesh>
       <planeGeometry args={[3, 1.3]} />
