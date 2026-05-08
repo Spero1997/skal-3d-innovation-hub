@@ -10,11 +10,11 @@ const FeaturedProjects: React.FC = () => {
   const featured = projects.slice(0, 4);
 
   return (
-    <section ref={ref} className="px-6 md:px-10 py-24 border-t hairline">
-      <div className="flex items-end justify-between mb-12 flex-wrap gap-6">
+    <section ref={ref} className="section-x section-y border-t hairline">
+      <div className="flex items-end justify-between mb-10 sm:mb-12 flex-wrap gap-6">
         <div>
           <span className="ticker-tag">§ Sélection 2024–2026</span>
-          <h2 className="display-serif text-5xl md:text-7xl font-light leading-[0.95] mt-4">
+          <h2 className="display-serif fluid-display font-light leading-[0.95] mt-4">
             Travaux <span className="italic">récents.</span>
           </h2>
         </div>
@@ -31,25 +31,26 @@ const FeaturedProjects: React.FC = () => {
           >
             <Link
               to={`/projects/${p.id}`}
-              className="group grid grid-cols-12 gap-4 items-center py-6 md:py-8 hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500 px-4 -mx-4"
+              className="group grid grid-cols-12 gap-3 sm:gap-4 items-center py-5 sm:py-6 md:py-8 hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500 px-3 sm:px-4 -mx-3 sm:-mx-4"
             >
-              <div className="col-span-1 mono text-[11px] uppercase tracking-[0.2em] opacity-60">
+              <div className="col-span-1 mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] opacity-60">
                 {String(i + 1).padStart(2, '0')}
               </div>
-              <h3 className="col-span-6 md:col-span-5 display-serif text-2xl md:text-4xl font-light leading-tight">
+              <h3 className="col-span-6 md:col-span-5 display-serif text-lg sm:text-2xl md:text-4xl font-light leading-tight">
                 {p.title}
               </h3>
               <div className="hidden md:block col-span-3 mono text-[11px] uppercase tracking-[0.2em] opacity-60">
                 {p.category}
               </div>
-              <div className="col-span-3 md:col-span-2 overflow-hidden rounded-sm h-16 md:h-20">
+              <div className="col-span-3 md:col-span-2 overflow-hidden rounded-sm h-12 sm:h-16 md:h-20">
                 <img
                   src={p.image}
                   alt={p.title}
+                  loading="lazy"
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
                 />
               </div>
-              <ArrowUpRight className="col-span-2 md:col-span-1 ml-auto w-5 h-5 opacity-40 group-hover:opacity-100 group-hover:rotate-45 transition-all duration-500" />
+              <ArrowUpRight className="col-span-2 md:col-span-1 ml-auto w-4 h-4 sm:w-5 sm:h-5 opacity-40 group-hover:opacity-100 group-hover:rotate-45 transition-all duration-500" />
             </Link>
           </motion.div>
         ))}
