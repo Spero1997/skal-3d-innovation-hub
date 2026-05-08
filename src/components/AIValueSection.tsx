@@ -87,13 +87,13 @@ const AIValueSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Editorial duo — phone capture + client conversations, no frame */}
+      {/* Editorial triptych — phone capture + client conversations, no frame */}
       <div className="grid grid-cols-12 gap-4 md:gap-6 mb-12 sm:mb-16 items-end">
         <motion.figure
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="col-span-6 md:col-span-4 md:col-start-2"
+          className="col-span-6 md:col-span-3 md:col-start-1"
         >
           <AutoVideo
             src="/showcase/v2.mp4"
@@ -108,7 +108,7 @@ const AIValueSection: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="col-span-6 md:col-span-5 md:col-start-7 md:mb-12"
+          className="col-span-6 md:col-span-4 md:col-start-5 md:mb-16"
         >
           <img
             src="/showcase/notifications.png"
@@ -118,6 +118,23 @@ const AIValueSection: React.FC = () => {
           />
           <figcaption className="mt-3 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
             ◦ Disponibilité 24/7 — clients réels
+          </figcaption>
+        </motion.figure>
+
+        <motion.figure
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="col-span-12 md:col-span-4 md:col-start-9"
+        >
+          <img
+            src="/showcase/notifications-2.png"
+            alt="Notifications clients SKAL Service en temps réel"
+            loading="lazy"
+            className="w-full aspect-[3/4] object-cover"
+          />
+          <figcaption className="mt-3 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            ◦ Notifications en temps réel
           </figcaption>
         </motion.figure>
       </div>
