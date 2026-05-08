@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import AutoVideo from './media/AutoVideo';
 import {
   Bot,
   BarChart3,
@@ -84,6 +85,41 @@ const AIValueSection: React.FC = () => {
             comment nous transformons concrètement votre quotidien.
           </p>
         </div>
+      </div>
+
+      {/* Editorial duo — phone capture + client conversations, no frame */}
+      <div className="grid grid-cols-12 gap-4 md:gap-6 mb-12 sm:mb-16 items-end">
+        <motion.figure
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="col-span-6 md:col-span-4 md:col-start-2"
+        >
+          <AutoVideo
+            src="/showcase/v2.mp4"
+            className="w-full aspect-[3/4] object-cover"
+          />
+          <figcaption className="mt-3 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            ◦ Interface conversationnelle
+          </figcaption>
+        </motion.figure>
+
+        <motion.figure
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="col-span-6 md:col-span-5 md:col-start-7 md:mb-12"
+        >
+          <img
+            src="/showcase/notifications.png"
+            alt="Conversations clients SKAL Service"
+            loading="lazy"
+            className="w-full aspect-[3/4] object-cover"
+          />
+          <figcaption className="mt-3 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            ◦ Disponibilité 24/7 — clients réels
+          </figcaption>
+        </motion.figure>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
