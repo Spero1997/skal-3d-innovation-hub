@@ -14,7 +14,6 @@ const Hero: React.FC = () => {
     <section ref={ref} className="relative section-x pt-8 sm:pt-12 pb-16 sm:pb-20 overflow-hidden">
       {/* Top meta row */}
       <div className="flex items-center justify-between mb-8 sm:mb-12">
-        <span className="ticker-tag">Disponible · Q2 2026</span>
         <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hidden md:inline">
           Édition №007 — Cotonou
         </span>
