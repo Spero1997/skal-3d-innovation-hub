@@ -31,12 +31,12 @@ const Navbar: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b hairline">
-      <div className="px-6 md:px-10 h-16 flex items-center justify-between gap-6">
-        <Link to="/" className="flex items-baseline gap-2 group">
-          <span className="display-serif text-2xl font-medium tracking-tight">
+      <div className="section-x h-14 sm:h-16 flex items-center justify-between gap-3 sm:gap-6">
+        <Link to="/" className="flex items-baseline gap-2 group min-w-0">
+          <span className="display-serif text-xl sm:text-2xl font-medium tracking-tight">
             Skal<span className="text-[hsl(var(--tangerine))]">.</span>
           </span>
-          <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hidden sm:inline">
+          <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hidden md:inline truncate">
             Studio · BJ
           </span>
         </Link>
@@ -58,8 +58,8 @@ const Navbar: React.FC = () => {
           })}
         </nav>
 
-        <div className="hidden md:flex items-center gap-4">
-          <span className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+        <div className="hidden md:flex items-center gap-3 lg:gap-4">
+          <span className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground hidden lg:inline">
             {time}
           </span>
           <Link to="/devis" className="btn-ink !py-2 !px-4">Devis →</Link>
@@ -77,13 +77,13 @@ const Navbar: React.FC = () => {
 
       {open && (
         <div className="md:hidden border-t hairline bg-background animate-fade-in-fast">
-          <nav className="px-6 py-6 flex flex-col gap-1">
+          <nav className="section-x py-6 flex flex-col gap-1">
             {links.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
                 onClick={() => setOpen(false)}
-                className="display-serif text-3xl py-2 hover:text-[hsl(var(--tangerine))] transition-colors"
+                className="display-serif text-2xl sm:text-3xl py-2 hover:text-[hsl(var(--tangerine))] transition-colors"
               >
                 {l.label}
               </Link>
