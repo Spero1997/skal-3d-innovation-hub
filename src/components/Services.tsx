@@ -13,32 +13,37 @@ const Services: React.FC = () => {
 
   return (
     <section ref={ref} id="services" className="section-x section-y border-t hairline">
-      <div className="grid grid-cols-12 gap-6 mb-10 sm:mb-14">
-        <div className="col-span-12 md:col-span-3">
+      {/* Editorial pairing — text LEFT, video RIGHT */}
+      <div className="grid grid-cols-12 gap-6 md:gap-10 items-center mb-12 sm:mb-16">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          className="col-span-12 md:col-span-5 order-1"
+        >
           <span className="ticker-tag">§ Capacités</span>
-        </div>
-        <div className="col-span-12 md:col-span-9">
-          <h2 className="display-serif fluid-display font-light leading-[0.95]">
+          <h2 className="display-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light leading-[0.95] mt-6">
             Six disciplines, <span className="italic">un seul</span><br />
             atelier — <span className="text-[hsl(var(--tangerine))]">à votre service.</span>
           </h2>
-        </div>
-      </div>
+          <p className="mt-6 text-base leading-relaxed text-foreground/70 max-w-md">
+            Du design éditorial à l'intelligence artificielle, en passant par la cartographie
+            et la topographie&nbsp;: une équipe, six expertises, un seul interlocuteur.
+          </p>
+        </motion.div>
 
-      {/* Cinematic full-bleed video — atelier en production */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.8 }}
-        className="mb-12 sm:mb-16 grid grid-cols-12 gap-6"
-      >
-        <div className="col-span-12 md:col-span-10 md:col-start-2">
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="col-span-12 md:col-span-7 order-2"
+        >
           <AutoVideo
             src="/showcase/v2.mp4"
-            className="w-full h-auto max-h-[80vh] object-contain bg-foreground/5"
+            className="w-full h-auto max-h-[70vh] object-contain bg-foreground/5"
           />
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {disciplines.map((s, i) => {
