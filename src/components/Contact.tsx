@@ -1,13 +1,57 @@
-import React, { useRef } from 'react';
-import { Mail, MapPin, Phone, ArrowDownRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, MapPin, Phone, ArrowDownRight, Loader2, CheckCircle2 } from 'lucide-react';
+import { z } from 'zod';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+
+const contactSchema = z.object({
+  name: z.string().trim().min(2, 'Nom trop court').max(100, 'Max 100 caractères'),
+  email: z.string().trim().email('Email invalide').max(255),
+  subject: z.string().trim().min(2, 'Sujet trop court').max(150).optional().or(z.literal('')),
+  message: z.string().trim().min(10, 'Message trop court (min. 10 caractères)').max(2000, 'Max 2000 caractères'),
+});
+
+type FormErrors = Partial<Record<'name' | 'email' | 'subject' | 'message', string>>;
 
 const Contact: React.FC = () => {
-  const formRef = useRef<HTMLFormElement>(null);
+  const [values, setValues] = useState({ name: '', email: '', subject: '', message: '' });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const update = (k: keyof typeof values) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setValues((v) => ({ ...v, [k]: e.target.value }));
+    if (errors[k]) setErrors((er) => ({ ...er, [k]: undefined }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Merci pour votre message. Nous revenons vers vous sous 48h.');
-    formRef.current?.reset();
+    const parsed = contactSchema.safeParse(values);
+    if (!parsed.success) {
+      const fieldErrors: FormErrors = {};
+      for (const issue of parsed.error.issues) {
+        const k = issue.path[0] as keyof FormErrors;
+        if (!fieldErrors[k]) fieldErrors[k] = issue.message;
+      }
+      setErrors(fieldErrors);
+      toast.error('Merci de corriger les champs en rouge.');
+      return;
+    }
+
+    setStatus('sending');
+    try {
+      const { error } = await supabase.functions.invoke('send-contact-email', {
+        body: parsed.data,
+      });
+      if (error) throw error;
+      setStatus('sent');
+      toast.success('Message envoyé. Nous revenons vers vous sous 48h.');
+      setValues({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setStatus('idle'), 4000);
+    } catch (err) {
+      console.error(err);
+      setStatus('idle');
+      toast.error("Envoi impossible. Réessayez ou écrivez-nous directement à skalservice.0@gmail.com");
+    }
   };
 
   return (
@@ -33,16 +77,23 @@ const Contact: React.FC = () => {
           <ContactRow icon={<MapPin className="w-4 h-4" />} label="Atelier" value="Abomey-Calavi, Tokan — Bénin" />
         </div>
 
-        <form ref={formRef} onSubmit={handleSubmit} className="col-span-12 md:col-span-8 border hairline p-6 md:p-10 bg-[hsl(var(--cream))]">
+        <form onSubmit={handleSubmit} noValidate className="col-span-12 md:col-span-8 border hairline p-6 md:p-10 bg-[hsl(var(--cream))]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[hsl(var(--ink))/0.12] mb-px">
-            <Field id="name" label="Nom" />
-            <Field id="email" label="Email" type="email" />
+            <Field id="name" label="Nom" value={values.name} onChange={update('name')} error={errors.name} />
+            <Field id="email" label="Email" type="email" value={values.email} onChange={update('email')} error={errors.email} />
           </div>
-          <Field id="subject" label="Sujet" />
-          <Field id="message" label="Message" textarea />
-          <button type="submit" className="btn-ink mt-8">
-            Envoyer le message <ArrowDownRight className="w-4 h-4" />
-          </button>
+          <Field id="subject" label="Sujet (optionnel)" value={values.subject} onChange={update('subject')} error={errors.subject} required={false} />
+          <Field id="message" label="Message" textarea value={values.message} onChange={update('message')} error={errors.message} />
+          <div className="flex items-center justify-between mt-8 flex-wrap gap-4">
+            <p className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              Réponse sous 48h ouvrées
+            </p>
+            <button type="submit" disabled={status !== 'idle'} className="btn-ink disabled:opacity-60 disabled:cursor-not-allowed">
+              {status === 'sending' && (<><Loader2 className="w-4 h-4 animate-spin" /> Envoi...</>)}
+              {status === 'sent' && (<><CheckCircle2 className="w-4 h-4" /> Envoyé</>)}
+              {status === 'idle' && (<>Envoyer le message <ArrowDownRight className="w-4 h-4" /></>)}
+            </button>
+          </div>
         </form>
       </div>
     </section>
@@ -62,17 +113,38 @@ const ContactRow: React.FC<{ icon: React.ReactNode; label: string; value: string
   return href ? <a href={href} className="block">{content}</a> : <div>{content}</div>;
 };
 
-const Field: React.FC<{ id: string; label: string; type?: string; textarea?: boolean }> = ({ id, label, type = 'text', textarea }) => (
-  <div className="bg-[hsl(var(--cream))] py-3">
-    <label htmlFor={id} className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground block mb-1.5">
-      {label}
-    </label>
-    {textarea ? (
-      <textarea id={id} name={id} required rows={5} className="w-full bg-transparent border-b hairline focus:border-[hsl(var(--tangerine))] outline-none py-2 display-serif text-xl font-light resize-none transition-colors" />
-    ) : (
-      <input id={id} name={id} type={type} required className="w-full bg-transparent border-b hairline focus:border-[hsl(var(--tangerine))] outline-none py-2 display-serif text-xl font-light transition-colors" />
-    )}
-  </div>
-);
+interface FieldProps {
+  id: string;
+  label: string;
+  type?: string;
+  textarea?: boolean;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  error?: string;
+  required?: boolean;
+}
+
+const Field: React.FC<FieldProps> = ({ id, label, type = 'text', textarea, value, onChange, error, required = true }) => {
+  const baseCls = `w-full bg-transparent border-b outline-none py-2 display-serif text-xl font-light transition-colors ${
+    error ? 'border-destructive' : 'hairline focus:border-[hsl(var(--tangerine))]'
+  }`;
+  return (
+    <div className="bg-[hsl(var(--cream))] py-3">
+      <label htmlFor={id} className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground block mb-1.5">
+        {label}
+      </label>
+      {textarea ? (
+        <textarea id={id} name={id} required={required} rows={5} value={value} onChange={onChange} aria-invalid={!!error} aria-describedby={error ? `${id}-err` : undefined} className={`${baseCls} resize-none`} />
+      ) : (
+        <input id={id} name={id} type={type} required={required} value={value} onChange={onChange} aria-invalid={!!error} aria-describedby={error ? `${id}-err` : undefined} className={baseCls} />
+      )}
+      {error && (
+        <p id={`${id}-err`} className="mono text-[10px] uppercase tracking-[0.2em] text-destructive mt-1.5">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+};
 
 export default Contact;
