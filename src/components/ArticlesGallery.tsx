@@ -1,6 +1,6 @@
 import React, { useRef, useState, useMemo } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight, Clock } from 'lucide-react';
+import { ArrowUpRight, Clock, Eye } from 'lucide-react';
 import { articles } from '@/data/articles';
 
 type Filter = 'all' | 'article' | 'case-study';
@@ -11,11 +11,29 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: 'article', label: 'Articles' },
 ];
 
+const typeConfig = {
+  'case-study': {
+    badgeBg: 'bg-[hsl(var(--tangerine))]',
+    badgeText: 'text-white',
+    thumbBar: 'bg-[hsl(var(--tangerine))]',
+    hoverGlow: 'group-hover:shadow-[0_20px_60px_-15px_hsl(var(--tangerine)/0.35)]',
+    overlayLabel: 'Voir l\'étude',
+  },
+  'article': {
+    badgeBg: 'bg-foreground',
+    badgeText: 'text-[hsl(var(--cream))]',
+    thumbBar: 'bg-foreground',
+    hoverGlow: 'group-hover:shadow-[0_20px_60px_-15px_hsl(var(--ink)/0.25)]',
+    overlayLabel: 'Lire l\'article',
+  },
+};
+
 const ArticlesGallery: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
   const reduceMotion = useReducedMotion();
   const [filter, setFilter] = useState<Filter>('all');
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const items = useMemo(
     () => (filter === 'all' ? articles : articles.filter((a) => a.type === filter)),
@@ -59,47 +77,102 @@ const ArticlesGallery: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        {items.map((a, i) => (
-          <motion.article
-            key={a.id}
-            initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-            animate={inView || reduceMotion ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: reduceMotion ? 0 : i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={reduceMotion ? undefined : { y: -4 }}
-            className="group relative border hairline bg-[hsl(var(--cream))] overflow-hidden flex flex-col"
-          >
-            <div className="relative overflow-hidden aspect-[4/3] bg-muted">
-              <img
-                src={a.image}
-                alt={a.title}
-                loading="lazy"
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-              />
-              <span className="absolute top-3 left-3 mono text-[10px] uppercase tracking-[0.2em] bg-foreground text-[hsl(var(--cream))] px-2.5 py-1 rounded-full">
-                {a.tag ?? (a.type === 'case-study' ? 'Étude de cas' : 'Article')}
-              </span>
-            </div>
+        {items.map((a, i) => {
+          const config = typeConfig[a.type];
+          const isHovered = hoveredId === a.id;
 
-            <div className="p-6 flex flex-col gap-4 flex-1">
-              <div className="flex items-center justify-between mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                <span>{a.category}</span>
-                <span className="inline-flex items-center gap-1.5"><Clock className="w-3 h-3" />{a.readTime}</span>
-              </div>
+          return (
+            <motion.article
+              key={a.id}
+              initial={reduceMotion ? false : { opacity: 0, y: 28 }}
+              animate={inView || reduceMotion ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, delay: reduceMotion ? 0 : i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+              onMouseEnter={() => setHoveredId(a.id)}
+              onMouseLeave={() => setHoveredId(null)}
+              className={`group relative border hairline bg-[hsl(var(--cream))] overflow-hidden flex flex-col rounded-sm transition-shadow duration-500 ${config.hoverGlow}`}
+            >
+              {/* Image container with hover overlay */}
+              <div className="relative overflow-hidden aspect-[4/3] bg-muted">
+                <img
+                  src={a.image}
+                  alt={a.title}
+                  loading="lazy"
+                  className={`w-full h-full object-cover transition-all duration-700 ${
+                    isHovered && !reduceMotion ? 'grayscale-0 scale-110' : 'grayscale'
+                  }`}
+                />
 
-              <h3 className="display-serif text-2xl font-light leading-tight">
-                {a.title}
-              </h3>
-              <p className="text-sm text-foreground/70 leading-relaxed">{a.excerpt}</p>
+                {/* Dark gradient overlay on hover */}
+                <div
+                  className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 flex items-end justify-center pb-6 ${
+                    isHovered && !reduceMotion ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
+                  <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/90 text-foreground text-xs font-medium backdrop-blur-sm shadow-lg">
+                    <Eye className="w-3.5 h-3.5" />
+                    {config.overlayLabel}
+                  </span>
+                </div>
 
-              <div className="flex items-center justify-between pt-4 mt-auto border-t hairline">
-                <span className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{a.date}</span>
-                <span className="inline-flex items-center gap-1.5 mono text-[10px] uppercase tracking-[0.2em] group-hover:text-[hsl(var(--tangerine))] transition-colors">
-                  Lire <ArrowUpRight className="w-3.5 h-3.5 group-hover:rotate-45 transition-transform duration-500" />
+                {/* Type badge */}
+                <span className={`absolute top-3 left-3 mono text-[10px] uppercase tracking-[0.2em] ${config.badgeBg} ${config.badgeText} px-2.5 py-1 rounded-full shadow-sm`}>
+                  {a.tag ?? (a.type === 'case-study' ? 'Étude de cas' : 'Article')}
                 </span>
+
+                {/* Thumbnail indicator strip */}
+                <div className="absolute bottom-0 left-0 right-0 flex gap-1 p-2">
+                  {[0, 1, 2].map((idx) => (
+                    <div
+                      key={idx}
+                      className={`h-1 flex-1 rounded-full transition-all duration-300 ${
+                        isHovered && !reduceMotion
+                          ? idx === 0
+                            ? `${config.thumbBar} opacity-100`
+                            : 'bg-white/50 opacity-100'
+                          : 'bg-white/30 opacity-0'
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          </motion.article>
-        ))}
+
+              {/* Content */}
+              <div className="p-5 sm:p-6 flex flex-col gap-3 flex-1">
+                <div className="flex items-center justify-between mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                  <span>{a.category}</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <Clock className="w-3 h-3" />
+                    {a.readTime}
+                  </span>
+                </div>
+
+                <h3 className="display-serif text-xl sm:text-2xl font-light leading-tight">
+                  {a.title}
+                </h3>
+                <p className="text-sm text-foreground/70 leading-relaxed line-clamp-3">
+                  {a.excerpt}
+                </p>
+
+                {/* Footer */}
+                <div className="flex items-center justify-between pt-4 mt-auto border-t hairline">
+                  <span className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                    {a.date}
+                  </span>
+                  <span className={`inline-flex items-center gap-1.5 mono text-[10px] uppercase tracking-[0.2em] transition-colors duration-300 ${
+                    isHovered ? 'text-[hsl(var(--tangerine))]' : ''
+                  }`}>
+                    Lire{' '}
+                    <ArrowUpRight
+                      className={`w-3.5 h-3.5 transition-transform duration-500 ${
+                        isHovered && !reduceMotion ? 'rotate-45' : ''
+                      }`}
+                    />
+                  </span>
+                </div>
+              </div>
+            </motion.article>
+          );
+        })}
       </div>
     </section>
   );
