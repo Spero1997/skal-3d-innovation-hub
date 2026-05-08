@@ -1,137 +1,78 @@
-
 import React, { useRef } from 'react';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Mail, MapPin, Phone, ArrowDownRight } from 'lucide-react';
 
 const Contact: React.FC = () => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // This would be replaced with actual form submission logic
-    alert("Merci pour votre message ! Nous vous contacterons bientôt.");
-    if (formRef.current) {
-      formRef.current.reset();
-    }
+    alert('Merci pour votre message. Nous revenons vers vous sous 48h.');
+    formRef.current?.reset();
   };
 
   return (
-    <section id="contact" className="py-16 md:py-24 px-6 relative">
-      <div>
-        <div className="text-center mb-16">
-          <h2 className="text-2xl md:text-4xl font-display font-bold uppercase tracking-wide mb-4 text-foreground">
-            PARLONS DE VOTRE PROJET
+    <section id="contact" className="px-6 md:px-10 py-24 border-t hairline">
+      <div className="grid grid-cols-12 gap-6 mb-16">
+        <div className="col-span-12 md:col-span-6">
+          <span className="ticker-tag">§ Contact</span>
+          <h2 className="display-serif text-5xl md:text-7xl font-light leading-[0.95] mt-4">
+            Écrivez-nous, <span className="italic">simplement.</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Prêt à démarrer votre prochain projet avec nous ? Contactez-nous dès aujourd'hui et découvrez comment notre expertise peut vous aider.
+        </div>
+        <div className="col-span-12 md:col-span-4 md:col-start-9 self-end">
+          <p className="text-base text-foreground/70 leading-relaxed">
+            Décrivez votre projet en quelques lignes. Nous revenons vers vous sous 48h ouvrées avec un premier retour qualifié.
           </p>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          <div className="lg:col-span-2 space-y-6">
-            <div className="optimind-service-card rounded-2xl animate-fade-in" style={{ animationDelay: "0.1s" }}>
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-black/[0.04] text-foreground">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2 text-foreground">Téléphone</h3>
-                  <p className="text-muted-foreground text-sm">+229 01 90315546</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="optimind-service-card rounded-2xl animate-fade-in" style={{ animationDelay: "0.2s" }}>
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-black/[0.04] text-foreground">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2 text-foreground">Email</h3>
-                  <p className="text-muted-foreground text-sm">skalservice.0@gmail.com</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="optimind-service-card rounded-2xl animate-fade-in" style={{ animationDelay: "0.3s" }}>
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-black/[0.04] text-foreground">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2 text-foreground">Adresse</h3>
-                  <p className="text-muted-foreground text-sm">Abomey-Calavi, Tokan, de l'EPP Tokan</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="lg:col-span-3">
-            <form ref={formRef} onSubmit={handleSubmit} className="optimind-service-card rounded-2xl p-8 animate-fade-in" style={{ animationDelay: "0.4s" }}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="name" className="block text-xs font-medium text-muted-foreground mb-1 uppercase tracking-wider">
-                    Nom
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    className="w-full px-4 py-2.5 border border-[hsl(var(--border))] rounded-lg bg-[hsl(var(--secondary))] text-foreground text-sm"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-xs font-medium text-muted-foreground mb-1 uppercase tracking-wider">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    className="w-full px-4 py-2.5 border border-[hsl(var(--border))] rounded-lg bg-[hsl(var(--secondary))] text-foreground text-sm"
-                  />
-                </div>
-              </div>
-              
-              <div className="mb-6">
-                <label htmlFor="subject" className="block text-xs font-medium text-muted-foreground mb-1 uppercase tracking-wider">
-                  Sujet
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  required
-                  className="w-full px-4 py-2.5 border border-[hsl(var(--border))] rounded-lg bg-[hsl(var(--secondary))] text-foreground text-sm"
-                />
-              </div>
-              
-              <div className="mb-6">
-                <label htmlFor="message" className="block text-xs font-medium text-muted-foreground mb-1 uppercase tracking-wider">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  required
-                  className="w-full px-4 py-2.5 border border-[hsl(var(--border))] rounded-lg bg-[hsl(var(--secondary))] text-foreground text-sm"
-                ></textarea>
-              </div>
-              
-              <button
-                type="submit"
-                className="w-full px-6 py-3 bg-[hsl(var(--optimind-glow))] text-white font-medium rounded-full hover:brightness-110 transition-all text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--optimind-glow)/0.3)]"
-              >
-                Envoyer le message
-              </button>
-            </form>
-          </div>
+      <div className="grid grid-cols-12 gap-6">
+        <div className="col-span-12 md:col-span-4 space-y-px bg-[hsl(var(--ink))/0.12] border hairline">
+          <ContactRow icon={<Phone className="w-4 h-4" />} label="Téléphone" value="+229 01 90 31 55 46" href="tel:+2290190315546" />
+          <ContactRow icon={<Mail className="w-4 h-4" />} label="Email" value="skalservice.0@gmail.com" href="mailto:skalservice.0@gmail.com" />
+          <ContactRow icon={<MapPin className="w-4 h-4" />} label="Atelier" value="Abomey-Calavi, Tokan — Bénin" />
         </div>
+
+        <form ref={formRef} onSubmit={handleSubmit} className="col-span-12 md:col-span-8 border hairline p-6 md:p-10 bg-[hsl(var(--cream))]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[hsl(var(--ink))/0.12] mb-px">
+            <Field id="name" label="Nom" />
+            <Field id="email" label="Email" type="email" />
+          </div>
+          <Field id="subject" label="Sujet" />
+          <Field id="message" label="Message" textarea />
+          <button type="submit" className="btn-ink mt-8">
+            Envoyer le message <ArrowDownRight className="w-4 h-4" />
+          </button>
+        </form>
       </div>
     </section>
   );
 };
+
+const ContactRow: React.FC<{ icon: React.ReactNode; label: string; value: string; href?: string }> = ({ icon, label, value, href }) => {
+  const content = (
+    <div className="bg-background p-6 flex items-start gap-4 hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500">
+      <div className="opacity-60">{icon}</div>
+      <div>
+        <div className="mono text-[10px] uppercase tracking-[0.25em] opacity-60 mb-1">{label}</div>
+        <div className="display-serif text-xl">{value}</div>
+      </div>
+    </div>
+  );
+  return href ? <a href={href} className="block">{content}</a> : <div>{content}</div>;
+};
+
+const Field: React.FC<{ id: string; label: string; type?: string; textarea?: boolean }> = ({ id, label, type = 'text', textarea }) => (
+  <div className="bg-[hsl(var(--cream))] py-3">
+    <label htmlFor={id} className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground block mb-1.5">
+      {label}
+    </label>
+    {textarea ? (
+      <textarea id={id} name={id} required rows={5} className="w-full bg-transparent border-b hairline focus:border-[hsl(var(--tangerine))] outline-none py-2 display-serif text-xl font-light resize-none transition-colors" />
+    ) : (
+      <input id={id} name={id} type={type} required className="w-full bg-transparent border-b hairline focus:border-[hsl(var(--tangerine))] outline-none py-2 display-serif text-xl font-light transition-colors" />
+    )}
+  </div>
+);
 
 export default Contact;
