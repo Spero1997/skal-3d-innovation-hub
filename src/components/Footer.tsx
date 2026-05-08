@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import skalLogo from '@/assets/skal-logo.png';
 
 const Footer: React.FC = () => {
   const year = new Date().getFullYear();
@@ -7,10 +8,12 @@ const Footer: React.FC = () => {
     <footer className="bg-foreground text-[hsl(var(--cream))] section-x pt-12 sm:pt-16 pb-8 relative overflow-hidden">
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 md:col-span-7">
-          <h3 className="display-serif fluid-display-lg font-light leading-[0.85] break-words">
-            Skal<span className="text-[hsl(var(--tangerine))]">.</span><br />
-            <span className="italic">Service</span>
-          </h3>
+          <img
+            src={skalLogo}
+            alt="Skal Service"
+            className="h-20 sm:h-28 md:h-36 w-auto object-contain brightness-0 invert"
+            loading="lazy"
+          />
           <p className="mt-6 max-w-md text-[hsl(var(--cream))/0.6] text-sm leading-relaxed">
             Studio béninois — design éditorial, cartographie SIG, arpentage et conseil en intelligence artificielle.
           </p>

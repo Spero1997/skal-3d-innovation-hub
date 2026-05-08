@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import skalLogo from '@/assets/skal-logo.png';
 
 const links = [
   { to: '/', label: 'Index' },
@@ -32,11 +33,15 @@ const Navbar: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b hairline">
       <div className="section-x h-14 sm:h-16 flex items-center justify-between gap-3 sm:gap-6">
-        <Link to="/" className="flex items-baseline gap-2 group min-w-0">
-          <span className="display-serif text-xl sm:text-2xl font-medium tracking-tight">
-            Skal<span className="text-[hsl(var(--tangerine))]">.</span>
-          </span>
-          <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hidden md:inline truncate">
+        <Link to="/" className="flex items-center gap-3 group min-w-0" aria-label="Skal Service — Accueil">
+          <img
+            src={skalLogo}
+            alt="Skal Service"
+            className="h-8 sm:h-9 md:h-10 w-auto object-contain"
+            loading="eager"
+            decoding="async"
+          />
+          <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hidden lg:inline truncate">
             Studio · BJ
           </span>
         </Link>
