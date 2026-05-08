@@ -36,7 +36,7 @@ const PrivacyPolicy: React.FC = () => {
                 Le responsable du traitement des données est :<br />
                 <strong className="text-foreground">Skal Service</strong><br />
                 Siège social : Abomey-Calavi, Tokan, von EPP Tokan, Bénin<br />
-                Email : skalservice.0@gmail.com<br />
+                Email : servicesskal@gmail.com<br />
                 Téléphone : +229 01 90315546
               </p>
             </div>
@@ -99,7 +99,7 @@ const PrivacyPolicy: React.FC = () => {
                 <li><strong className="text-foreground">Droit de portabilité :</strong> recevoir vos données dans un format structuré</li>
               </ul>
               <p className="leading-relaxed mt-3">
-                Pour exercer vos droits, contactez-nous à : <a href="mailto:skalservice.0@gmail.com" className="text-[hsl(var(--optimind-glow))] hover:underline">skalservice.0@gmail.com</a>
+                Pour exercer vos droits, contactez-nous à : <a href="mailto:servicesskal@gmail.com" className="text-[hsl(var(--optimind-glow))] hover:underline">servicesskal@gmail.com</a>
               </p>
             </div>
 
@@ -121,7 +121,7 @@ const PrivacyPolicy: React.FC = () => {
               <h2 className="text-xl font-semibold mb-4 text-foreground uppercase tracking-wider">11. Contact</h2>
               <p className="leading-relaxed">
                 Pour toute question relative à cette politique de confidentialité :<br />
-                Email : <a href="mailto:skalservice.0@gmail.com" className="text-[hsl(var(--optimind-glow))] hover:underline">skalservice.0@gmail.com</a><br />
+                Email : <a href="mailto:servicesskal@gmail.com" className="text-[hsl(var(--optimind-glow))] hover:underline">servicesskal@gmail.com</a><br />
                 Téléphone : +229 01 90315546<br />
                 Adresse : Abomey-Calavi, Tokan, von EPP Tokan, Bénin
               </p>

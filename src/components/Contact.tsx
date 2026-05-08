@@ -50,7 +50,7 @@ const Contact: React.FC = () => {
     } catch (err) {
       console.error(err);
       setStatus('idle');
-      toast.error("Envoi impossible. Réessayez ou écrivez-nous directement à skalservice.0@gmail.com");
+      toast.error("Envoi impossible. Réessayez ou écrivez-nous directement à servicesskal@gmail.com");
     }
   };
 
@@ -72,8 +72,9 @@ const Contact: React.FC = () => {
 
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 md:col-span-4 space-y-px bg-[hsl(var(--ink))/0.12] border hairline">
-          <ContactRow icon={<Phone className="w-4 h-4" />} label="Téléphone" value="+229 01 90 31 55 46" href="tel:+2290190315546" />
-          <ContactRow icon={<Mail className="w-4 h-4" />} label="Email" value="skalservice.0@gmail.com" href="mailto:skalservice.0@gmail.com" />
+          <ContactRow icon={<Phone className="w-4 h-4" />} label="Téléphone" value="+229 01 97 58 60 22" href="tel:+2290197586022" />
+          <ContactRow icon={<Phone className="w-4 h-4" />} label="Téléphone" value="+229 01 67 75 07 78" href="tel:+2290167750778" />
+          <ContactRow icon={<Mail className="w-4 h-4" />} label="Email" value="servicesskal@gmail.com" href="mailto:servicesskal@gmail.com" />
           <ContactRow icon={<MapPin className="w-4 h-4" />} label="Atelier" value="Abomey-Calavi, Tokan — Bénin" />
         </div>
 
