@@ -28,7 +28,8 @@ const LegalNotice: React.FC = () => {
                 <strong className="text-foreground">Skal Service</strong><br />
                 Forme juridique : <span className="italic">[À personnaliser — ex : SARL, SAS, auto-entrepreneur]</span><br />
                 Capital social : <span className="italic">[À personnaliser]</span><br />
-                Numéro d'immatriculation : <span className="italic">[À personnaliser — RCCM / IFU]</span><br />
+                Numéro IFU : 0202112334177<br />
+                RCCM : RB/ABC/21 A 26495 du 28/01/2021<br />
                 Siège social : Abomey-Calavi, Tokan, von EPP Tokan, Bénin<br />
                 Téléphone : +229 01 90315546<br />
                 Email : servicesskal@gmail.com
