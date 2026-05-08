@@ -56,29 +56,25 @@ const Contact: React.FC = () => {
 
   return (
     <section id="contact" className="section-x section-y border-t hairline">
-      {/* Editorial visual — notifications clients en temps réel (full image, no crop) */}
-      <div className="mb-16 sm:mb-20 grid grid-cols-12 gap-6">
-        <div className="col-span-12 md:col-span-8 md:col-start-3">
+      {/* Editorial pairing — text LEFT, image RIGHT */}
+      <div className="grid grid-cols-12 gap-6 md:gap-10 items-center mb-14 sm:mb-20">
+        <div className="col-span-12 md:col-span-6 order-2 md:order-1">
+          <span className="ticker-tag">§ Contact</span>
+          <h2 className="display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[0.95] mt-4">
+            Écrivez-nous, <span className="italic">simplement.</span>
+          </h2>
+          <p className="mt-6 text-base text-foreground/70 leading-relaxed max-w-md">
+            Décrivez votre projet en quelques lignes. Nous revenons vers vous sous 48h
+            ouvrées avec un premier retour qualifié.
+          </p>
+        </div>
+        <div className="col-span-12 md:col-span-6 order-1 md:order-2">
           <img
             src="/showcase/notifications-2.png"
             alt="Notifications clients SKAL Service en temps réel"
             loading="lazy"
             className="w-full h-auto object-contain"
           />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-12 gap-6 mb-12 sm:mb-16">
-        <div className="col-span-12 md:col-span-6">
-          <span className="ticker-tag">§ Contact</span>
-          <h2 className="display-serif fluid-display font-light leading-[0.95] mt-4">
-            Écrivez-nous, <span className="italic">simplement.</span>
-          </h2>
-        </div>
-        <div className="col-span-12 md:col-span-4 md:col-start-9 self-end">
-          <p className="text-base text-foreground/70 leading-relaxed">
-            Décrivez votre projet en quelques lignes. Nous revenons vers vous sous 48h ouvrées avec un premier retour qualifié.
-          </p>
         </div>
       </div>
 
