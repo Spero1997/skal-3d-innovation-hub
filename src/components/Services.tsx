@@ -40,7 +40,7 @@ const Services: React.FC = () => {
         >
           <AutoVideo
             src="/showcase/v2.mp4"
-            className="w-full h-auto max-h-[70vh] object-contain bg-foreground/5"
+            className="w-full h-auto max-h-[70vh] object-contain"
           />
         </motion.div>
       </div>

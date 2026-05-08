@@ -196,7 +196,8 @@ export const Scene3D: React.FC = () => {
         }}
         frameloop={paused ? 'demand' : 'always'}
       >
-        <ambientLight intensity={0.35} color="#FFF5E6" />
+        <ambientLight intensity={0.8} color="#FFF5E6" />
+        <hemisphereLight args={['#FFE4B5', '#1a1a1a', 0.8]} />
         {!isMobile && (
           <spotLight 
             position={[10, 10, 10]} 
@@ -222,7 +223,6 @@ export const Scene3D: React.FC = () => {
         
         <Suspense fallback={<ProgressLoader />}>
           <LogoModel paused={paused} speed={speed} />
-          {!isMobile && <Environment background={false} preset="studio" />}
         </Suspense>
         
         <OrbitControls 
