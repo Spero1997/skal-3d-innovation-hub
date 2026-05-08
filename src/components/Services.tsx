@@ -37,10 +37,6 @@ const Services: React.FC = () => {
             src="/showcase/v2.mp4"
             className="w-full h-auto max-h-[80vh] object-contain bg-foreground/5"
           />
-          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-            <span>◦ Atelier · production en cours</span>
-            <span>Skal Service · 2025</span>
-          </div>
         </div>
       </motion.div>
 
