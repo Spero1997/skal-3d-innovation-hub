@@ -32,8 +32,9 @@ const Footer: React.FC = () => {
         <div className="col-span-6 md:col-span-2">
           <div className="mono text-[10px] uppercase tracking-[0.25em] text-[hsl(var(--cream))/0.5] mb-4">Joindre</div>
           <ul className="space-y-2 text-sm">
-            <li><a href="tel:+2290190315546" className="hover:text-[hsl(var(--tangerine))] transition-colors">+229 01 90 31 55 46</a></li>
-            <li><a href="mailto:skalservice.0@gmail.com" className="hover:text-[hsl(var(--tangerine))] transition-colors break-all">skalservice.0@gmail.com</a></li>
+            <li><a href="tel:+2290197586022" className="hover:text-[hsl(var(--tangerine))] transition-colors">+229 01 97 58 60 22</a></li>
+            <li><a href="tel:+2290167750778" className="hover:text-[hsl(var(--tangerine))] transition-colors">+229 01 67 75 07 78</a></li>
+            <li><a href="mailto:servicesskal@gmail.com" className="hover:text-[hsl(var(--tangerine))] transition-colors break-all">servicesskal@gmail.com</a></li>
             <li className="text-[hsl(var(--cream))/0.6]">Abomey-Calavi, Tokan</li>
           </ul>
         </div>
