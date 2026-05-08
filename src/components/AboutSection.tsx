@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import AutoVideo from './media/AutoVideo';
 
 const principles = [
   { n: '01', t: 'Précision', d: 'Chaque pixel, chaque coordonnée, chaque ligne de code à sa place.' },
@@ -57,6 +58,23 @@ const AboutSection: React.FC = () => {
             Nous concevons des objets utiles : chartes graphiques qui tiennent la route,
             cartes que l'on lit sans manuel, automatisations qui font gagner des heures.
           </p>
+        </motion.div>
+
+        {/* Cinematic full-bleed atelier video — no frame */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.9, delay: 0.25 }}
+          className="col-span-12 -mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 xl:-mx-20 mt-10 sm:mt-14"
+        >
+          <AutoVideo
+            src="/showcase/v1.mp4"
+            className="w-full h-[55vh] md:h-[70vh] object-cover"
+          />
+          <div className="px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 mt-3 flex items-center justify-between mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            <span>◦ Atelier · Cotonou</span>
+            <span>Skal Service / 2026</span>
+          </div>
         </motion.div>
 
         <div className="col-span-12 mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-px bg-[hsl(var(--ink))/0.12] border hairline">

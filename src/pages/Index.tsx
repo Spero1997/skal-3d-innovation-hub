@@ -10,7 +10,6 @@ import FeaturedProjects from '@/components/FeaturedProjects';
 import ArticlesGallery from '@/components/ArticlesGallery';
 import FAQ from '@/components/FAQ';
 import CTABanner from '@/components/CTABanner';
-import MediaShowcase from '@/components/MediaShowcase';
 
 const Hero = lazy(() => import('@/components/Hero'));
 
@@ -33,7 +32,6 @@ const Index: React.FC = () => {
       <Services />
       <AIValueSection />
       <FeaturedProjects />
-      <MediaShowcase />
       <ArticlesGallery />
       <CTABanner />
       <FAQ />
