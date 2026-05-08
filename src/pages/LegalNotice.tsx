@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import OptimindLayout from '@/components/OptimindLayout';
+import SEO from '@/components/SEO';
 
 const LegalNotice: React.FC = () => {
   useEffect(() => {
@@ -11,6 +12,11 @@ const LegalNotice: React.FC = () => {
 
   return (
     <OptimindLayout>
+      <SEO
+        title="Mentions légales — Skal Service"
+        description="Identité légale de Skal Service : IFU, RCCM, siège social et directeur de la publication."
+        path="/legal"
+      />
       <Navbar />
       <div className="pt-32 pb-16">
         <div className="container mx-auto px-4 md:px-6">

@@ -6,6 +6,7 @@ import { ArrowLeft, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { projects } from '@/data/projects';
 import OptimindLayout from '@/components/OptimindLayout';
+import SEO from '@/components/SEO';
 
 const ProjectDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -38,6 +39,21 @@ const ProjectDetailPage: React.FC = () => {
 
   return (
     <OptimindLayout>
+      <SEO
+        title={`${project.title} — Skal Service`}
+        description={project.description.slice(0, 160)}
+        path={`/projects/${project.id}`}
+        image={`https://skalservice.lovable.app${project.image}`}
+        type="article"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'CreativeWork',
+          name: project.title,
+          description: project.description,
+          image: `https://skalservice.lovable.app${project.image}`,
+          creator: { '@type': 'Organization', name: 'Skal Service' },
+        }}
+      />
       <Navbar />
       
       <div className="pt-32 pb-16">

@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import OptimindLayout from '@/components/OptimindLayout';
 import { disciplines, getDisciplineBySlug } from '@/data/disciplines';
+import SEO from '@/components/SEO';
 
 const DisciplinePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -66,6 +67,19 @@ const DisciplinePage: React.FC = () => {
 
   return (
     <OptimindLayout>
+      <SEO
+        title={`${discipline.title} — Skal Service`}
+        description={discipline.desc}
+        path={`/services/${discipline.slug}`}
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: discipline.title,
+          description: discipline.desc,
+          provider: { '@type': 'Organization', name: 'Skal Service' },
+          areaServed: 'BJ',
+        }}
+      />
       <Navbar />
 
       <article className="pt-28 sm:pt-32">

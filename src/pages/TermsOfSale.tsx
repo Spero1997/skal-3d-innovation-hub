@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import OptimindLayout from '@/components/OptimindLayout';
+import SEO from '@/components/SEO';
 
 const TermsOfSale: React.FC = () => {
   useEffect(() => {
@@ -11,6 +12,11 @@ const TermsOfSale: React.FC = () => {
 
   return (
     <OptimindLayout>
+      <SEO
+        title="Conditions générales de vente — Skal Service"
+        description="CGV de Skal Service : commande, paiement (40% / 60%), livraison et garanties."
+        path="/terms"
+      />
       <Navbar />
       <div className="pt-32 pb-16">
         <div className="container mx-auto px-4 md:px-6">

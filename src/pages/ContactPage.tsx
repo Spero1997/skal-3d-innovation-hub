@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import OptimindLayout from '@/components/OptimindLayout';
+import SEO from '@/components/SEO';
 
 const ContactPage: React.FC = () => {
   useEffect(() => {
@@ -12,6 +13,11 @@ const ContactPage: React.FC = () => {
 
   return (
     <OptimindLayout>
+      <SEO
+        title="Contact — Skal Service"
+        description="Discutons de votre projet. Réponse sous 48h ouvrées. Atelier à Abomey-Calavi, Bénin."
+        path="/contact"
+      />
       <Navbar />
       <div className="pt-32 pb-0">
         <Contact />

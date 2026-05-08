@@ -6,6 +6,7 @@ import { ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { projects } from '@/data/projects';
 import OptimindLayout from '@/components/OptimindLayout';
+import SEO from '@/components/SEO';
 
 const ProjectCard: React.FC<{
   id: number;
@@ -55,6 +56,11 @@ const ProjectsPage: React.FC = () => {
 
   return (
     <OptimindLayout>
+      <SEO
+        title="Projets & réalisations — Skal Service"
+        description="Découvrez nos réalisations récentes : urbanisme, cartographie SIG, design et IA au Bénin et en Afrique de l'Ouest."
+        path="/projects"
+      />
       <Navbar />
       <div className="pt-32">
         <section className="section-padding relative z-10">
