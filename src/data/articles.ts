@@ -19,7 +19,7 @@ export const articles: Article[] = [
     category: "Urbanisme & Environnement",
     readTime: "8 min",
     date: "2025",
-    image: "/lovable-uploads/83485b7c-e7fb-40f0-808e-fa101e256af0.png",
+    image: "/lovable-uploads/parc-fifadji.jpg",
     tag: "Étude de cas",
   },
   {
@@ -30,7 +30,7 @@ export const articles: Article[] = [
     category: "Topographie",
     readTime: "5 min",
     date: "Mars 2025",
-    image: "/lovable-uploads/83485b7c-e7fb-40f0-808e-fa101e256af0.png",
+    image: "/lovable-uploads/drone-photogrammetrie.jpg",
     tag: "Article",
   },
   {
@@ -41,7 +41,7 @@ export const articles: Article[] = [
     category: "Cartographie & SIG",
     readTime: "7 min",
     date: "Février 2025",
-    image: "/lovable-uploads/83485b7c-e7fb-40f0-808e-fa101e256af0.png",
+    image: "/lovable-uploads/sig-collectivites.jpg",
     tag: "Article",
   },
   {
@@ -52,7 +52,7 @@ export const articles: Article[] = [
     category: "Foncier & Cadastre",
     readTime: "6 min",
     date: "2024",
-    image: "/lovable-uploads/83485b7c-e7fb-40f0-808e-fa101e256af0.png",
+    image: "/lovable-uploads/lotissement-calavi.jpg",
     tag: "Étude de cas",
   },
   {
@@ -63,7 +63,7 @@ export const articles: Article[] = [
     category: "Expertise immobilière",
     readTime: "4 min",
     date: "2024",
-    image: "/lovable-uploads/83485b7c-e7fb-40f0-808e-fa101e256af0.png",
+    image: "/lovable-uploads/expertise-hotelier.jpg",
     tag: "Étude de cas",
   },
   {
@@ -74,7 +74,7 @@ export const articles: Article[] = [
     category: "QHSE",
     readTime: "3 min",
     date: "Janvier 2025",
-    image: "/lovable-uploads/83485b7c-e7fb-40f0-808e-fa101e256af0.png",
+    image: "/lovable-uploads/normes-qhse.jpg",
     tag: "Article",
   },
 ];
