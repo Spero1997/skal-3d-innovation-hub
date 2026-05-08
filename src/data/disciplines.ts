@@ -12,6 +12,8 @@ export interface Discipline {
   process: { step: string; title: string; description: string }[];
   deliverables: string[];
   tools: string[];
+  detailedOfferings?: { title: string; description: string }[];
+  impactSummary?: { benefit: string; impact: string }[];
 }
 
 export const disciplines: Discipline[] = [
@@ -148,13 +150,32 @@ export const disciplines: Discipline[] = [
     tag: 'IA',
     desc: "Audit, automatisations LLM, analyses prédictives intégrées à vos outils métier.",
     intro:
-      "Nous identifions les cas d'usage IA à fort impact dans vos opérations, puis nous les industrialisons. Pas de gadget : des automatisations mesurables qui font gagner des heures et fiabilisent vos données.",
+      "L'IA n'est plus un luxe réservé aux grandes entreprises — c'est aujourd'hui un levier de compétitivité essentiel pour toute organisation. Nous identifions les cas d'usage à fort impact dans vos opérations, puis nous les industrialisons. Pas de gadget : des automatisations mesurables qui font gagner des heures et fiabilisent vos données.",
     offerings: [
-      "Audit des cas d'usage IA dans l'entreprise",
-      "Automatisations LLM (assistants, extraction, synthèse)",
-      "Modèles prédictifs et scoring",
-      "Intégration IA dans vos outils existants",
-      "Formation des équipes à l'IA générative",
+      "Automatisation des tâches répétitives",
+      "Analyse de données et aide à la décision",
+      "Amélioration de l'expérience client",
+      "Optimisation des ventes et du marketing",
+      "Optimisation de la chaîne logistique",
+      "Cybersécurité",
+      "Ressources humaines",
+      "Innovation et R&D",
+    ],
+    detailedOfferings: [
+      { title: "Automatisation des tâches répétitives", description: "L'IA prend en charge les tâches à faible valeur ajoutée : saisie de données, traitement de factures, réponses aux emails standards… Ce qui libère les employés pour des missions plus stratégiques." },
+      { title: "Analyse de données et aide à la décision", description: "Les algorithmes analysent des volumes massifs de données en quelques secondes pour détecter des tendances, anticiper des risques et guider les dirigeants dans leurs choix stratégiques." },
+      { title: "Amélioration de l'expérience client", description: "Via les chatbots, assistants virtuels et systèmes de recommandation, l'IA permet un service client disponible 24h/24, personnalisé et réactif." },
+      { title: "Optimisation des ventes et du marketing", description: "L'IA segmente les clients, prédit leurs comportements d'achat et personnalise les campagnes publicitaires pour maximiser le retour sur investissement." },
+      { title: "Optimisation de la chaîne logistique", description: "Elle anticipe les ruptures de stock, optimise les itinéraires de livraison et réduit les coûts opérationnels dans la supply chain." },
+      { title: "Cybersécurité", description: "Les systèmes IA détectent en temps réel les comportements suspects et les menaces, protégeant ainsi les données sensibles de l'entreprise." },
+      { title: "Ressources humaines", description: "Tri automatique des CVs, analyse des profils candidats, détection du risque de turnover… L'IA améliore l'efficacité du recrutement et de la gestion des talents." },
+      { title: "Innovation et R&D", description: "Dans des secteurs comme la pharmacie, l'industrie ou la tech, l'IA accélère la recherche, simule des scénarios complexes et réduit le temps de mise sur le marché." },
+    ],
+    impactSummary: [
+      { benefit: "Productivité", impact: "Forte augmentation" },
+      { benefit: "Coûts opérationnels", impact: "Réduction significative" },
+      { benefit: "Satisfaction client", impact: "Amélioration notable" },
+      { benefit: "Compétitivité", impact: "Avantage concurrentiel" },
     ],
     process: [
       { step: '01', title: 'Audit', description: "Cartographie des processus et opportunités." },

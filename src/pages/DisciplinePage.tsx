@@ -110,19 +110,69 @@ const DisciplinePage: React.FC = () => {
                 Ce que nous <span className="italic">livrons.</span>
               </h2>
             </div>
-            <ul className="col-span-12 md:col-span-7 md:col-start-6 space-y-px bg-[hsl(var(--ink))/0.12] border hairline">
-              {discipline.offerings.map((item) => (
-                <li
-                  key={item}
-                  className="bg-background p-5 sm:p-6 flex items-start gap-4 hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500"
-                >
-                  <Check className="w-4 h-4 text-[hsl(var(--tangerine))] mt-1 flex-shrink-0" />
-                  <span className="display-serif text-lg sm:text-xl font-light">{item}</span>
-                </li>
-              ))}
-            </ul>
+            {discipline.detailedOfferings ? (
+              <div className="col-span-12 md:col-span-7 md:col-start-6 space-y-4">
+                {discipline.detailedOfferings.map((item) => (
+                  <div
+                    key={item.title}
+                    className="border hairline rounded-md p-5 sm:p-6 bg-background hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500"
+                  >
+                    <div className="flex items-start gap-4 mb-2">
+                      <Check className="w-4 h-4 text-[hsl(var(--tangerine))] mt-1.5 flex-shrink-0" />
+                      <span className="display-serif text-lg sm:text-xl font-light">{item.title}</span>
+                    </div>
+                    <p className="text-sm text-foreground/70 leading-relaxed ml-8 group-hover:text-[hsl(var(--cream))/0.7]">
+                      {item.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <ul className="col-span-12 md:col-span-7 md:col-start-6 space-y-px bg-[hsl(var(--ink))/0.12] border hairline">
+                {discipline.offerings.map((item) => (
+                  <li
+                    key={item}
+                    className="bg-background p-5 sm:p-6 flex items-start gap-4 hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500"
+                  >
+                    <Check className="w-4 h-4 text-[hsl(var(--tangerine))] mt-1 flex-shrink-0" />
+                    <span className="display-serif text-lg sm:text-xl font-light">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </section>
+
+        {/* Impact Summary */}
+        {discipline.impactSummary && (
+          <section className="section-x section-y border-b hairline bg-[hsl(var(--cream))]">
+            <div className="grid grid-cols-12 gap-6">
+              <div className="col-span-12 md:col-span-4">
+                <span className="ticker-tag">§ Impact</span>
+                <h2 className="display-serif text-3xl sm:text-4xl font-light leading-tight mt-4">
+                  En <span className="italic">résumé.</span>
+                </h2>
+              </div>
+              <div className="col-span-12 md:col-span-7 md:col-start-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {discipline.impactSummary.map((item) => (
+                    <div
+                      key={item.benefit}
+                      className="border hairline rounded-md p-5 sm:p-6 bg-background flex flex-col justify-between min-h-[120px]"
+                    >
+                      <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                        {item.benefit}
+                      </span>
+                      <span className="display-serif text-xl sm:text-2xl font-light text-[hsl(var(--tangerine))] mt-3">
+                        {item.impact}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Process */}
         <section className="section-x section-y border-b hairline">
