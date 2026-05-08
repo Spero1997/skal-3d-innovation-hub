@@ -1,52 +1,30 @@
 
-import React, { useRef, useState, Suspense, useMemo } from 'react';
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { OrbitControls, Environment } from '@react-three/drei';
+import React, { useRef, useState, Suspense } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Environment, useGLTF, Center } from '@react-three/drei';
 import * as THREE from 'three';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 function LogoModel({ isMobile }: { isMobile: boolean }) {
   const groupRef = useRef<THREE.Group>(null);
-  const texture = useLoader(THREE.TextureLoader, '/skal-logo.svg');
+  const { scene } = useGLTF('/skal_service.glb');
 
-  useMemo(() => {
-    texture.anisotropy = 8;
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    texture.colorSpace = THREE.SRGBColorSpace;
-  }, [texture]);
-
-  useFrame((state) => {
+  useFrame((_, delta) => {
     if (groupRef.current) {
-      groupRef.current.rotation.z = state.clock.getElapsedTime() * 0.4;
+      groupRef.current.rotation.y += delta * 0.6;
     }
   });
 
-  // Aspect 690:290 ≈ 2.38
-  const w = 4.2;
-  const h = w * (290 / 690);
-  const depth = 0.18;
-
   return (
     <group ref={groupRef}>
-      {/* front face */}
-      <mesh position={[0, 0, depth / 2]}>
-        <planeGeometry args={[w, h]} />
-        <meshStandardMaterial map={texture} roughness={0.4} metalness={0.2} />
-      </mesh>
-      {/* back face (mirrored) */}
-      <mesh position={[0, 0, -depth / 2]} rotation={[0, Math.PI, 0]}>
-        <planeGeometry args={[w, h]} />
-        <meshStandardMaterial map={texture} roughness={0.4} metalness={0.2} />
-      </mesh>
-      {/* edge / thickness */}
-      <mesh>
-        <boxGeometry args={[w, h, depth]} />
-        <meshStandardMaterial color="#0d0d0d" roughness={0.6} metalness={0.4} />
-      </mesh>
+      <Center>
+        <primitive object={scene} scale={1.6} />
+      </Center>
     </group>
   );
 }
+
+useGLTF.preload('/skal_service.glb');
 
 function LoadingPlaceholder() {
   return (
