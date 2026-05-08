@@ -87,18 +87,47 @@ const AIValueSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Editorial triptych — phone capture + client conversations, no frame */}
-      <div className="grid grid-cols-12 gap-4 md:gap-6 mb-12 sm:mb-16 items-end">
+      {/* Editorial media — clean on mobile (snap carousel), staggered triptych on desktop */}
+      {/* MOBILE — horizontal snap carousel, full-bleed */}
+      <div className="md:hidden -mx-4 sm:-mx-6 mb-12">
+        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {[
+            { type: 'video', src: '/showcase/v2.mp4', cap: 'Interface conversationnelle' },
+            { type: 'img', src: '/showcase/notifications.png', cap: 'Disponibilité 24/7 — clients réels' },
+            { type: 'img', src: '/showcase/notifications-2.png', cap: 'Notifications en temps réel' },
+          ].map((m, i) => (
+            <motion.figure
+              key={m.src}
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="snap-start shrink-0 w-[78%]"
+            >
+              {m.type === 'video' ? (
+                <AutoVideo src={m.src} className="w-full aspect-[3/4] object-cover" />
+              ) : (
+                <img src={m.src} alt={m.cap} loading="lazy" className="w-full aspect-[3/4] object-cover" />
+              )}
+              <figcaption className="mt-3 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                ◦ {m.cap}
+              </figcaption>
+            </motion.figure>
+          ))}
+        </div>
+        <div className="px-4 sm:px-6 mt-2 mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
+          ← Glissez pour parcourir
+        </div>
+      </div>
+
+      {/* DESKTOP — staggered triptych */}
+      <div className="hidden md:grid grid-cols-12 gap-6 mb-16 items-end">
         <motion.figure
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="col-span-6 md:col-span-3 md:col-start-1"
+          className="col-span-3 col-start-1"
         >
-          <AutoVideo
-            src="/showcase/v2.mp4"
-            className="w-full aspect-[3/4] object-cover"
-          />
+          <AutoVideo src="/showcase/v2.mp4" className="w-full aspect-[3/4] object-cover" />
           <figcaption className="mt-3 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
             ◦ Interface conversationnelle
           </figcaption>
@@ -108,7 +137,7 @@ const AIValueSection: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="col-span-6 md:col-span-4 md:col-start-5 md:mb-16"
+          className="col-span-4 col-start-5 mb-16"
         >
           <img
             src="/showcase/notifications.png"
@@ -125,7 +154,7 @@ const AIValueSection: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="col-span-12 md:col-span-4 md:col-start-9"
+          className="col-span-4 col-start-9"
         >
           <img
             src="/showcase/notifications-2.png"
