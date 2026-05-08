@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { disciplines } from '@/data/disciplines';
+import AutoVideo from './media/AutoVideo';
 
 const Services: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -23,6 +24,23 @@ const Services: React.FC = () => {
           </h2>
         </div>
       </div>
+
+      {/* Cinematic full-bleed video — atelier en production */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.8 }}
+        className="-mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 xl:-mx-20 mb-12 sm:mb-16"
+      >
+        <AutoVideo
+          src="/showcase/v2.mp4"
+          className="w-full h-[45vh] md:h-[60vh] object-cover"
+        />
+        <div className="px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 mt-3 flex items-center justify-between mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+          <span>◦ Atelier · production en cours</span>
+          <span>Skal Service · 2025</span>
+        </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {disciplines.map((s, i) => {

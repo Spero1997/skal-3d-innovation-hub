@@ -56,6 +56,20 @@ const Contact: React.FC = () => {
 
   return (
     <section id="contact" className="section-x section-y border-t hairline">
+      {/* Editorial visual — notifications clients en temps réel */}
+      <div className="-mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 xl:-mx-20 mb-16 sm:mb-20">
+        <img
+          src="/showcase/notifications-2.png"
+          alt="Notifications clients SKAL Service en temps réel"
+          loading="lazy"
+          className="w-full h-[40vh] md:h-[55vh] object-cover"
+        />
+        <div className="px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 mt-3 flex items-center justify-between mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+          <span>◦ Notifications en temps réel</span>
+          <span>Toujours à votre écoute</span>
+        </div>
+      </div>
+
       <div className="grid grid-cols-12 gap-6 mb-12 sm:mb-16">
         <div className="col-span-12 md:col-span-6">
           <span className="ticker-tag">§ Contact</span>
