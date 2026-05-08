@@ -6,19 +6,7 @@ import AutoVideo from './media/AutoVideo';
 const CTABanner: React.FC = () => {
   return (
     <section className="section-x section-y">
-      {/* Cinematic full-bleed video — process / Cotonou */}
-      <div className="-mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 xl:-mx-20 mb-16 sm:mb-24">
-        <AutoVideo
-          src="/showcase/v3.mp4"
-          className="w-full h-[50vh] md:h-[65vh] object-cover"
-        />
-        <div className="px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 mt-3 flex items-center justify-between mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-          <span>◦ En coulisses</span>
-          <span>Process · Cotonou, BJ</span>
-        </div>
-      </div>
-
-      {/* Editorial paired layout — image + dark CTA, no frame */}
+      {/* Editorial paired layout — image + cinematic video CTA */}
       <div className="grid grid-cols-12 gap-6 items-stretch">
         <div className="col-span-12 md:col-span-5">
           <img
@@ -29,15 +17,33 @@ const CTABanner: React.FC = () => {
           />
         </div>
 
-        <div className="col-span-12 md:col-span-7 bg-foreground text-[hsl(var(--cream))] p-6 sm:p-10 md:p-14 lg:p-16 relative overflow-hidden flex flex-col justify-center">
-          <div className="absolute top-0 right-0 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-[hsl(var(--tangerine))/0.15] rounded-full blur-[100px] sm:blur-[150px] pointer-events-none" />
-          <div className="relative">
+        <div className="col-span-12 md:col-span-7 relative overflow-hidden text-[hsl(var(--cream))] min-h-[480px] md:min-h-[560px] flex flex-col justify-center p-6 sm:p-10 md:p-14 lg:p-16">
+          {/* Background video */}
+          <AutoVideo
+            src="/showcase/v3.mp4"
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+          {/* Dark gradient scrim for legibility */}
+          <div
+            aria-hidden
+            className="absolute inset-0 z-[1] pointer-events-none"
+            style={{
+              background:
+                'linear-gradient(120deg, hsl(var(--ink)/0.85) 0%, hsl(var(--ink)/0.65) 50%, hsl(var(--ink)/0.4) 100%)',
+            }}
+          />
+          {/* Tangerine glow */}
+          <div
+            aria-hidden
+            className="absolute top-0 right-0 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-[hsl(var(--tangerine))/0.25] rounded-full blur-[100px] sm:blur-[150px] pointer-events-none z-[1]"
+          />
+          <div className="relative z-10">
             <span className="ticker-tag" style={{ color: 'hsl(var(--cream)/0.6)' }}>§ Prochaine étape</span>
             <h2 className="display-serif fluid-display-lg font-light leading-[0.95] mt-6">
               Parlons de<br />
               <span className="italic text-[hsl(var(--tangerine))]">votre projet.</span>
             </h2>
-            <p className="mt-6 sm:mt-8 text-base md:text-lg max-w-md text-[hsl(var(--cream))/0.7] leading-relaxed">
+            <p className="mt-6 sm:mt-8 text-base md:text-lg max-w-md text-[hsl(var(--cream))/0.85] leading-relaxed">
               Devis gratuit sous 48h. Première consultation offerte, sans engagement,
               pour évaluer ensemble la faisabilité.
             </p>
@@ -48,6 +54,10 @@ const CTABanner: React.FC = () => {
               <Link to="/contact" className="inline-flex items-center gap-2 px-5 sm:px-6 py-3 sm:py-4 border border-[hsl(var(--cream))/0.3] text-[hsl(var(--cream))] mono text-[11px] uppercase tracking-[0.18em] rounded-full hover:bg-[hsl(var(--cream))/0.1] transition-colors">
                 Nous écrire
               </Link>
+            </div>
+            <div className="mt-8 flex items-center justify-between mono text-[10px] uppercase tracking-[0.25em] text-[hsl(var(--cream))/0.5]">
+              <span>◦ En coulisses</span>
+              <span>Process · Cotonou, BJ</span>
             </div>
           </div>
         </div>
