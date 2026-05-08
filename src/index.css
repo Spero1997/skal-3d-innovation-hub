@@ -39,6 +39,10 @@
     --cream: 36 30% 95%;
     --tangerine: 14 100% 57%;
     --tangerine-soft: 14 100% 92%;
+
+    /* Legacy aliases for pages still using old optimind tokens */
+    --optimind-glow: 14 100% 57%;
+    --optimind-card: 36 30% 95%;
   }
 
   .dark {
@@ -123,6 +127,19 @@
     background: hsl(var(--tangerine));
     border-radius: 9999px;
     display: inline-block;
+  }
+
+  /* Legacy aliases for pages still using old optimind tokens */
+  .optimind-heading {
+    font-family: 'Fraunces', Georgia, serif;
+    font-optical-sizing: auto;
+    letter-spacing: -0.03em;
+    line-height: 0.92;
+  }
+  .optimind-service-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--ink) / 0.12);
+    border-radius: 1rem;
   }
 
   .scribble-underline {
