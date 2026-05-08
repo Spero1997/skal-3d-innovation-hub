@@ -3,6 +3,7 @@ import React, { useRef, useState, Suspense, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Environment, useGLTF, Center, useProgress, Html } from '@react-three/drei';
 import * as THREE from 'three';
+import { TOUCH } from 'three';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const GLB_URL = '/skal_service.glb';
@@ -184,6 +185,7 @@ export const Scene3D: React.FC = () => {
       <Canvas
         camera={{ position: [0, 0, 4.2], fov: 45 }}
         className="w-full h-full relative z-[1]"
+        style={{ touchAction: 'none' }}
         dpr={isMobile ? [1, 1.5] : [1, 2]}
         gl={{ 
           antialias: !isMobile,
@@ -225,9 +227,10 @@ export const Scene3D: React.FC = () => {
           enableZoom={false}
           enablePan={false}
           enableRotate
-          rotateSpeed={hovered ? 0.9 : 0.25}
+          rotateSpeed={hovered ? 0.9 : isMobile ? 0.7 : 0.25}
           autoRotate={hovered && !userPaused}
           autoRotateSpeed={2.5}
+          touches={{ ONE: TOUCH.ROTATE, TWO: TOUCH.ROTATE }}
         />
       </Canvas>
     </div>
