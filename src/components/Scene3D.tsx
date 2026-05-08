@@ -18,8 +18,7 @@ function LogoModel({ isMobile }: { isMobile: boolean }) {
 
   useFrame((state) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.5;
-      groupRef.current.position.y = Math.sin(state.clock.getElapsedTime() * 0.8) * 0.08;
+      groupRef.current.rotation.z = state.clock.getElapsedTime() * 0.4;
     }
   });
 
