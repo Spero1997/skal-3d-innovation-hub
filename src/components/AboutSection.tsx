@@ -18,17 +18,16 @@ const AboutSection: React.FC = () => {
         <div className="marquee-track">
           {Array.from({ length: 2 }).map((_, k) => (
             <div key={k} className="flex items-center gap-8 sm:gap-12 px-6 display-serif text-4xl sm:text-5xl md:text-7xl font-light whitespace-nowrap">
-              <span>Design</span><span className="opacity-30">●</span>
+              <span className="text-[hsl(var(--tangerine))]">Design</span><span className="opacity-30">●</span>
               <span className="italic">Précision</span><span className="opacity-30">●</span>
-              <span>Cartographie</span><span className="opacity-30">●</span>
+              <span className="text-[hsl(var(--tangerine))]">Cartographie</span><span className="opacity-30">●</span>
               <span className="italic">Innovation</span><span className="opacity-30">●</span>
-              <span>Topographie</span><span className="opacity-30">●</span>
+              <span className="text-[hsl(var(--tangerine))]">Topographie</span><span className="opacity-30">●</span>
               <span className="italic">Stratégie</span><span className="opacity-30">●</span>
-              <span>Intelligence Artificielle</span><span className="opacity-30">●</span>
+              <span className="text-[hsl(var(--tangerine))]">Intelligence Artificielle</span><span className="opacity-30">●</span>
               <span className="italic">Transparence</span><span className="opacity-30">●</span>
-              <span>Sur-mesure</span><span className="opacity-30">●</span>
+              <span className="italic">Sur-mesure</span><span className="opacity-30">●</span>
               <span className="italic">Engagement</span><span className="opacity-30">●</span>
-              <span className="text-[hsl(var(--tangerine))]">Skal</span><span className="opacity-30">●</span>
             </div>
           ))}
         </div>
