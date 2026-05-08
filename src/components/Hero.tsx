@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDownRight, Asterisk } from 'lucide-react';
-import { Scene3D } from './Scene3D';
 import LiveClock from './LiveClock';
 
 const Hero: React.FC = () => {
@@ -68,13 +67,6 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* 3D anchor at bottom */}
-      <div className="mt-12 sm:mt-16 md:mt-24 relative h-[45vh] sm:h-[55vh] md:h-[70vh] min-h-[320px] border-t hairline pt-6">
-        <div className="absolute top-6 left-0 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground pr-4">
-          Fig. 01 — Réseau neural · rendu temps réel
-        </div>
-        <Scene3D />
-      </div>
     </section>
   );
 };
