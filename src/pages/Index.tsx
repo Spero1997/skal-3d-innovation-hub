@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import OptimindLayout from '@/components/OptimindLayout';
 import Services from '@/components/Services';
+import AIValueSection from '@/components/AIValueSection';
 import Contact from '@/components/Contact';
 import AboutSection from '@/components/AboutSection';
 import FeaturedProjects from '@/components/FeaturedProjects';
@@ -29,6 +30,7 @@ const Index: React.FC = () => {
       </Suspense>
       <AboutSection />
       <Services />
+      <AIValueSection />
       <FeaturedProjects />
       <ArticlesGallery />
       <CTABanner />
