@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight, Check } from 'lucide-react';
 import Navbar from '@/components/Navbar';
@@ -9,12 +9,57 @@ import { disciplines, getDisciplineBySlug } from '@/data/disciplines';
 const DisciplinePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const discipline = slug ? getDisciplineBySlug(slug) : undefined;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setLoading(true);
+    const t = setTimeout(() => setLoading(false), 350);
+    return () => clearTimeout(t);
   }, [slug]);
 
   if (!discipline) return <Navigate to="/services" replace />;
+
+  if (loading) {
+    return (
+      <OptimindLayout>
+        <Navbar />
+        <div className="pt-28 sm:pt-32 section-x pb-20" aria-busy="true" aria-live="polite">
+          <div className="mb-8 h-3 w-40 rounded bg-[hsl(var(--ink))/0.08] animate-pulse" />
+          <div className="grid grid-cols-12 gap-6 items-end border-b hairline pb-12">
+            <div className="col-span-12 md:col-span-8 space-y-5">
+              <div className="h-3 w-56 rounded bg-[hsl(var(--ink))/0.08] animate-pulse" />
+              <div className="h-14 sm:h-20 w-11/12 rounded bg-[hsl(var(--ink))/0.08] animate-pulse" />
+              <div className="h-14 sm:h-20 w-2/3 rounded bg-[hsl(var(--ink))/0.08] animate-pulse" />
+            </div>
+            <div className="col-span-12 md:col-span-4 space-y-2">
+              <div className="h-3 w-full rounded bg-[hsl(var(--ink))/0.08] animate-pulse" />
+              <div className="h-3 w-5/6 rounded bg-[hsl(var(--ink))/0.08] animate-pulse" />
+              <div className="h-3 w-3/4 rounded bg-[hsl(var(--ink))/0.08] animate-pulse" />
+            </div>
+          </div>
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[0, 1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="border hairline p-6 bg-[hsl(var(--cream))] rounded-md min-h-[200px] space-y-3 animate-pulse"
+              >
+                <div className="h-3 w-16 rounded bg-[hsl(var(--ink))/0.08]" />
+                <div className="h-6 w-3/4 rounded bg-[hsl(var(--ink))/0.08]" />
+                <div className="h-3 w-full rounded bg-[hsl(var(--ink))/0.08]" />
+                <div className="h-3 w-5/6 rounded bg-[hsl(var(--ink))/0.08]" />
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 flex items-center gap-3 text-muted-foreground">
+            <span className="inline-block h-4 w-4 rounded-full border-2 border-[hsl(var(--tangerine))] border-t-transparent animate-spin" />
+            <span className="mono text-[11px] uppercase tracking-[0.2em]">Chargement de la discipline…</span>
+          </div>
+        </div>
+        <Footer />
+      </OptimindLayout>
+    );
+  }
 
   const Icon = discipline.icon;
   const others = disciplines.filter((d) => d.slug !== discipline.slug).slice(0, 3);
