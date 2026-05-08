@@ -1,0 +1,44 @@
+<svg width="100%" viewBox="0 0 690 290" role="img" xmlns="http://www.w3.org/2000/svg" style="">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">SKAL SERVICE – Logo moderne</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Logo SKAL SERVICE sur fond noir, typographie bold, triangle orange dans le A, SERVICE espacé juste en dessous.</desc>
+
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d0d0d"/>
+      <stop offset="100%" stop-color="#1a1a1a"/>
+    </linearGradient>
+    <linearGradient id="triGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5922F"/>
+      <stop offset="100%" stop-color="#C96A10"/>
+    </linearGradient>
+    <clipPath id="logoClip">
+      <rect x="0" y="0" width="680" height="280" rx="16"/>
+    </clipPath>
+  <mask id="imagine-text-gaps-uucy5a" maskUnits="userSpaceOnUse"><rect x="0" y="0" width="690" height="290" fill="white"/><rect x="46" y="19.80000114440918" width="114.88750457763672" height="212.8000030517578" fill="black" rx="2"/><rect x="181" y="19.80000114440918" width="132" height="212.8000030517578" fill="black" rx="2"/><rect x="317.20001220703125" y="19.80000114440918" width="124.80000305175781" height="212.8000030517578" fill="black" rx="2"/><rect x="455" y="19.80000114440918" width="106.7249984741211" height="212.8000030517578" fill="black" rx="2"/><rect x="243.27500915527344" y="219.60000610351562" width="193.4499969482422" height="26.399999618530273" fill="black" rx="2"/></mask></defs>
+
+  <rect width="680" height="280" fill="url(#bgGrad)" rx="16" style="stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  
+
+  <g clip-path="url(#logoClip)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+
+    <text x="50" y="185" style="fill:rgb(218, 218, 218);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Arial Black&quot;, &quot;Helvetica Neue&quot;, sans-serif;font-size:148px;font-weight:900;text-anchor:start;dominant-baseline:auto">S</text>
+    <text x="185" y="185" style="fill:rgb(218, 218, 218);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Arial Black&quot;, &quot;Helvetica Neue&quot;, sans-serif;font-size:148px;font-weight:900;text-anchor:start;dominant-baseline:auto">K</text>
+
+    <text x="322" y="185" style="fill:rgb(218, 218, 218);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Arial Black&quot;, &quot;Helvetica Neue&quot;, sans-serif;font-size:148px;font-weight:900;text-anchor:start;dominant-baseline:auto">A</text>
+    <polygon points="340,65  308,152  372,152" fill="url(#triGrad)" style="stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <polygon points="340,89  320,139  360,139" fill="#0d0d0d" style="fill:rgb(13, 13, 13);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+    <text x="459" y="185" style="fill:rgb(218, 218, 218);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Arial Black&quot;, &quot;Helvetica Neue&quot;, sans-serif;font-size:148px;font-weight:900;text-anchor:start;dominant-baseline:auto">L</text>
+
+    <line x1="40" y1="200" x2="176" y2="200" stroke="#F5922F" stroke-width="1" stroke-linecap="round" opacity="0.3" mask="url(#imagine-text-gaps-uucy5a)" style="fill:rgb(0, 0, 0);stroke:rgb(245, 146, 47);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;opacity:0.3;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <line x1="504" y1="200" x2="640" y2="200" stroke="#F5922F" stroke-width="1" stroke-linecap="round" opacity="0.3" mask="url(#imagine-text-gaps-uucy5a)" style="fill:rgb(0, 0, 0);stroke:rgb(245, 146, 47);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;opacity:0.3;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+    <text x="340" y="240" text-anchor="middle" style="fill:rgb(136, 136, 136);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:20px;font-weight:300;text-anchor:middle;dominant-baseline:auto">SERVICE</text>
+
+    <rect x="40" y="208" width="2" height="36" fill="#F5922F" opacity="0.4" style="fill:rgb(245, 146, 47);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.4;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <rect x="638" y="208" width="2" height="36" fill="#F5922F" opacity="0.4" style="fill:rgb(245, 146, 47);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.4;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  </g>
+
+</svg>
