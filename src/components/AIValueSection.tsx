@@ -87,86 +87,25 @@ const AIValueSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Editorial media — clean on mobile (snap carousel), staggered triptych on desktop */}
-      {/* MOBILE — horizontal snap carousel, full-bleed */}
-      <div className="md:hidden -mx-4 sm:-mx-6 mb-12">
-        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {[
-            { type: 'video', src: '/showcase/v2.mp4', cap: 'Interface conversationnelle' },
-            { type: 'img', src: '/showcase/notifications.png', cap: 'Disponibilité 24/7 — clients réels' },
-            { type: 'img', src: '/showcase/notifications-2.png', cap: 'Notifications en temps réel' },
-          ].map((m, i) => (
-            <motion.figure
-              key={m.src}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="snap-start shrink-0 w-[78%]"
-            >
-              {m.type === 'video' ? (
-                <AutoVideo src={m.src} className="w-full aspect-[3/4] object-cover" />
-              ) : (
-                <img src={m.src} alt={m.cap} loading="lazy" className="w-full aspect-[3/4] object-cover" />
-              )}
-              <figcaption className="mt-3 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                ◦ {m.cap}
-              </figcaption>
-            </motion.figure>
-          ))}
-        </div>
-        <div className="px-4 sm:px-6 mt-2 mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
-          ← Glissez pour parcourir
-        </div>
-      </div>
-
-      {/* DESKTOP — staggered triptych */}
-      <div className="hidden md:grid grid-cols-12 gap-6 mb-16 items-end">
-        <motion.figure
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="col-span-3 col-start-1"
-        >
-          <AutoVideo src="/showcase/v2.mp4" className="w-full aspect-[3/4] object-cover" />
-          <figcaption className="mt-3 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-            ◦ Interface conversationnelle
-          </figcaption>
-        </motion.figure>
-
-        <motion.figure
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="col-span-4 col-start-5 mb-16"
-        >
+      {/* Single editorial visual — client conversations */}
+      <motion.figure
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6 }}
+        className="mb-12 sm:mb-16 grid grid-cols-12 gap-6 items-end"
+      >
+        <div className="col-span-12 md:col-span-7 md:col-start-3">
           <img
             src="/showcase/notifications.png"
-            alt="Conversations clients SKAL Service"
+            alt="Conversations clients SKAL Service — disponibilité 24/7"
             loading="lazy"
-            className="w-full aspect-[3/4] object-cover"
+            className="w-full aspect-[4/3] md:aspect-[16/10] object-cover"
           />
           <figcaption className="mt-3 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-            ◦ Disponibilité 24/7 — clients réels
+            ◦ Disponibilité 24/7 — conversations clients réelles
           </figcaption>
-        </motion.figure>
-
-        <motion.figure
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="col-span-4 col-start-9"
-        >
-          <img
-            src="/showcase/notifications-2.png"
-            alt="Notifications clients SKAL Service en temps réel"
-            loading="lazy"
-            className="w-full aspect-[3/4] object-cover"
-          />
-          <figcaption className="mt-3 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-            ◦ Notifications en temps réel
-          </figcaption>
-        </motion.figure>
-      </div>
+        </div>
+      </motion.figure>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {benefits.map((b, i) => {
