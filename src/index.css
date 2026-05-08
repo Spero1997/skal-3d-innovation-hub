@@ -141,3 +141,20 @@
 }
 .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
 .animate-fade-in-fast { animation: fadeIn 0.3s ease-out forwards; }
+
+/* Accessibility: respect user "reduce motion" system setting.
+   Disables CSS animations, transitions and parallax-like transforms,
+   and neutralizes Framer Motion / smooth scroll for better perf. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track { animation: none !important; }
+  .grain::before { display: none !important; }
+}

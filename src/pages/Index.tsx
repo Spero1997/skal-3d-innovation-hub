@@ -6,6 +6,7 @@ import Services from '@/components/Services';
 import Contact from '@/components/Contact';
 import AboutSection from '@/components/AboutSection';
 import FeaturedProjects from '@/components/FeaturedProjects';
+import ArticlesGallery from '@/components/ArticlesGallery';
 import FAQ from '@/components/FAQ';
 import CTABanner from '@/components/CTABanner';
 
@@ -29,6 +30,7 @@ const Index: React.FC = () => {
       <AboutSection />
       <Services />
       <FeaturedProjects />
+      <ArticlesGallery />
       <CTABanner />
       <FAQ />
       <Contact />
