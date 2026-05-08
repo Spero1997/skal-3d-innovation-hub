@@ -68,26 +68,33 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* 3D logo */}
-      <div className="mt-12 md:mt-16">
-        <div className="h-[360px] md:h-[460px] w-full">
+      {/* 3D logo — full-bleed cinematic stage */}
+      <div className="mt-14 md:mt-20 -mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 xl:-mx-20">
+        <div className="relative h-[480px] md:h-[640px] w-full bg-foreground overflow-hidden">
           <Scene3D />
-        </div>
 
-        <div className="mt-6 md:mt-8 grid grid-cols-12 gap-6 items-end">
-          <p className="col-span-12 md:col-span-6 md:col-start-2 text-sm md:text-base leading-relaxed text-foreground/75 max-w-xl">
-            Notre identité, en mouvement&nbsp;: un logo sculpté en 3D, pensé comme un manifeste —
-            <em className="display-serif"> précision</em>, <em className="display-serif">matière</em> et
-            <em className="display-serif"> rigueur éditoriale</em>. Survolez pour mettre en pause.
-          </p>
-          <div className="col-span-12 md:col-span-4 flex md:justify-end">
-            <Link
-              to="/devis"
-              className="btn-ink group"
-            >
-              Lancer votre projet
-              <ArrowDownRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
-            </Link>
+          {/* Editorial overlay — caption + CTA */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 pb-8 md:pb-10">
+            <div className="grid grid-cols-12 gap-6 items-end">
+              <div className="col-span-12 md:col-span-6">
+                <span className="mono text-[10px] uppercase tracking-[0.3em] text-[hsl(var(--tangerine))]">
+                  § Notre signature, en mouvement
+                </span>
+                <p className="display-serif text-2xl md:text-4xl font-light leading-[1.05] text-[hsl(var(--cream))] mt-3 max-w-xl">
+                  Précision, <span className="italic">matière</span>,
+                  <br className="hidden md:block" /> rigueur éditoriale.
+                </p>
+              </div>
+              <div className="col-span-12 md:col-span-4 md:col-start-9 md:flex md:justify-end pointer-events-auto">
+                <Link
+                  to="/devis"
+                  className="group inline-flex items-center gap-2 px-6 py-4 bg-[hsl(var(--tangerine))] text-foreground mono text-[11px] uppercase tracking-[0.18em] rounded-full hover:opacity-90 transition-opacity"
+                >
+                  Lancer votre projet
+                  <ArrowDownRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
