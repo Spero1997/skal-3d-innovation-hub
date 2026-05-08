@@ -52,8 +52,10 @@ function LogoModel({ paused, speed }: { paused: boolean; speed: number }) {
   useFrame((_, delta) => {
     if (!spinRef.current || paused) return;
     const d = Math.min(delta, 0.05);
-    // Spin like a wheel facing the camera
-    spinRef.current.rotation.z += d * speed;
+    // Tumble freely on all 3 axes for a lively, multi-directional spin
+    spinRef.current.rotation.y += d * speed;
+    spinRef.current.rotation.x += d * speed * 0.55;
+    spinRef.current.rotation.z += d * speed * 0.35;
   });
 
   return (
