@@ -69,8 +69,27 @@ const Hero: React.FC = () => {
       </div>
 
       {/* 3D logo */}
-      <div className="mt-12 md:mt-16 h-[360px] md:h-[460px] w-full">
-        <Scene3D />
+      <div className="mt-12 md:mt-16">
+        <div className="h-[360px] md:h-[460px] w-full">
+          <Scene3D />
+        </div>
+
+        <div className="mt-6 md:mt-8 grid grid-cols-12 gap-6 items-end">
+          <p className="col-span-12 md:col-span-6 md:col-start-2 text-sm md:text-base leading-relaxed text-foreground/75 max-w-xl">
+            Notre identité, en mouvement&nbsp;: un logo sculpté en 3D, pensé comme un manifeste —
+            <em className="display-serif"> précision</em>, <em className="display-serif">matière</em> et
+            <em className="display-serif"> rigueur éditoriale</em>. Survolez pour mettre en pause.
+          </p>
+          <div className="col-span-12 md:col-span-4 flex md:justify-end">
+            <Link
+              to="/devis"
+              className="btn-ink group"
+            >
+              Lancer votre projet
+              <ArrowDownRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+            </Link>
+          </div>
+        </div>
       </div>
 
     </section>
