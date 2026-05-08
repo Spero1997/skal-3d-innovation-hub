@@ -1,16 +1,8 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, PenTool, Palette, Code2, Map, Compass, BrainCircuit } from 'lucide-react';
-
-const services = [
-  { num: '01', icon: PenTool, title: 'Design graphique', tag: 'Identité', desc: "Logos, chartes, supports imprimés et digitaux qui ancrent votre marque dans le réel." },
-  { num: '02', icon: Palette, title: 'Stratégie de marque', tag: 'Brand', desc: 'Positionnement, voix, narration. Un récit qui tient debout sur dix ans.' },
-  { num: '03', icon: Code2, title: 'Web & application', tag: 'Code', desc: 'Sites éditoriaux, e-commerce et applications sur mesure, pensés pour durer.' },
-  { num: '04', icon: Map, title: 'Cartographie SIG', tag: 'Géo', desc: 'Cartes thématiques, modélisation 3D du territoire et tableaux de bord SIG.' },
-  { num: '05', icon: Compass, title: 'Arpentage', tag: 'Terrain', desc: 'Levés topographiques de précision, implantation et suivi de chantier.' },
-  { num: '06', icon: BrainCircuit, title: 'Conseil IA', tag: 'IA', desc: 'Audit, automatisations LLM, analyses prédictives intégrées à vos outils métier.' },
-];
+import { ArrowUpRight } from 'lucide-react';
+import { disciplines } from '@/data/disciplines';
 
 const Services: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -31,16 +23,20 @@ const Services: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {services.map((s, i) => {
+        {disciplines.map((s, i) => {
           const Icon = s.icon;
           return (
-            <motion.article
-              key={s.num}
+            <motion.div
+              key={s.slug}
               initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.07, ease: [0.2, 0.7, 0.2, 1] }}
-              className="group relative border hairline rounded-md p-5 sm:p-6 bg-[hsl(var(--cream))] hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500 cursor-pointer min-h-[240px] sm:min-h-[260px] flex flex-col"
             >
+              <Link
+                to={`/services/${s.slug}`}
+                aria-label={`En savoir plus sur ${s.title}`}
+                className="group relative border hairline rounded-md p-5 sm:p-6 bg-[hsl(var(--cream))] hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500 cursor-pointer min-h-[240px] sm:min-h-[260px] flex flex-col h-full"
+              >
               <div className="flex items-start justify-between">
                 <span className="mono text-[10px] uppercase tracking-[0.25em] opacity-60">{s.num} / 06</span>
                 <ArrowUpRight className="w-5 h-5 opacity-40 group-hover:opacity-100 group-hover:rotate-45 transition-all duration-500" />
@@ -57,7 +53,8 @@ const Services: React.FC = () => {
               <div className="mt-4 mono text-[10px] uppercase tracking-[0.25em] opacity-50">
                 / {s.tag}
               </div>
-            </motion.article>
+              </Link>
+            </motion.div>
           );
         })}
       </div>
