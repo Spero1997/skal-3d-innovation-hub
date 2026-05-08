@@ -12,6 +12,8 @@ export interface Discipline {
   process: { step: string; title: string; description: string }[];
   deliverables: string[];
   tools: string[];
+  detailedOfferings?: { title: string; description: string }[];
+  impactSummary?: { benefit: string; impact: string }[];
 }
 
 export const disciplines: Discipline[] = [
