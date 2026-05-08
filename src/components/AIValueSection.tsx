@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import AutoVideo from './media/AutoVideo';
 import {
   Bot,
   BarChart3,
