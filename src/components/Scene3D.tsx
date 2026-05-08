@@ -114,15 +114,15 @@ export const Scene3D: React.FC = () => {
 
   if (disabled) {
     return (
-      <div className="w-full h-full flex items-center justify-center bg-[hsl(var(--optimind-card))] rounded-2xl">
+      <div className="w-full h-full flex items-center justify-center bg-foreground rounded-none">
         <div className="text-center p-8">
-          <div className="w-20 h-20 mx-auto mb-4 rounded-full border-2 border-black/10 flex items-center justify-center">
-            <div className="w-10 h-10 rounded-full bg-black/5" />
+          <div className="w-20 h-20 mx-auto mb-4 rounded-full border border-[hsl(var(--cream))/0.2] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-[hsl(var(--tangerine))/0.4]" />
           </div>
-          <p className="text-muted-foreground text-xs mb-3">Scène 3D désactivée</p>
+          <p className="text-[hsl(var(--cream))/0.6] text-xs mb-3 mono uppercase tracking-[0.2em]">Scène 3D désactivée</p>
           <button 
             onClick={() => setDisabled(false)}
-            className="text-xs text-foreground hover:underline"
+            className="text-xs text-[hsl(var(--tangerine))] hover:underline mono uppercase tracking-[0.2em]"
           >
             Activer la 3D
           </button>
@@ -134,29 +134,55 @@ export const Scene3D: React.FC = () => {
   return (
     <div
       ref={wrapRef}
-      className="relative w-full h-full"
+      className="relative w-full h-full overflow-hidden bg-foreground"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="absolute top-2 right-2 z-10 flex gap-2">
+      {/* Aurora glow backdrop */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background:
+            'radial-gradient(60% 60% at 50% 55%, hsl(var(--tangerine)/0.35) 0%, hsl(var(--tangerine)/0.08) 35%, transparent 70%)',
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-24 -left-24 w-[420px] h-[420px] rounded-full z-0"
+        style={{ background: 'radial-gradient(circle, hsl(var(--tangerine)/0.25), transparent 70%)', filter: 'blur(60px)' }}
+      />
+
+      {/* Editorial corner labels */}
+      <div className="absolute top-4 left-4 z-10 mono text-[10px] uppercase tracking-[0.3em] text-[hsl(var(--cream))/0.5]">
+        ◦ Identité · 3D
+      </div>
+      <div className="absolute bottom-4 left-4 z-10 mono text-[10px] uppercase tracking-[0.3em] text-[hsl(var(--cream))/0.5]">
+        Skal Service / Manifeste
+      </div>
+      <div className="absolute bottom-4 right-4 z-10 mono text-[10px] uppercase tracking-[0.3em] text-[hsl(var(--cream))/0.5] hidden sm:block">
+        Cliquez · faites pivoter
+      </div>
+
+      <div className="absolute top-4 right-4 z-10 flex gap-2">
         <button
           onClick={() => setUserPaused((p) => !p)}
-          className="text-[10px] mono uppercase tracking-[0.2em] text-muted-foreground bg-background/70 backdrop-blur px-2 py-1 rounded-full hover:text-foreground transition-colors border hairline"
+          className="text-[10px] mono uppercase tracking-[0.2em] text-[hsl(var(--cream))/0.7] bg-[hsl(var(--cream))/0.06] backdrop-blur px-3 py-1.5 rounded-full hover:text-[hsl(var(--cream))] hover:bg-[hsl(var(--cream))/0.12] transition-colors border border-[hsl(var(--cream))/0.15]"
         >
           {userPaused ? 'Lecture' : 'Pause'}
         </button>
         {isMobile && (
           <button
             onClick={() => setDisabled(true)}
-            className="text-[10px] mono uppercase tracking-[0.2em] text-muted-foreground bg-background/70 backdrop-blur px-2 py-1 rounded-full hover:text-foreground transition-colors border hairline"
+            className="text-[10px] mono uppercase tracking-[0.2em] text-[hsl(var(--cream))/0.7] bg-[hsl(var(--cream))/0.06] backdrop-blur px-3 py-1.5 rounded-full hover:text-[hsl(var(--cream))] transition-colors border border-[hsl(var(--cream))/0.15]"
           >
             Désactiver
           </button>
         )}
       </div>
       <Canvas
-        camera={{ position: [0, 0, 4.5], fov: 50 }}
-        className="w-full h-full"
+        camera={{ position: [0, 0, 4.2], fov: 45 }}
+        className="w-full h-full relative z-[1]"
         dpr={isMobile ? [1, 1.5] : [1, 2]}
         gl={{ 
           antialias: !isMobile,
@@ -165,26 +191,26 @@ export const Scene3D: React.FC = () => {
         }}
         frameloop={paused ? 'demand' : 'always'}
       >
-        <ambientLight intensity={0.5} color="#FFF5E6" />
+        <ambientLight intensity={0.35} color="#FFF5E6" />
         {!isMobile && (
           <spotLight 
             position={[10, 10, 10]} 
             angle={0.15} 
             penumbra={1}
-            intensity={1.5}
+            intensity={2}
             castShadow
             color="#F5A623"
           />
         )}
         <directionalLight 
           position={[-5, 5, 5]} 
-          intensity={isMobile ? 1.2 : 1}
+          intensity={isMobile ? 1.4 : 1.2}
           color="#FFFFFF"
         />
         {!isMobile && (
           <pointLight
             position={[0, -3, 2]}
-            intensity={1.5}
+            intensity={2}
             color="#F97316"
           />
         )}
