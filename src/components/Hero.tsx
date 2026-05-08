@@ -15,7 +15,7 @@ const Hero: React.FC = () => {
       {/* Top meta row */}
       <div className="flex items-center justify-between mb-8 sm:mb-12">
         <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hidden md:inline">
-          Édition №007 — Cotonou
+          <LiveClock />
         </span>
       </div>
 
