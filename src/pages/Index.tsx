@@ -10,6 +10,7 @@ import FeaturedProjects from '@/components/FeaturedProjects';
 import ArticlesGallery from '@/components/ArticlesGallery';
 import FAQ from '@/components/FAQ';
 import CTABanner from '@/components/CTABanner';
+import SEO from '@/components/SEO';
 
 const Hero = lazy(() => import('@/components/Hero'));
 
@@ -20,6 +21,18 @@ const Index: React.FC = () => {
 
   return (
     <OptimindLayout>
+      <SEO
+        title="SKAL SERVICE — Design, Cartographie SIG, Arpentage & IA au Bénin"
+        description="Studio béninois : design éditorial, stratégie de marque, web, cartographie SIG, arpentage et conseil en intelligence artificielle. Une équipe, six expertises."
+        path="/"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: 'Skal Service',
+          url: 'https://skalservice.lovable.app',
+          inLanguage: 'fr',
+        }}
+      />
       <Navbar />
       <Suspense fallback={
         <div className="flex items-center justify-center min-h-screen">
