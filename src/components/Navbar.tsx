@@ -1,162 +1,100 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X, Phone, Mail } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
 
-const navLinks = [
-  { to: '/', label: 'HOME' },
-  { to: '/services', label: 'SERVICES' },
-  { to: '/projects', label: 'WORK' },
-  { to: '/devis', label: 'PLANS' },
-];
-
-const navLinksRight = [
-  { to: '/expertise', label: 'TEAM' },
-  { to: '/contact', label: 'CONTACT' },
-];
-
-const mobileLinks = [
-  { to: '/devis', label: 'DEMANDER UN DEVIS' },
-  { to: '/contact', label: 'NOUS CONTACTER' },
-  { to: '/services', label: 'NOS SERVICES' },
-  { to: '/projects', label: 'NOS RÉALISATIONS' },
-  { to: '/expertise', label: 'NOTRE EXPERTISE' },
-  { to: '/legal', label: 'MENTIONS LÉGALES' },
-  { to: '/privacy', label: 'CONFIDENTIALITÉ' },
+const links = [
+  { to: '/', label: 'Index' },
+  { to: '/services', label: 'Services' },
+  { to: '/projects', label: 'Travaux' },
+  { to: '/expertise', label: 'Studio' },
+  { to: '/contact', label: 'Contact' },
 ];
 
 const Navbar: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const toggleRef = useRef<HTMLButtonElement>(null);
-
-  // Trap focus inside mobile menu & handle Escape
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (!isMenuOpen || !menuRef.current) return;
-
-    if (e.key === 'Escape') {
-      setIsMenuOpen(false);
-      toggleRef.current?.focus();
-      return;
-    }
-
-    if (e.key === 'Tab') {
-      const focusable = menuRef.current.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled])'
-      );
-      if (focusable.length === 0) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    }
-  }, [isMenuOpen]);
+  const [open, setOpen] = useState(false);
+  const [time, setTime] = useState('');
+  const location = useLocation();
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
-
-  // Auto-focus first link when menu opens
-  useEffect(() => {
-    if (isMenuOpen && menuRef.current) {
-      const first = menuRef.current.querySelector<HTMLElement>('a[href]');
-      first?.focus();
-    }
-  }, [isMenuOpen]);
+    const tick = () => {
+      const d = new Date();
+      const fmt = new Intl.DateTimeFormat('fr-FR', {
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        timeZone: 'Africa/Porto-Novo'
+      }).format(d);
+      setTime(fmt + ' GMT+1');
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[hsl(var(--optimind-card))]">
-      <div className="flex justify-center">
-        <div className="h-[2px] w-16 bg-gradient-to-r from-transparent via-[hsl(var(--optimind-glow))] to-transparent" />
-      </div>
-      
-      <div className="px-6 py-4">
-        <div className="flex items-center justify-between">
-          <Link 
-            to="/" 
-            className="flex items-center gap-2"
-          >
-            <span className="font-display font-bold uppercase tracking-[0.2em] text-sm text-foreground whitespace-nowrap">
-              SKAL SERVICE
-            </span>
-          </Link>
+    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b hairline">
+      <div className="px-6 md:px-10 h-16 flex items-center justify-between gap-6">
+        <Link to="/" className="flex items-baseline gap-2 group">
+          <span className="display-serif text-2xl font-medium tracking-tight">
+            Skal<span className="text-[hsl(var(--tangerine))]">.</span>
+          </span>
+          <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hidden sm:inline">
+            Studio · BJ
+          </span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center justify-between flex-1 ml-12">
-            <div className="flex items-center space-x-8">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className="text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-            <div className="flex items-center space-x-8">
-              {navLinksRight.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className="text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            ref={toggleRef}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[hsl(var(--optimind-glow))] rounded-md"
-            aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-nav"
-          >
-            {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <div
-          ref={menuRef}
-          id="mobile-nav"
-          role="dialog"
-          aria-label="Menu de navigation mobile"
-          className="md:hidden bg-[hsl(var(--optimind-card))] border-t border-[hsl(var(--border))] p-6 animate-fade-in-fast"
-        >
-          <nav aria-label="Navigation mobile" className="flex flex-col space-y-1">
-            {mobileLinks.map((link) => (
+        <nav className="hidden md:flex items-center gap-1">
+          {links.map((l) => {
+            const active = location.pathname === l.to;
+            return (
               <Link
-                key={link.to}
-                to={link.to}
-                className="text-sm font-medium uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors py-3 border-b border-[hsl(var(--border)/0.3)] last:border-b-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[hsl(var(--optimind-glow))] rounded-sm"
-                onClick={() => setIsMenuOpen(false)}
+                key={l.to}
+                to={l.to}
+                className={`mono text-[11px] uppercase tracking-[0.18em] px-3 py-2 rounded-full transition-colors ${
+                  active ? 'text-foreground bg-[hsl(var(--ink))/0.06]' : 'text-muted-foreground hover:text-foreground'
+                }`}
               >
-                {link.label}
+                {l.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="hidden md:flex items-center gap-4">
+          <span className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+            {time}
+          </span>
+          <Link to="/devis" className="btn-ink !py-2 !px-4">Devis →</Link>
+        </div>
+
+        <button
+          onClick={() => setOpen(!open)}
+          className="md:hidden p-2 -mr-2"
+          aria-label="Menu"
+          aria-expanded={open}
+        >
+          {open ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+
+      {open && (
+        <div className="md:hidden border-t hairline bg-background animate-fade-in-fast">
+          <nav className="px-6 py-6 flex flex-col gap-1">
+            {links.map((l) => (
+              <Link
+                key={l.to}
+                to={l.to}
+                onClick={() => setOpen(false)}
+                className="display-serif text-3xl py-2 hover:text-[hsl(var(--tangerine))] transition-colors"
+              >
+                {l.label}
               </Link>
             ))}
+            <Link to="/devis" onClick={() => setOpen(false)} className="btn-ink mt-4 w-fit">
+              Demander un devis →
+            </Link>
+            <div className="mt-6 pt-4 border-t hairline mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              {time}
+            </div>
           </nav>
-
-          <div className="mt-6 pt-5 border-t border-[hsl(var(--border))] space-y-3">
-            <a href="tel:+2290190315546" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[hsl(var(--optimind-glow))] rounded-sm">
-              <Phone className="w-4 h-4 text-[hsl(var(--optimind-glow))]" /> +229 01 90315546
-            </a>
-            <a href="mailto:skalservice.0@gmail.com" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[hsl(var(--optimind-glow))] rounded-sm">
-              <Mail className="w-4 h-4 text-[hsl(var(--optimind-glow))]" /> skalservice.0@gmail.com
-            </a>
-          </div>
         </div>
       )}
     </header>
