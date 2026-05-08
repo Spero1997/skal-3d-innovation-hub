@@ -109,8 +109,9 @@ export const Scene3D: React.FC = () => {
     typeof window !== 'undefined' &&
     window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
-  const paused = userPaused || hovered || !inView || prefersReducedMotion;
-  const speed = isMobile ? 0.25 : 0.4; // slower, fluide
+  const paused = userPaused || !inView || prefersReducedMotion;
+  // Speed up on hover to attract attention
+  const speed = (isMobile ? 0.25 : 0.4) * (hovered ? 2.2 : 1);
 
   if (disabled) {
     return (
@@ -134,7 +135,7 @@ export const Scene3D: React.FC = () => {
   return (
     <div
       ref={wrapRef}
-      className="relative w-full h-full overflow-hidden bg-foreground"
+      className="relative w-full h-full overflow-hidden bg-foreground cursor-grab active:cursor-grabbing"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -161,7 +162,7 @@ export const Scene3D: React.FC = () => {
         Skal Service / Manifeste
       </div>
       <div className="absolute bottom-4 right-4 z-10 mono text-[10px] uppercase tracking-[0.3em] text-[hsl(var(--cream))/0.5] hidden sm:block">
-        Cliquez · faites pivoter
+        {hovered ? '↻ Faites pivoter — cliquez & glissez' : 'Survolez · cliquez · faites pivoter'}
       </div>
 
       <div className="absolute top-4 right-4 z-10 flex gap-2">
@@ -223,8 +224,10 @@ export const Scene3D: React.FC = () => {
         <OrbitControls 
           enableZoom={false}
           enablePan={false}
-          rotateSpeed={0.25}
-          autoRotate={false}
+          enableRotate
+          rotateSpeed={hovered ? 0.9 : 0.25}
+          autoRotate={hovered && !userPaused}
+          autoRotateSpeed={2.5}
         />
       </Canvas>
     </div>
