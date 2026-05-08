@@ -1,12 +1,14 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { disciplines } from '@/data/disciplines';
 
 const Services: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const { pathname } = useLocation();
+  const onServicesPage = pathname === '/services';
 
   return (
     <section ref={ref} id="services" className="section-x section-y border-t hairline">
@@ -59,9 +61,11 @@ const Services: React.FC = () => {
         })}
       </div>
 
-      <div className="mt-12 flex justify-end">
-        <Link to="/services" className="btn-ghost">Toutes les capacités →</Link>
-      </div>
+      {!onServicesPage && (
+        <div className="mt-12 flex justify-end">
+          <Link to="/services" className="btn-ghost">Toutes les capacités →</Link>
+        </div>
+      )}
     </section>
   );
 };
