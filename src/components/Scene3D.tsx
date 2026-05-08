@@ -1,18 +1,19 @@
 
-import React, { useRef, useState, Suspense } from 'react';
+import React, { useRef, useState, Suspense, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment, useGLTF, Center } from '@react-three/drei';
+import { OrbitControls, Environment, useGLTF, Center, useProgress, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-function LogoModel({ isMobile }: { isMobile: boolean }) {
+function LogoModel({ paused, speed }: { paused: boolean; speed: number }) {
   const groupRef = useRef<THREE.Group>(null);
   const { scene } = useGLTF('/skal_service.glb');
 
   useFrame((_, delta) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.6;
-    }
+    if (!groupRef.current || paused) return;
+    // cap delta to avoid jumps after tab returns
+    const d = Math.min(delta, 0.05);
+    groupRef.current.rotation.y += d * speed;
   });
 
   return (
@@ -26,18 +27,51 @@ function LogoModel({ isMobile }: { isMobile: boolean }) {
 
 useGLTF.preload('/skal_service.glb');
 
-function LoadingPlaceholder() {
+function ProgressLoader() {
+  const { progress } = useProgress();
   return (
-    <mesh>
-      <planeGeometry args={[3, 1.3]} />
-      <meshBasicMaterial color="#141414" />
-    </mesh>
+    <Html center>
+      <div className="flex flex-col items-center gap-2 select-none">
+        <div className="w-32 h-[2px] bg-foreground/10 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-[hsl(var(--tangerine))] transition-[width] duration-200"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+          Chargement {Math.round(progress)}%
+        </span>
+      </div>
+    </Html>
   );
 }
 
 export const Scene3D: React.FC = () => {
   const isMobile = useIsMobile();
   const [disabled, setDisabled] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [inView, setInView] = useState(true);
+  const [userPaused, setUserPaused] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  // Pause when off-screen (saves CPU/GPU)
+  useEffect(() => {
+    if (!wrapRef.current) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    obs.observe(wrapRef.current);
+    return () => obs.disconnect();
+  }, []);
+
+  // Respect reduced motion
+  const prefersReducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+  const paused = userPaused || hovered || !inView || prefersReducedMotion;
+  const speed = isMobile ? 0.25 : 0.4; // slower, fluide
 
   if (disabled) {
     return (
@@ -59,15 +93,28 @@ export const Scene3D: React.FC = () => {
   }
 
   return (
-    <div className="relative w-full h-full">
-      {isMobile && (
-        <button 
-          onClick={() => setDisabled(true)}
-          className="absolute top-2 right-2 z-10 text-[10px] text-muted-foreground bg-white/60 px-2 py-1 rounded-full hover:text-foreground transition-colors"
+    <div
+      ref={wrapRef}
+      className="relative w-full h-full"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="absolute top-2 right-2 z-10 flex gap-2">
+        <button
+          onClick={() => setUserPaused((p) => !p)}
+          className="text-[10px] mono uppercase tracking-[0.2em] text-muted-foreground bg-background/70 backdrop-blur px-2 py-1 rounded-full hover:text-foreground transition-colors border hairline"
         >
-          Désactiver 3D
+          {userPaused ? 'Lecture' : 'Pause'}
         </button>
-      )}
+        {isMobile && (
+          <button
+            onClick={() => setDisabled(true)}
+            className="text-[10px] mono uppercase tracking-[0.2em] text-muted-foreground bg-background/70 backdrop-blur px-2 py-1 rounded-full hover:text-foreground transition-colors border hairline"
+          >
+            Désactiver
+          </button>
+        )}
+      </div>
       <Canvas
         camera={{ position: [0, 0, 4.5], fov: 50 }}
         className="w-full h-full"
@@ -77,7 +124,7 @@ export const Scene3D: React.FC = () => {
           alpha: true,
           powerPreference: isMobile ? 'low-power' : 'high-performance'
         }}
-        frameloop={isMobile ? 'demand' : 'always'}
+        frameloop={paused ? 'demand' : 'always'}
       >
         <ambientLight intensity={0.5} color="#FFF5E6" />
         {!isMobile && (
@@ -103,8 +150,8 @@ export const Scene3D: React.FC = () => {
           />
         )}
         
-        <Suspense fallback={<LoadingPlaceholder />}>
-          <LogoModel isMobile={isMobile} />
+        <Suspense fallback={<ProgressLoader />}>
+          <LogoModel paused={paused} speed={speed} />
           {!isMobile && <Environment background={false} preset="studio" />}
         </Suspense>
         
@@ -112,8 +159,7 @@ export const Scene3D: React.FC = () => {
           enableZoom={false}
           enablePan={false}
           rotateSpeed={0.25}
-          autoRotate
-          autoRotateSpeed={isMobile ? 0.3 : 0.5}
+          autoRotate={false}
         />
       </Canvas>
     </div>
