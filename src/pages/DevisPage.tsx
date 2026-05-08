@@ -31,6 +31,11 @@ const DevisPage: React.FC = () => {
 
   return (
     <OptimindLayout>
+      <SEO
+        title="Demander un devis gratuit — Skal Service"
+        description="Décrivez votre projet et recevez une estimation personnalisée sous 48h. Sans engagement."
+        path="/devis"
+      />
       <Navbar />
       <div className="pt-32 pb-16">
         <div className="container mx-auto px-4 md:px-6 max-w-2xl">
