@@ -21,7 +21,8 @@ export default {
 		extend: {
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],
-				display: ['SF Pro Display', 'Inter', 'sans-serif'],
+				display: ['Fraunces', 'Georgia', 'serif'],
+				mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
