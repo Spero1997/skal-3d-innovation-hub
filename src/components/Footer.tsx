@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import skalLogo from '@/assets/skal-logo.png';
+import LiveClock from './LiveClock';
 
 const Footer: React.FC = () => {
   const year = new Date().getFullYear();
@@ -47,7 +48,7 @@ const Footer: React.FC = () => {
           <Link to="/privacy" className="hover:text-[hsl(var(--cream))]">Confidentialité</Link>
           <Link to="/terms" className="hover:text-[hsl(var(--cream))]">CGV</Link>
         </div>
-        <span>Made in Cotonou · BJ</span>
+        <span><LiveClock /></span>
       </div>
     </footer>
   );

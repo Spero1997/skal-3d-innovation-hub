@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDownRight, Asterisk } from 'lucide-react';
 import { Scene3D } from './Scene3D';
+import LiveClock from './LiveClock';
 
 const Hero: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -15,7 +16,7 @@ const Hero: React.FC = () => {
       {/* Top meta row */}
       <div className="flex items-center justify-between mb-8 sm:mb-12">
         <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hidden md:inline">
-          Édition №007 — Cotonou
+          <LiveClock />
         </span>
       </div>
 
