@@ -71,10 +71,6 @@ const AboutSection: React.FC = () => {
             src="/showcase/v1.mp4"
             className="w-full h-[55vh] md:h-[70vh] object-cover"
           />
-          <div className="px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-            <span>◦ Atelier · Cotonou</span>
-            <span>Skal Service / 2026</span>
-          </div>
         </motion.div>
 
         <div className="col-span-12 mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-px bg-[hsl(var(--ink))/0.12] border hairline">
