@@ -98,7 +98,7 @@ const AIValueSection: React.FC = () => {
             src="/showcase/notifications.png"
             alt="Conversations clients SKAL Service — disponibilité 24/7"
             loading="lazy"
-            className="w-full aspect-[4/3] md:aspect-[16/10] object-cover"
+            className="w-full h-auto object-contain"
           />
           <figcaption className="mt-3 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
             ◦ Disponibilité 24/7 — conversations clients réelles
