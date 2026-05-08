@@ -16,11 +16,11 @@ const FAQ: React.FC = () => {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section ref={ref} className="px-6 md:px-10 py-24 border-t hairline">
+    <section ref={ref} className="section-x section-y border-t hairline">
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 md:col-span-4">
           <span className="ticker-tag">§ Questions</span>
-          <h2 className="display-serif text-5xl md:text-6xl font-light leading-[0.95] mt-4">
+          <h2 className="display-serif fluid-display font-light leading-[0.95] mt-4">
             Vous vous <span className="italic">demandez</span>...
           </h2>
         </div>
@@ -35,16 +35,16 @@ const FAQ: React.FC = () => {
             {faqItems.map((item, i) => (
               <AccordionItem key={i} value={`item-${i}`} className="border-b hairline">
                 <AccordionTrigger className="text-left py-6 hover:no-underline group">
-                  <div className="flex items-baseline gap-6 w-full">
+                  <div className="flex items-baseline gap-3 sm:gap-6 w-full">
                     <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <span className="display-serif text-2xl md:text-3xl font-light flex-1 group-hover:text-[hsl(var(--tangerine))] transition-colors">
+                    <span className="display-serif text-lg sm:text-2xl md:text-3xl font-light flex-1 group-hover:text-[hsl(var(--tangerine))] transition-colors">
                       {item.q}
                     </span>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="text-base text-foreground/70 leading-relaxed pl-[3.5rem] pb-6">
+                <AccordionContent className="text-sm sm:text-base text-foreground/70 leading-relaxed pl-8 sm:pl-[3.5rem] pr-2 pb-6">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>
