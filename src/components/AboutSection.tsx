@@ -42,7 +42,7 @@ const AboutSection: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[0.95] mt-6"
           >
-            Un atelier <span className="italic">pluridisciplinaire</span>, basé à Cotonou.
+            Un atelier <span className="italic">pluridisciplinaire</span>.
           </motion.h2>
         </div>
 
