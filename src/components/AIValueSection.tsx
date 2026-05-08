@@ -100,7 +100,7 @@ const AIValueSection: React.FC = () => {
             loading="lazy"
             className="w-full h-auto object-contain"
           />
-          <figcaption className="mt-3 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+          <figcaption className="mt-3 mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
             ◦ Disponibilité 24/7 — conversations clients réelles
           </figcaption>
         </div>
