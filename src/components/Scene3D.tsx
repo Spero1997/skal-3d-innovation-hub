@@ -6,20 +6,51 @@ import * as THREE from 'three';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 function LogoModel({ paused, speed }: { paused: boolean; speed: number }) {
-  const groupRef = useRef<THREE.Group>(null);
+  const spinRef = useRef<THREE.Group>(null);
   const { scene } = useGLTF('/skal_service.glb');
 
+  // Auto-orient: detect the flattest axis (depth) and turn it toward the camera (+Z).
+  // Then auto-scale to fit a target size so the logo is always visible.
+  const { orientedScene, scale } = React.useMemo(() => {
+    const cloned = scene.clone(true);
+    const box = new THREE.Box3().setFromObject(cloned);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+
+    // Find the smallest dimension — that's the "depth" of the extrusion.
+    const dims: Array<{ axis: 'x' | 'y' | 'z'; v: number }> = [
+      { axis: 'x', v: size.x },
+      { axis: 'y', v: size.y },
+      { axis: 'z', v: size.z },
+    ];
+    dims.sort((a, b) => a.v - b.v);
+    const depthAxis = dims[0].axis;
+
+    const orient = new THREE.Group();
+    // Rotate so the depth axis becomes Z (face toward camera)
+    if (depthAxis === 'x') orient.rotation.y = Math.PI / 2;
+    else if (depthAxis === 'y') orient.rotation.x = Math.PI / 2;
+    orient.add(cloned);
+
+    // Compute scale to fit ~3.2 units on the largest visible dimension.
+    const maxVisible = Math.max(dims[1].v, dims[2].v);
+    const target = 3.2;
+    const s = maxVisible > 0 ? target / maxVisible : 1;
+
+    return { orientedScene: orient, scale: s };
+  }, [scene]);
+
   useFrame((_, delta) => {
-    if (!groupRef.current || paused) return;
-    // cap delta to avoid jumps after tab returns
+    if (!spinRef.current || paused) return;
     const d = Math.min(delta, 0.05);
-    groupRef.current.rotation.y += d * speed;
+    // Spin like a wheel facing the camera
+    spinRef.current.rotation.z += d * speed;
   });
 
   return (
-    <group ref={groupRef}>
+    <group ref={spinRef}>
       <Center>
-        <primitive object={scene} scale={1.6} />
+        <primitive object={orientedScene} scale={scale} />
       </Center>
     </group>
   );
