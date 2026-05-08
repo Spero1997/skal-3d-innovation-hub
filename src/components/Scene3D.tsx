@@ -1,31 +1,51 @@
 
-import React, { useRef, useState, Suspense } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import React, { useRef, useState, Suspense, useMemo } from 'react';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-function Model({ isMobile }: { isMobile: boolean }) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  
+function LogoModel({ isMobile }: { isMobile: boolean }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const texture = useLoader(THREE.TextureLoader, '/skal-logo.svg');
+
+  useMemo(() => {
+    texture.anisotropy = 8;
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    texture.colorSpace = THREE.SRGBColorSpace;
+  }, [texture]);
+
   useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.getElapsedTime() * (isMobile ? 0.05 : 0.1);
-      meshRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.05) * (isMobile ? 0.05 : 0.1);
+    if (groupRef.current) {
+      groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.5;
+      groupRef.current.position.y = Math.sin(state.clock.getElapsedTime() * 0.8) * 0.08;
     }
   });
 
+  // Aspect 690:290 ≈ 2.38
+  const w = 4.2;
+  const h = w * (290 / 690);
+  const depth = 0.18;
+
   return (
-    <mesh ref={meshRef}>
-      <icosahedronGeometry args={[1.8, isMobile ? 1 : 3]} />
-      <meshStandardMaterial 
-        color="#141414"
-        roughness={isMobile ? 0.3 : 0.2} 
-        metalness={isMobile ? 0.8 : 0.9}
-        envMapIntensity={isMobile ? 1 : 1.5}
-        wireframe
-      />
-    </mesh>
+    <group ref={groupRef}>
+      {/* front face */}
+      <mesh position={[0, 0, depth / 2]}>
+        <planeGeometry args={[w, h]} />
+        <meshStandardMaterial map={texture} roughness={0.4} metalness={0.2} />
+      </mesh>
+      {/* back face (mirrored) */}
+      <mesh position={[0, 0, -depth / 2]} rotation={[0, Math.PI, 0]}>
+        <planeGeometry args={[w, h]} />
+        <meshStandardMaterial map={texture} roughness={0.4} metalness={0.2} />
+      </mesh>
+      {/* edge / thickness */}
+      <mesh>
+        <boxGeometry args={[w, h, depth]} />
+        <meshStandardMaterial color="#0d0d0d" roughness={0.6} metalness={0.4} />
+      </mesh>
+    </group>
   );
 }
 
@@ -36,31 +56,11 @@ function LoadingPlaceholder() {
   </mesh>;
 }
 
-function InnerGlow({ isMobile }: { isMobile: boolean }) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.15;
-      const scale = 0.6 + Math.sin(state.clock.getElapsedTime() * 0.5) * 0.1;
-      meshRef.current.scale.setScalar(scale);
-    }
-  });
-
-  if (isMobile) return null;
-
+function LoadingPlaceholder() {
   return (
-    <mesh ref={meshRef}>
-      <sphereGeometry args={[1, 32, 32]} />
-      <meshStandardMaterial 
-        color="#FF5C29"
-        emissive="#FF5C29"
-        emissiveIntensity={2}
-        roughness={1}
-        metalness={0}
-        transparent
-        opacity={0.3}
-      />
+    <mesh>
+      <planeGeometry args={[3, 1.3]} />
+      <meshBasicMaterial color="#141414" />
     </mesh>
   );
 }
@@ -134,8 +134,7 @@ export const Scene3D: React.FC = () => {
         )}
         
         <Suspense fallback={<LoadingPlaceholder />}>
-          <Model isMobile={isMobile} />
-          <InnerGlow isMobile={isMobile} />
+          <LogoModel isMobile={isMobile} />
           {!isMobile && <Environment background={false} preset="studio" />}
         </Suspense>
         
