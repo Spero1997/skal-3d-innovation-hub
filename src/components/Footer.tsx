@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
           <Link to="/privacy" className="hover:text-[hsl(var(--cream))]">Confidentialité</Link>
           <Link to="/terms" className="hover:text-[hsl(var(--cream))]">CGV</Link>
         </div>
-        <span>Made in Cotonou · BJ</span>
+        <span><LiveClock /></span>
       </div>
     </footer>
   );
