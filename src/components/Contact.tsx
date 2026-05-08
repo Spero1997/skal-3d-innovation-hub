@@ -65,7 +65,7 @@ const Contact: React.FC = () => {
             loading="lazy"
             className="w-full h-auto object-contain"
           />
-          <div className="mt-3 flex items-center justify-between mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
           <span>◦ Notifications en temps réel</span>
           <span>Toujours à votre écoute</span>
           </div>

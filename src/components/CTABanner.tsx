@@ -55,7 +55,7 @@ const CTABanner: React.FC = () => {
                 Nous écrire
               </Link>
             </div>
-            <div className="mt-8 flex items-center justify-between mono text-[10px] uppercase tracking-[0.25em] text-[hsl(var(--cream))/0.5]">
+            <div className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-1 mono text-[10px] uppercase tracking-[0.15em] text-[hsl(var(--cream))/0.5]">
               <span>◦ En coulisses</span>
               <span>Process · Cotonou, BJ</span>
             </div>

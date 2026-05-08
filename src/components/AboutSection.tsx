@@ -71,7 +71,7 @@ const AboutSection: React.FC = () => {
             src="/showcase/v1.mp4"
             className="w-full h-[55vh] md:h-[70vh] object-cover"
           />
-          <div className="px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 mt-3 flex items-center justify-between mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+          <div className="px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
             <span>◦ Atelier · Cotonou</span>
             <span>Skal Service / 2026</span>
           </div>
