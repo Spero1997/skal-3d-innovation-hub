@@ -69,39 +69,40 @@ const AIValueSection: React.FC = () => {
 
   return (
     <section ref={ref} id="ia-value" className="section-x section-y border-t hairline">
-      <div className="grid grid-cols-12 gap-6 mb-10 sm:mb-14">
-        <div className="col-span-12 md:col-span-3">
-          <span className="ticker-tag">§ IA · Levier</span>
-        </div>
-        <div className="col-span-12 md:col-span-9">
-          <h2 className="display-serif fluid-display font-light leading-[0.95]">
-            L'IA au service de <span className="italic">votre quotidien</span><br />
-            — un <span className="text-[hsl(var(--tangerine))]">levier de compétitivité.</span>
-          </h2>
-          <p className="mt-6 max-w-2xl text-base sm:text-lg text-foreground/70 leading-relaxed">
-            L'IA n'est plus un luxe réservé aux grandes entreprises. C'est aujourd'hui un
-            levier essentiel pour toute organisation, quelle que soit sa taille. Voici
-            comment nous transformons concrètement votre quotidien.
-          </p>
-        </div>
-      </div>
-
-      {/* Single editorial visual — client conversations */}
-      <motion.figure
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6 }}
-        className="mb-12 sm:mb-16 grid grid-cols-12 gap-6 items-end"
-      >
-        <div className="col-span-12 md:col-span-7 md:col-start-3">
+      {/* Editorial pairing — image LEFT, text RIGHT */}
+      <div className="grid grid-cols-12 gap-6 md:gap-10 items-center mb-12 sm:mb-16">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          className="col-span-12 md:col-span-6"
+        >
           <img
             src="/showcase/notifications.png"
             alt="Conversations clients SKAL Service — disponibilité 24/7"
             loading="lazy"
             className="w-full h-auto object-contain"
           />
-        </div>
-      </motion.figure>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="col-span-12 md:col-span-6"
+        >
+          <span className="ticker-tag">§ IA · Levier</span>
+          <h2 className="display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[0.95] mt-6">
+            L'IA au service de <span className="italic">votre quotidien</span> —
+            un <span className="text-[hsl(var(--tangerine))]">levier de compétitivité.</span>
+          </h2>
+          <p className="mt-6 text-base sm:text-lg text-foreground/70 leading-relaxed max-w-xl">
+            L'IA n'est plus un luxe réservé aux grandes entreprises. C'est aujourd'hui un
+            levier essentiel pour toute organisation, quelle que soit sa taille. Voici
+            comment nous transformons concrètement votre quotidien.
+          </p>
+        </motion.div>
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {benefits.map((b, i) => {

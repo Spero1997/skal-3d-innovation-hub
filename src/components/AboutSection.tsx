@@ -34,46 +34,39 @@ const AboutSection: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-12 md:col-span-4">
-          <span className="ticker-tag">§ Studio</span>
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[0.95] mt-6"
-          >
-            Un atelier <span className="italic">pluridisciplinaire</span>.
-          </motion.h2>
-        </div>
-
+      {/* Editorial pairing — video LEFT, text RIGHT */}
+      <div className="grid grid-cols-12 gap-6 md:gap-10 items-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="col-span-12 md:col-span-4 md:col-start-6 self-end"
-        >
-          <p className="text-base leading-relaxed text-foreground/80">
-            Skal Service réunit graphistes, géomètres et ingénieurs IA sous le même toit.
-            Nous concevons des objets utiles : chartes graphiques qui tiennent la route,
-            cartes que l'on lit sans manuel, automatisations qui font gagner des heures.
-          </p>
-        </motion.div>
-
-        {/* Cinematic full-bleed atelier video — no frame */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.9, delay: 0.25 }}
-          className="col-span-12 -mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 xl:-mx-20 mt-10 sm:mt-14"
+          initial={{ opacity: 0, x: -30 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          className="col-span-12 md:col-span-7"
         >
           <AutoVideo
             src="/showcase/v1.mp4"
-            className="w-full h-[55vh] md:h-[70vh] object-cover"
+            className="w-full h-[50vh] md:h-[70vh] object-cover"
           />
         </motion.div>
 
-        <div className="col-span-12 mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-px bg-[hsl(var(--ink))/0.12] border hairline">
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="col-span-12 md:col-span-5"
+        >
+          <span className="ticker-tag">§ Studio</span>
+          <h2 className="display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[0.95] mt-6">
+            Un atelier <span className="italic">pluridisciplinaire</span>.
+          </h2>
+          <p className="mt-6 text-base leading-relaxed text-foreground/80 max-w-md">
+            Skal Service réunit graphistes, géomètres et ingénieurs IA sous le même toit.
+            Nous concevons des objets utiles&nbsp;: chartes graphiques qui tiennent la route,
+            cartes que l'on lit sans manuel, automatisations qui font gagner des heures.
+          </p>
+        </motion.div>
+      </div>
+
+      <div className="mt-14 sm:mt-20 grid grid-cols-1 md:grid-cols-3 gap-px bg-[hsl(var(--ink))/0.12] border hairline">
           {principles.map((p, i) => (
             <motion.div
               key={p.n}
@@ -90,7 +83,6 @@ const AboutSection: React.FC = () => {
               <p className="text-sm mt-3 opacity-70">{p.d}</p>
             </motion.div>
           ))}
-        </div>
       </div>
     </section>
   );
