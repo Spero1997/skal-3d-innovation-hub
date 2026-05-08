@@ -1,102 +1,89 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowDownRight, Asterisk } from 'lucide-react';
 import { Scene3D } from './Scene3D';
 
 const Hero: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
-  const titleY = useTransform(scrollYProgress, [0, 0.15], [0, -60]);
-  const subtitleOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
-  const buttonsOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
-  
-  const scene3dScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.8]);
-  const scene3dY = useTransform(scrollYProgress, [0, 0.3], [0, -120]);
-  
-  const overlayTextOpacity = useTransform(scrollYProgress, [0.18, 0.3], [0, 1]);
-  const overlayTextY = useTransform(scrollYProgress, [0.18, 0.3], [40, 0]);
-  const overlayDescOpacity = useTransform(scrollYProgress, [0.25, 0.38], [0, 1]);
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
+  const y = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 90]);
 
   return (
-    <section ref={containerRef} className="relative w-full" style={{ minHeight: '200vh' }}>
-      <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Page counter */}
-        <motion.div 
-          className="absolute top-20 left-6 z-20 text-[11px] text-muted-foreground tracking-wider"
-          style={{ opacity: titleOpacity }}
-        >
-          001 / 005
-        </motion.div>
+    <section ref={ref} className="relative px-6 md:px-10 pt-12 pb-20 overflow-hidden">
+      {/* Top meta row */}
+      <div className="flex items-center justify-between mb-12">
+        <span className="ticker-tag">Disponible · Q2 2026</span>
+        <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hidden md:inline">
+          Édition №007 — Cotonou
+        </span>
+      </div>
 
-        {/* Hero text section */}
-        <motion.div 
-          className="absolute top-24 left-6 right-6 z-20 flex flex-col md:flex-row md:items-start md:justify-between gap-4"
-          style={{ opacity: titleOpacity, y: titleY }}
+      {/* MASSIVE editorial title */}
+      <div className="grid grid-cols-12 gap-4 md:gap-6 items-end">
+        <motion.h1
+          style={{ y }}
+          className="col-span-12 display-serif text-[18vw] md:text-[14vw] leading-[0.85] font-light tracking-[-0.04em]"
         >
-          <h1 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold leading-[1.1] text-foreground max-w-md uppercase tracking-wide">
-            VOTRE PARTENAIRE EN CONCEPTION & IA
-          </h1>
-          
-          <motion.p 
-            className="text-xs text-muted-foreground max-w-[220px] md:text-right md:pt-1 leading-relaxed"
-            style={{ opacity: subtitleOpacity }}
-          >
-            Nous combinons expertise technique, créativité et innovation pour donner vie à vos projets avec précision et excellence.
-          </motion.p>
-        </motion.div>
+          <span className="block">Concevoir,</span>
+          <span className="block italic font-normal">
+            cartographier
+            <motion.span style={{ rotate }} className="inline-block ml-3 align-middle">
+              <Asterisk className="inline-block w-[0.6em] h-[0.6em] text-[hsl(var(--tangerine))]" strokeWidth={1.2} />
+            </motion.span>
+          </span>
+          <span className="block">
+            &amp; <span className="scribble-underline">automatiser</span>.
+          </span>
+        </motion.h1>
+      </div>
 
-        {/* Buttons */}
-        <motion.div 
-          className="absolute top-52 md:top-48 left-6 z-20 flex flex-row gap-3"
-          style={{ opacity: buttonsOpacity }}
-        >
-          <Link
-            to="/contact"
-            className="px-6 py-2.5 rounded-full bg-foreground text-[hsl(var(--optimind-card))] text-xs font-medium uppercase tracking-wider hover:opacity-90 transition-all shadow-[0_0_20px_hsl(var(--optimind-glow)/0.2)]"
-          >
-            Contactez-nous
-          </Link>
-          <Link
-            to="/services"
-            className="px-6 py-2.5 rounded-full border border-black/15 text-foreground text-xs font-medium uppercase tracking-wider hover:bg-black/5 transition-colors"
-          >
-            Nos Services
-          </Link>
-        </motion.div>
-
-        {/* 3D Scene area - centered, scales up on scroll */}
-        <motion.div 
-          className="absolute inset-0 top-[35%] md:top-[30%] flex items-start justify-center z-10"
-          style={{ scale: scene3dScale, y: scene3dY }}
-        >
-          <div className="w-full h-[55vh] md:h-[60vh]">
-            <Scene3D />
+      {/* Bottom metadata row */}
+      <div className="grid grid-cols-12 gap-6 mt-12 md:mt-16">
+        <div className="col-span-12 md:col-span-5">
+          <p className="text-base md:text-lg leading-relaxed text-foreground/80 max-w-md">
+            Un studio béninois indépendant qui mêle <em className="display-serif">design éditorial</em>,
+            <span className="mono text-sm"> SIG/topographie </span>
+            et conseil en intelligence artificielle. Une équipe, un toit, six disciplines.
+          </p>
+          <div className="flex flex-wrap items-center gap-3 mt-8">
+            <Link to="/devis" className="btn-ink">
+              Démarrer un projet <ArrowDownRight className="w-4 h-4" />
+            </Link>
+            <Link to="/projects" className="btn-ghost">
+              Voir les travaux
+            </Link>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Overlay text that appears on scroll */}
-        <motion.div 
-          className="absolute bottom-24 left-6 z-20 max-w-sm"
-          style={{ opacity: overlayTextOpacity, y: overlayTextY }}
-        >
-          <h2 className="text-xl md:text-3xl font-display font-bold uppercase tracking-wide text-foreground leading-tight">
-            VOTRE CABINET PLURIDISCIPLINAIRE AU BÉNIN.
-          </h2>
-          <motion.p 
-            className="text-xs text-muted-foreground mt-2 max-w-[240px] leading-relaxed"
-            style={{ opacity: overlayDescOpacity }}
-          >
-            Nous livrons des services complets de design, cartographie et IA sous un même toit.
-          </motion.p>
-        </motion.div>
+        <div className="col-span-12 md:col-span-4 md:col-start-7 grid grid-cols-3 gap-4 mt-2">
+          <Stat n="120+" label="Projets livrés" />
+          <Stat n="48h" label="Délai devis" />
+          <Stat n="06" label="Disciplines" />
+        </div>
+
+        <div className="col-span-12 md:col-span-2 flex md:justify-end items-end mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+          Scroll ↓
+        </div>
+      </div>
+
+      {/* 3D anchor at bottom */}
+      <div className="mt-16 md:mt-24 relative h-[55vh] md:h-[70vh] border-t hairline pt-6">
+        <div className="absolute top-6 left-0 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+          Fig. 01 — Réseau neural · rendu temps réel
+        </div>
+        <Scene3D />
       </div>
     </section>
   );
 };
+
+const Stat: React.FC<{ n: string; label: string }> = ({ n, label }) => (
+  <div className="border-t hairline pt-3">
+    <div className="display-serif text-3xl md:text-4xl">{n}</div>
+    <div className="mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground mt-1">{label}</div>
+  </div>
+);
 
 export default Hero;

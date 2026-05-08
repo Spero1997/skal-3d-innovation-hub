@@ -19,7 +19,7 @@ function Model({ isMobile }: { isMobile: boolean }) {
     <mesh ref={meshRef}>
       <icosahedronGeometry args={[1.8, isMobile ? 1 : 3]} />
       <meshStandardMaterial 
-        color="#2a2a2a"
+        color="#141414"
         roughness={isMobile ? 0.3 : 0.2} 
         metalness={isMobile ? 0.8 : 0.9}
         envMapIntensity={isMobile ? 1 : 1.5}
@@ -53,8 +53,8 @@ function InnerGlow({ isMobile }: { isMobile: boolean }) {
     <mesh ref={meshRef}>
       <sphereGeometry args={[1, 32, 32]} />
       <meshStandardMaterial 
-        color="#F5A623"
-        emissive="#F97316"
+        color="#FF5C29"
+        emissive="#FF5C29"
         emissiveIntensity={2}
         roughness={1}
         metalness={0}
