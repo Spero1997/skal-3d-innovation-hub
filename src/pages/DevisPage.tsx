@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import OptimindLayout from '@/components/OptimindLayout';
+import SEO from '@/components/SEO';
 import { Send, CheckCircle } from 'lucide-react';
 
 const serviceOptions = [

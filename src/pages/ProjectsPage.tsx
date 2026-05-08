@@ -6,6 +6,7 @@ import { ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { projects } from '@/data/projects';
 import OptimindLayout from '@/components/OptimindLayout';
+import SEO from '@/components/SEO';
 
 const ProjectCard: React.FC<{
   id: number;

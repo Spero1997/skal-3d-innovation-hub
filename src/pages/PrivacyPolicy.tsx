@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import OptimindLayout from '@/components/OptimindLayout';
+import SEO from '@/components/SEO';
 
 const PrivacyPolicy: React.FC = () => {
   useEffect(() => {
@@ -11,6 +12,11 @@ const PrivacyPolicy: React.FC = () => {
 
   return (
     <OptimindLayout>
+      <SEO
+        title="Politique de confidentialité — Skal Service"
+        description="Comment Skal Service collecte, utilise et protège vos données personnelles."
+        path="/privacy"
+      />
       <Navbar />
       <div className="pt-32 pb-16">
         <div className="container mx-auto px-4 md:px-6">
