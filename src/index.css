@@ -39,6 +39,10 @@
     --cream: 36 30% 95%;
     --tangerine: 14 100% 57%;
     --tangerine-soft: 14 100% 92%;
+
+    /* Legacy aliases for pages still using old optimind tokens */
+    --optimind-glow: 14 100% 57%;
+    --optimind-card: 36 30% 95%;
   }
 
   .dark {
