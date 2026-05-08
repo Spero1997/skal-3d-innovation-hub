@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 const Footer: React.FC = () => {
   const year = new Date().getFullYear();
   return (
-    <footer className="bg-foreground text-[hsl(var(--cream))] px-6 md:px-10 pt-16 pb-8 relative overflow-hidden">
+    <footer className="bg-foreground text-[hsl(var(--cream))] section-x pt-12 sm:pt-16 pb-8 relative overflow-hidden">
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 md:col-span-7">
-          <h3 className="display-serif text-6xl md:text-9xl font-light leading-[0.85]">
+          <h3 className="display-serif fluid-display-lg font-light leading-[0.85] break-words">
             Skal<span className="text-[hsl(var(--tangerine))]">.</span><br />
             <span className="italic">Service</span>
           </h3>
@@ -36,9 +36,9 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-16 pt-6 border-t border-[hsl(var(--cream))/0.15] flex flex-wrap items-center justify-between gap-4 mono text-[10px] uppercase tracking-[0.25em] text-[hsl(var(--cream))/0.5]">
+      <div className="mt-12 sm:mt-16 pt-6 border-t border-[hsl(var(--cream))/0.15] flex flex-wrap items-center justify-between gap-4 mono text-[9px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[hsl(var(--cream))/0.5]">
         <span>© {year} Skal Service · Tous droits réservés</span>
-        <div className="flex gap-6">
+        <div className="flex flex-wrap gap-3 sm:gap-6">
           <Link to="/legal" className="hover:text-[hsl(var(--cream))]">Mentions légales</Link>
           <Link to="/privacy" className="hover:text-[hsl(var(--cream))]">Confidentialité</Link>
           <Link to="/terms" className="hover:text-[hsl(var(--cream))]">CGV</Link>
