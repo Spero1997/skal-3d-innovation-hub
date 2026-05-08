@@ -11,9 +11,9 @@ const Hero: React.FC = () => {
   const rotate = useTransform(scrollYProgress, [0, 1], [0, 90]);
 
   return (
-    <section ref={ref} className="relative px-6 md:px-10 pt-12 pb-20 overflow-hidden">
+    <section ref={ref} className="relative section-x pt-8 sm:pt-12 pb-16 sm:pb-20 overflow-hidden">
       {/* Top meta row */}
-      <div className="flex items-center justify-between mb-12">
+      <div className="flex items-center justify-between mb-8 sm:mb-12">
         <span className="ticker-tag">Disponible · Q2 2026</span>
         <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hidden md:inline">
           Édition №007 — Cotonou
@@ -24,7 +24,7 @@ const Hero: React.FC = () => {
       <div className="grid grid-cols-12 gap-4 md:gap-6 items-end">
         <motion.h1
           style={{ y }}
-          className="col-span-12 display-serif text-[18vw] md:text-[14vw] leading-[0.85] font-light tracking-[-0.04em]"
+          className="col-span-12 display-serif fluid-display-xl leading-[0.85] font-light tracking-[-0.04em]"
         >
           <span className="block">Concevoir,</span>
           <span className="block italic font-normal">
@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Bottom metadata row */}
-      <div className="grid grid-cols-12 gap-6 mt-12 md:mt-16">
+      <div className="grid grid-cols-12 gap-6 mt-10 sm:mt-12 md:mt-16">
         <div className="col-span-12 md:col-span-5">
           <p className="text-base md:text-lg leading-relaxed text-foreground/80 max-w-md">
             Un studio béninois indépendant qui mêle <em className="display-serif">design éditorial</em>,
@@ -57,7 +57,7 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        <div className="col-span-12 md:col-span-4 md:col-start-7 grid grid-cols-3 gap-4 mt-2">
+        <div className="col-span-12 md:col-span-4 md:col-start-7 grid grid-cols-3 gap-3 sm:gap-4 mt-2">
           <Stat n="120+" label="Projets livrés" />
           <Stat n="48h" label="Délai devis" />
           <Stat n="06" label="Disciplines" />
@@ -69,8 +69,8 @@ const Hero: React.FC = () => {
       </div>
 
       {/* 3D anchor at bottom */}
-      <div className="mt-16 md:mt-24 relative h-[55vh] md:h-[70vh] border-t hairline pt-6">
-        <div className="absolute top-6 left-0 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+      <div className="mt-12 sm:mt-16 md:mt-24 relative h-[45vh] sm:h-[55vh] md:h-[70vh] min-h-[320px] border-t hairline pt-6">
+        <div className="absolute top-6 left-0 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground pr-4">
           Fig. 01 — Réseau neural · rendu temps réel
         </div>
         <Scene3D />
@@ -81,7 +81,7 @@ const Hero: React.FC = () => {
 
 const Stat: React.FC<{ n: string; label: string }> = ({ n, label }) => (
   <div className="border-t hairline pt-3">
-    <div className="display-serif text-3xl md:text-4xl">{n}</div>
+    <div className="display-serif text-2xl sm:text-3xl md:text-4xl">{n}</div>
     <div className="mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground mt-1">{label}</div>
   </div>
 );

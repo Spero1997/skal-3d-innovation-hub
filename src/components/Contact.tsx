@@ -55,11 +55,11 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="px-6 md:px-10 py-24 border-t hairline">
-      <div className="grid grid-cols-12 gap-6 mb-16">
+    <section id="contact" className="section-x section-y border-t hairline">
+      <div className="grid grid-cols-12 gap-6 mb-12 sm:mb-16">
         <div className="col-span-12 md:col-span-6">
           <span className="ticker-tag">§ Contact</span>
-          <h2 className="display-serif text-5xl md:text-7xl font-light leading-[0.95] mt-4">
+          <h2 className="display-serif fluid-display font-light leading-[0.95] mt-4">
             Écrivez-nous, <span className="italic">simplement.</span>
           </h2>
         </div>
@@ -77,14 +77,14 @@ const Contact: React.FC = () => {
           <ContactRow icon={<MapPin className="w-4 h-4" />} label="Atelier" value="Abomey-Calavi, Tokan — Bénin" />
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="col-span-12 md:col-span-8 border hairline p-6 md:p-10 bg-[hsl(var(--cream))]">
+        <form onSubmit={handleSubmit} noValidate className="col-span-12 md:col-span-8 border hairline p-5 sm:p-6 md:p-10 bg-[hsl(var(--cream))]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[hsl(var(--ink))/0.12] mb-px">
             <Field id="name" label="Nom" value={values.name} onChange={update('name')} error={errors.name} />
             <Field id="email" label="Email" type="email" value={values.email} onChange={update('email')} error={errors.email} />
           </div>
           <Field id="subject" label="Sujet (optionnel)" value={values.subject} onChange={update('subject')} error={errors.subject} required={false} />
           <Field id="message" label="Message" textarea value={values.message} onChange={update('message')} error={errors.message} />
-          <div className="flex items-center justify-between mt-8 flex-wrap gap-4">
+          <div className="flex items-center justify-between mt-6 sm:mt-8 flex-wrap gap-4">
             <p className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
               Réponse sous 48h ouvrées
             </p>
@@ -125,7 +125,7 @@ interface FieldProps {
 }
 
 const Field: React.FC<FieldProps> = ({ id, label, type = 'text', textarea, value, onChange, error, required = true }) => {
-  const baseCls = `w-full bg-transparent border-b outline-none py-2 display-serif text-xl font-light transition-colors ${
+  const baseCls = `w-full bg-transparent border-b outline-none py-2 display-serif text-lg sm:text-xl font-light transition-colors ${
     error ? 'border-destructive' : 'hairline focus:border-[hsl(var(--tangerine))]'
   }`;
   return (

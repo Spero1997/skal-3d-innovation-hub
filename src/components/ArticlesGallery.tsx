@@ -23,11 +23,11 @@ const ArticlesGallery: React.FC = () => {
   );
 
   return (
-    <section id="insights" ref={ref} className="px-6 md:px-10 py-24 border-t hairline">
-      <div className="grid grid-cols-12 gap-6 mb-12">
+    <section id="insights" ref={ref} className="section-x section-y border-t hairline">
+      <div className="grid grid-cols-12 gap-6 mb-10 sm:mb-12">
         <div className="col-span-12 md:col-span-7">
           <span className="ticker-tag">§ Insights & Réalisations</span>
-          <h2 className="display-serif text-5xl md:text-7xl font-light leading-[0.95] mt-4">
+          <h2 className="display-serif fluid-display font-light leading-[0.95] mt-4">
             Articles & <span className="italic">études de cas.</span>
           </h2>
         </div>
@@ -58,7 +58,7 @@ const ArticlesGallery: React.FC = () => {
         })}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {items.map((a, i) => (
           <motion.article
             key={a.id}

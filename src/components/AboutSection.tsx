@@ -12,12 +12,12 @@ const AboutSection: React.FC = () => {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section ref={ref} className="px-6 md:px-10 py-24 border-t hairline">
+    <section ref={ref} className="section-x section-y border-t hairline">
       {/* Marquee strip */}
-      <div className="overflow-hidden -mx-6 md:-mx-10 mb-20 border-y hairline py-6 bg-foreground text-[hsl(var(--cream))]">
+      <div className="overflow-hidden -mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 xl:-mx-20 mb-14 sm:mb-20 border-y hairline py-4 sm:py-6 bg-foreground text-[hsl(var(--cream))]">
         <div className="marquee-track">
           {Array.from({ length: 2 }).map((_, k) => (
-            <div key={k} className="flex items-center gap-12 px-6 display-serif text-5xl md:text-7xl font-light">
+            <div key={k} className="flex items-center gap-8 sm:gap-12 px-6 display-serif text-4xl sm:text-5xl md:text-7xl font-light whitespace-nowrap">
               <span>Design</span><span className="opacity-30">●</span>
               <span className="italic">Cartographie</span><span className="opacity-30">●</span>
               <span>Topographie</span><span className="opacity-30">●</span>
@@ -36,7 +36,7 @@ const AboutSection: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="display-serif text-4xl md:text-5xl font-light leading-[0.95] mt-6"
+            className="display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[0.95] mt-6"
           >
             Un atelier <span className="italic">pluridisciplinaire</span>, basé à Cotonou.
           </motion.h2>
@@ -55,20 +55,20 @@ const AboutSection: React.FC = () => {
           </p>
         </motion.div>
 
-        <div className="col-span-12 mt-16 grid grid-cols-1 md:grid-cols-3 gap-px bg-[hsl(var(--ink))/0.12] border hairline">
+        <div className="col-span-12 mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-px bg-[hsl(var(--ink))/0.12] border hairline">
           {principles.map((p, i) => (
             <motion.div
               key={p.n}
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
-              className="bg-background p-8 group hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500"
+              className="bg-background p-6 sm:p-8 group hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500"
             >
-              <div className="flex items-baseline justify-between mb-8">
+              <div className="flex items-baseline justify-between mb-6 sm:mb-8">
                 <span className="mono text-[10px] uppercase tracking-[0.25em] opacity-60">{p.n}</span>
                 <span className="mono text-[10px] uppercase tracking-[0.25em] opacity-60">Principe</span>
               </div>
-              <h3 className="display-serif text-3xl">{p.t}</h3>
+              <h3 className="display-serif text-2xl sm:text-3xl">{p.t}</h3>
               <p className="text-sm mt-3 opacity-70">{p.d}</p>
             </motion.div>
           ))}
