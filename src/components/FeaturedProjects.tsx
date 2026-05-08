@@ -1,63 +1,58 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { projects } from '@/data/projects';
 
 const FeaturedProjects: React.FC = () => {
-  const featured = projects.slice(0, 3);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const featured = projects.slice(0, 4);
 
   return (
-    <section className="section-padding relative z-10">
-      <div className="container mx-auto">
-        <div className="text-center mb-12 animate-fade-in">
-          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-[hsl(var(--optimind-glow)/0.1)]">
-            <span className="text-[hsl(var(--optimind-glow))] text-sm font-medium">Portfolio</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl optimind-heading mb-4 text-foreground">
-            PROJETS RÉCENTS
+    <section ref={ref} className="px-6 md:px-10 py-24 border-t hairline">
+      <div className="flex items-end justify-between mb-12 flex-wrap gap-6">
+        <div>
+          <span className="ticker-tag">§ Sélection 2024–2026</span>
+          <h2 className="display-serif text-5xl md:text-7xl font-light leading-[0.95] mt-4">
+            Travaux <span className="italic">récents.</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Un aperçu de nos réalisations les plus récentes. Chaque projet reflète notre engagement envers l'excellence.
-          </p>
         </div>
+        <Link to="/projects" className="btn-ghost">Tout voir →</Link>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {featured.map((project, index) => (
-            <Link
-              key={project.id}
-              to={`/projects/${project.id}`}
-              className="group optimind-service-card rounded-2xl overflow-hidden p-0 animate-fade-in"
-              style={{ animationDelay: `${0.1 * (index + 1)}s` }}
-            >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <span className="text-white text-sm flex items-center gap-1">
-                    Voir le projet <ExternalLink className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </div>
-              <div className="p-5">
-                <span className="text-[10px] font-medium text-[hsl(var(--optimind-glow))] uppercase tracking-wider">{project.category}</span>
-                <h3 className="text-base font-semibold text-foreground mt-1 mb-1">{project.title}</h3>
-                <p className="text-muted-foreground text-xs line-clamp-2">{project.description}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        <div className="text-center mt-10">
-          <Link
-            to="/projects"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-foreground text-foreground text-sm font-medium uppercase tracking-wider hover:bg-foreground hover:text-[hsl(var(--optimind-card))] transition-colors"
+      <div className="divide-y divide-[hsl(var(--ink))/0.12] border-t border-b hairline">
+        {featured.map((p, i) => (
+          <motion.div
+            key={p.id}
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: i * 0.08 }}
           >
-            Voir tous les projets <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
+            <Link
+              to={`/projects/${p.id}`}
+              className="group grid grid-cols-12 gap-4 items-center py-6 md:py-8 hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500 px-4 -mx-4"
+            >
+              <div className="col-span-1 mono text-[11px] uppercase tracking-[0.2em] opacity-60">
+                {String(i + 1).padStart(2, '0')}
+              </div>
+              <h3 className="col-span-6 md:col-span-5 display-serif text-2xl md:text-4xl font-light leading-tight">
+                {p.title}
+              </h3>
+              <div className="hidden md:block col-span-3 mono text-[11px] uppercase tracking-[0.2em] opacity-60">
+                {p.category}
+              </div>
+              <div className="col-span-3 md:col-span-2 overflow-hidden rounded-sm h-16 md:h-20">
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+                />
+              </div>
+              <ArrowUpRight className="col-span-2 md:col-span-1 ml-auto w-5 h-5 opacity-40 group-hover:opacity-100 group-hover:rotate-45 transition-all duration-500" />
+            </Link>
+          </motion.div>
+        ))}
       </div>
     </section>
   );
