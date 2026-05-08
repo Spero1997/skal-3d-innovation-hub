@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDownRight, Asterisk } from 'lucide-react';
 import { Scene3D } from './Scene3D';
+import LiveClock from './LiveClock';
 
 const Hero: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
