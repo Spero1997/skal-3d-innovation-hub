@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDownRight, Asterisk } from 'lucide-react';
 import LiveClock from './LiveClock';
+import { Scene3D } from './Scene3D';
 
 const Hero: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -65,6 +66,11 @@ const Hero: React.FC = () => {
         <div className="col-span-12 md:col-span-2 flex md:justify-end items-end mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
           Scroll ↓
         </div>
+      </div>
+
+      {/* 3D logo */}
+      <div className="mt-12 md:mt-16 h-[360px] md:h-[460px] w-full">
+        <Scene3D />
       </div>
 
     </section>
