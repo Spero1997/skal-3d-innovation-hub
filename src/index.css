@@ -93,6 +93,15 @@
     line-height: 0.92;
   }
 
+  /* Fluid typography helpers — scale smoothly between phone and large desktop */
+  .fluid-display { font-size: clamp(2.5rem, 9vw, 7rem); }
+  .fluid-display-lg { font-size: clamp(2.75rem, 11vw, 9rem); }
+  .fluid-display-xl { font-size: clamp(3rem, 14vw, 12rem); }
+
+  /* Section padding that scales gracefully across all devices */
+  .section-x { @apply px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20; }
+  .section-y { @apply py-16 sm:py-20 md:py-24; }
+
   .mono { font-family: 'IBM Plex Mono', monospace; }
 
   .hairline { border-color: hsl(var(--ink) / 0.12); }
