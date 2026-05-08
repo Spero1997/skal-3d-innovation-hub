@@ -30,15 +30,17 @@ const Services: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ duration: 0.8 }}
-        className="-mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 xl:-mx-20 mb-12 sm:mb-16"
+        className="mb-12 sm:mb-16 grid grid-cols-12 gap-6"
       >
-        <AutoVideo
-          src="/showcase/v2.mp4"
-          className="w-full h-[45vh] md:h-[60vh] object-cover"
-        />
-        <div className="px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 mt-3 flex items-center justify-between mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-          <span>◦ Atelier · production en cours</span>
-          <span>Skal Service · 2025</span>
+        <div className="col-span-12 md:col-span-10 md:col-start-2">
+          <AutoVideo
+            src="/showcase/v2.mp4"
+            className="w-full h-auto max-h-[80vh] object-contain bg-foreground/5"
+          />
+          <div className="mt-3 flex items-center justify-between mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            <span>◦ Atelier · production en cours</span>
+            <span>Skal Service · 2025</span>
+          </div>
         </div>
       </motion.div>
 
