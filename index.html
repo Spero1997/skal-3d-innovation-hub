@@ -22,6 +22,18 @@
     <!-- Preload critical background images -->
     <link rel="preload" href="/lovable-uploads/09498611-bf02-4ce5-810c-ffa7798e8158.png" as="image" fetchpriority="high" />
     <link rel="preload" href="/lovable-uploads/ecc4cd20-90cc-4af6-8781-13a25c8c2314.png" as="image" />
+
+    <!-- Preload & cache the 3D logo (GLB). `as=fetch` lets the browser warm the HTTP cache
+         so subsequent visits reuse it instantly via useGLTF's loader. -->
+    <link
+      rel="preload"
+      href="/skal_service.glb"
+      as="fetch"
+      type="model/gltf-binary"
+      crossorigin="anonymous"
+      fetchpriority="low"
+    />
+    <link rel="prefetch" href="/skal_service.glb" as="fetch" crossorigin="anonymous" />
     
   
   
