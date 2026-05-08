@@ -1,8 +1,63 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowDownRight } from 'lucide-react';
+import AutoVideo from './media/AutoVideo';
 
 const CTABanner: React.FC = () => {
+  return (
+    <section className="section-x section-y">
+      {/* Cinematic full-bleed video — process / Cotonou */}
+      <div className="-mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 xl:-mx-20 mb-16 sm:mb-24">
+        <AutoVideo
+          src="/showcase/v3.mp4"
+          className="w-full h-[50vh] md:h-[65vh] object-cover"
+        />
+        <div className="px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 mt-3 flex items-center justify-between mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+          <span>◦ En coulisses</span>
+          <span>Process · Cotonou, BJ</span>
+        </div>
+      </div>
+
+      {/* Editorial paired layout — image + dark CTA, no frame */}
+      <div className="grid grid-cols-12 gap-6 items-stretch">
+        <div className="col-span-12 md:col-span-5">
+          <img
+            src="/showcase/listening.png"
+            alt="SKAL Service est à votre écoute"
+            loading="lazy"
+            className="w-full h-full max-h-[640px] object-cover"
+          />
+        </div>
+
+        <div className="col-span-12 md:col-span-7 bg-foreground text-[hsl(var(--cream))] p-6 sm:p-10 md:p-14 lg:p-16 relative overflow-hidden flex flex-col justify-center">
+          <div className="absolute top-0 right-0 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-[hsl(var(--tangerine))/0.15] rounded-full blur-[100px] sm:blur-[150px] pointer-events-none" />
+          <div className="relative">
+            <span className="ticker-tag" style={{ color: 'hsl(var(--cream)/0.6)' }}>§ Prochaine étape</span>
+            <h2 className="display-serif fluid-display-lg font-light leading-[0.95] mt-6">
+              Parlons de<br />
+              <span className="italic text-[hsl(var(--tangerine))]">votre projet.</span>
+            </h2>
+            <p className="mt-6 sm:mt-8 text-base md:text-lg max-w-md text-[hsl(var(--cream))/0.7] leading-relaxed">
+              Devis gratuit sous 48h. Première consultation offerte, sans engagement,
+              pour évaluer ensemble la faisabilité.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link to="/devis" className="inline-flex items-center gap-2 px-5 sm:px-6 py-3 sm:py-4 bg-[hsl(var(--tangerine))] text-foreground mono text-[11px] uppercase tracking-[0.18em] rounded-full hover:opacity-90 transition-opacity">
+                Devis gratuit <ArrowDownRight className="w-4 h-4" />
+              </Link>
+              <Link to="/contact" className="inline-flex items-center gap-2 px-5 sm:px-6 py-3 sm:py-4 border border-[hsl(var(--cream))/0.3] text-[hsl(var(--cream))] mono text-[11px] uppercase tracking-[0.18em] rounded-full hover:bg-[hsl(var(--cream))/0.1] transition-colors">
+                Nous écrire
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Old layout retained for reference (unused)
+const _LegacyCTA: React.FC = () => {
   return (
     <section className="section-x section-y">
       <div className="bg-foreground text-[hsl(var(--cream))] rounded-md p-6 sm:p-10 md:p-16 lg:p-20 relative overflow-hidden">
