@@ -31,7 +31,7 @@ const LegalNotice: React.FC = () => {
                 Numéro d'immatriculation : <span className="italic">[À personnaliser — RCCM / IFU]</span><br />
                 Siège social : Abomey-Calavi, Tokan, von EPP Tokan, Bénin<br />
                 Téléphone : +229 01 90315546<br />
-                Email : skalservice.0@gmail.com
+                Email : servicesskal@gmail.com
               </p>
             </div>
 
@@ -79,7 +79,7 @@ const LegalNotice: React.FC = () => {
             <div>
               <h2 className="text-xl font-semibold mb-4 text-foreground uppercase tracking-wider">7. Données personnelles</h2>
               <p className="leading-relaxed">
-                Conformément à la législation en vigueur, vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité des données vous concernant. Pour exercer ce droit, veuillez nous contacter à l'adresse email suivante : skalservice.0@gmail.com
+                Conformément à la législation en vigueur, vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité des données vous concernant. Pour exercer ce droit, veuillez nous contacter à l'adresse email suivante : servicesskal@gmail.com
               </p>
               <p className="leading-relaxed mt-3">
                 Pour plus de détails, consultez notre <a href="/privacy" className="text-[hsl(var(--optimind-glow))] hover:underline">Politique de Confidentialité</a>.
