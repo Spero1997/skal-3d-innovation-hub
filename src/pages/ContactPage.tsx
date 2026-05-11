@@ -14,7 +14,7 @@ const ContactPage: React.FC = () => {
   return (
     <OptimindLayout>
       <SEO
-        title="Contact — Skal Service"
+        title="Contact — Skal Services"
         description="Discutons de votre projet. Réponse sous 48h ouvrées. Atelier à Abomey-Calavi, Bénin."
         path="/contact"
       />

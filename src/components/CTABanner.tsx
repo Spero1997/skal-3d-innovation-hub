@@ -11,7 +11,7 @@ const CTABanner: React.FC = () => {
         <div className="col-span-12 md:col-span-5">
           <img
             src="/showcase/listening.png"
-            alt="SKAL Service est à votre écoute"
+            alt="SKAL Services est à votre écoute"
             loading="lazy"
             className="w-full h-full max-h-[640px] object-cover"
           />

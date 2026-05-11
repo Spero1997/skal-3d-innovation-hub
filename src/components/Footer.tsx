@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
         <div className="col-span-12 md:col-span-7">
           <img
             src={skalLogo}
-            alt="Skal Service"
+            alt="Skal Services"
             className="h-20 sm:h-28 md:h-36 w-auto object-contain brightness-0 invert"
             loading="lazy"
           />
@@ -42,7 +42,7 @@ const Footer: React.FC = () => {
       </div>
 
       <div className="mt-12 sm:mt-16 pt-6 border-t border-[hsl(var(--cream))/0.15] flex flex-wrap items-center justify-between gap-4 mono text-[9px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[hsl(var(--cream))/0.5]">
-        <span>© {year} Skal Service · Tous droits réservés</span>
+        <span>© {year} Skal Services · Tous droits réservés</span>
         <div className="flex flex-wrap gap-3 sm:gap-6">
           <Link to="/legal" className="hover:text-[hsl(var(--cream))]">Mentions légales</Link>
           <Link to="/privacy" className="hover:text-[hsl(var(--cream))]">Confidentialité</Link>

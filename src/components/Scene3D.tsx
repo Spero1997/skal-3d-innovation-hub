@@ -162,7 +162,7 @@ export const Scene3D: React.FC = () => {
         ◦ Identité · 3D
       </div>
       <div className="absolute bottom-4 left-4 z-10 mono text-[10px] uppercase tracking-[0.3em] text-[hsl(var(--cream))/0.5]">
-        Skal Service / Manifeste
+        Skal Services / Manifeste
       </div>
       <div className="absolute bottom-4 right-4 z-10 mono text-[10px] uppercase tracking-[0.3em] text-[hsl(var(--cream))/0.5] hidden sm:block">
         {hovered ? '↻ Faites pivoter — cliquez & glissez' : 'Survolez · cliquez · faites pivoter'}

@@ -14,7 +14,7 @@ const ServicesPage: React.FC = () => {
   return (
     <OptimindLayout>
       <SEO
-        title="Services — Design, SIG, Arpentage & IA | Skal Service"
+        title="Services — Design, SIG, Arpentage & IA | Skal Services"
         description="Six expertises au service de vos projets : design graphique, stratégie de marque, web, cartographie SIG, arpentage et conseil IA."
         path="/services"
       />

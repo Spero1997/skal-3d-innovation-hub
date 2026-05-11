@@ -59,7 +59,7 @@ const AboutSection: React.FC = () => {
             Un atelier <span className="italic">pluridisciplinaire</span>.
           </h2>
           <p className="mt-6 text-base leading-relaxed text-foreground/80 max-w-md">
-            Skal Service réunit graphistes, géomètres et ingénieurs IA sous le même toit.
+            Skal Services réunit graphistes, géomètres et ingénieurs IA sous le même toit.
             Nous concevons des objets utiles&nbsp;: chartes graphiques qui tiennent la route,
             cartes que l'on lit sans manuel, automatisations qui font gagner des heures.
           </p>

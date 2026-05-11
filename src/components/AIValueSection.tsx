@@ -79,7 +79,7 @@ const AIValueSection: React.FC = () => {
         >
           <img
             src="/showcase/notifications.png"
-            alt="Conversations clients SKAL Service — disponibilité 24/7"
+            alt="Conversations clients SKAL Services — disponibilité 24/7"
             loading="lazy"
             className="w-full h-auto object-contain"
           />

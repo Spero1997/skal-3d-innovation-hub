@@ -71,7 +71,7 @@ const Contact: React.FC = () => {
         <div className="col-span-12 md:col-span-6 order-1 md:order-2">
           <img
             src="/showcase/notifications-2.png"
-            alt="Notifications clients SKAL Service en temps réel"
+            alt="Notifications clients SKAL Services en temps réel"
             loading="lazy"
             className="w-full h-auto object-contain"
           />

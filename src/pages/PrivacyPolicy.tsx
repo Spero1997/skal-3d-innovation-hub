@@ -13,8 +13,8 @@ const PrivacyPolicy: React.FC = () => {
   return (
     <OptimindLayout>
       <SEO
-        title="Politique de confidentialité — Skal Service"
-        description="Comment Skal Service collecte, utilise et protège vos données personnelles."
+        title="Politique de confidentialité — Skal Services"
+        description="Comment Skal Services collecte, utilise et protège vos données personnelles."
         path="/privacy"
       />
       <Navbar />
@@ -32,7 +32,7 @@ const PrivacyPolicy: React.FC = () => {
             <div>
               <h2 className="text-xl font-semibold mb-4 text-foreground uppercase tracking-wider">1. Introduction</h2>
               <p className="leading-relaxed">
-                Skal Service (ci-après « nous ») s'engage à protéger la vie privée des utilisateurs de son site web. La présente politique de confidentialité décrit comment nous collectons, utilisons, stockons et protégeons vos informations personnelles conformément à la législation en vigueur au Bénin et aux standards internationaux de protection des données.
+                Skal Services (ci-après « nous ») s'engage à protéger la vie privée des utilisateurs de son site web. La présente politique de confidentialité décrit comment nous collectons, utilisons, stockons et protégeons vos informations personnelles conformément à la législation en vigueur au Bénin et aux standards internationaux de protection des données.
               </p>
             </div>
 
@@ -40,7 +40,7 @@ const PrivacyPolicy: React.FC = () => {
               <h2 className="text-xl font-semibold mb-4 text-foreground uppercase tracking-wider">2. Responsable du traitement</h2>
               <p className="leading-relaxed">
                 Le responsable du traitement des données est :<br />
-                <strong className="text-foreground">Skal Service</strong><br />
+                <strong className="text-foreground">Skal Services</strong><br />
                 Siège social : Abomey-Calavi, Tokan, von EPP Tokan, Bénin<br />
                 Email : servicesskal@gmail.com<br />
                 Téléphone : +229 01 90315546

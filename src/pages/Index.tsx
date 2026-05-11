@@ -22,13 +22,13 @@ const Index: React.FC = () => {
   return (
     <OptimindLayout>
       <SEO
-        title="SKAL SERVICE — Design, Cartographie SIG, Arpentage & IA au Bénin"
+        title="SKAL SERVICES — Design, Cartographie SIG, Arpentage & IA au Bénin"
         description="Studio béninois : design éditorial, stratégie de marque, web, cartographie SIG, arpentage et conseil en intelligence artificielle. Une équipe, six expertises."
         path="/"
         jsonLd={{
           '@context': 'https://schema.org',
           '@type': 'WebSite',
-          name: 'Skal Service',
+          name: 'Skal Services',
           url: 'https://skalservice.lovable.app',
           inLanguage: 'fr',
         }}

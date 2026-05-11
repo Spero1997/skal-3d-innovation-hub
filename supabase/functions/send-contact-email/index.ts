@@ -31,7 +31,7 @@ Deno.serve(async (req) => {
 
     const html = `
       <div style="font-family: -apple-system,BlinkMacSystemFont,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#121212;">
-        <h2 style="font-size:20px;margin:0 0 16px;">Nouveau message — Skal Service</h2>
+        <h2 style="font-size:20px;margin:0 0 16px;">Nouveau message — Skal Services</h2>
         <p style="margin:0 0 4px;color:#666;font-size:12px;text-transform:uppercase;letter-spacing:.1em;">De</p>
         <p style="margin:0 0 16px;font-size:16px;"><strong>${escapeHtml(name)}</strong> &lt;${escapeHtml(email)}&gt;</p>
         <p style="margin:0 0 4px;color:#666;font-size:12px;text-transform:uppercase;letter-spacing:.1em;">Sujet</p>
