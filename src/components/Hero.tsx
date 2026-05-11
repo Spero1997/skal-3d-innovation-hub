@@ -44,7 +44,7 @@ const Hero: React.FC = () => {
         <div className="col-span-12 md:col-span-5">
           <p className="text-base md:text-lg leading-relaxed text-foreground/80 max-w-md">
             Un studio béninois indépendant qui mêle <em className="display-serif">design éditorial</em>,
-            <span className="mono text-sm"> SIG/topographie </span>
+            <span> SIG/topographie </span>
             et conseil en intelligence artificielle. Une équipe, un toit, six disciplines.
           </p>
           <div className="flex flex-wrap items-center gap-3 mt-8">
