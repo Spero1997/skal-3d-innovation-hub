@@ -37,7 +37,7 @@ export const projects: ProjectData[] = [
     ],
     technologies: ["SIG (ArcGIS / QGIS)", "Relevé GPS différentiel", "Modélisation 3D du terrain", "Drone photogrammétrique"],
     testimonial: {
-      quote: "Skal Service a su allier rigueur technique et vision environnementale pour ce projet ambitieux. Leur expertise en cartographie a été déterminante.",
+      quote: "Skal Services a su allier rigueur technique et vision environnementale pour ce projet ambitieux. Leur expertise en cartographie a été déterminante.",
       author: "Responsable du projet",
       role: "Mairie de Cotonou"
     },

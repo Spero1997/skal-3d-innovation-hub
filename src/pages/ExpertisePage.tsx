@@ -75,7 +75,7 @@ const ExpertisePage: React.FC = () => {
   return (
     <OptimindLayout>
       <SEO
-        title="Expertise — IA, Cartographie, Design | Skal Service"
+        title="Expertise — IA, Cartographie, Design | Skal Services"
         description="Notre expertise pluridisciplinaire : intelligence artificielle, cartographie avancée, design primé et géolocalisation de précision."
         path="/expertise"
       />

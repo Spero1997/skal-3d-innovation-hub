@@ -68,7 +68,7 @@ const DisciplinePage: React.FC = () => {
   return (
     <OptimindLayout>
       <SEO
-        title={`${discipline.title} — Skal Service`}
+        title={`${discipline.title} — Skal Services`}
         description={discipline.desc}
         path={`/services/${discipline.slug}`}
         jsonLd={{
@@ -76,7 +76,7 @@ const DisciplinePage: React.FC = () => {
           '@type': 'Service',
           name: discipline.title,
           description: discipline.desc,
-          provider: { '@type': 'Organization', name: 'Skal Service' },
+          provider: { '@type': 'Organization', name: 'Skal Services' },
           areaServed: 'BJ',
         }}
       />

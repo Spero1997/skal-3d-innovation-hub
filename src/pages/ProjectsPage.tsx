@@ -57,7 +57,7 @@ const ProjectsPage: React.FC = () => {
   return (
     <OptimindLayout>
       <SEO
-        title="Projets & réalisations — Skal Service"
+        title="Projets & réalisations — Skal Services"
         description="Découvrez nos réalisations récentes : urbanisme, cartographie SIG, design et IA au Bénin et en Afrique de l'Ouest."
         path="/projects"
       />

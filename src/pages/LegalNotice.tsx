@@ -13,8 +13,8 @@ const LegalNotice: React.FC = () => {
   return (
     <OptimindLayout>
       <SEO
-        title="Mentions légales — Skal Service"
-        description="Identité légale de Skal Service : IFU, RCCM, siège social et directeur de la publication."
+        title="Mentions légales — Skal Services"
+        description="Identité légale de Skal Services : IFU, RCCM, siège social et directeur de la publication."
         path="/legal"
       />
       <Navbar />
@@ -31,7 +31,7 @@ const LegalNotice: React.FC = () => {
             <div>
               <h2 className="text-xl font-semibold mb-4 text-foreground uppercase tracking-wider">1. Identité de l'entreprise</h2>
               <p className="leading-relaxed">
-                <strong className="text-foreground">Skal Service</strong><br />
+                <strong className="text-foreground">Skal Services</strong><br />
                 Forme juridique : <span className="italic">[À personnaliser — ex : SARL, SAS, auto-entrepreneur]</span><br />
                 Capital social : <span className="italic">[À personnaliser]</span><br />
                 Numéro IFU : 0202112334177<br />
@@ -62,17 +62,17 @@ const LegalNotice: React.FC = () => {
             <div>
               <h2 className="text-xl font-semibold mb-4 text-foreground uppercase tracking-wider">4. Propriété intellectuelle</h2>
               <p className="leading-relaxed">
-                L'ensemble du contenu de ce site (structure générale, textes, logos, images, photographies, vidéos, sons, illustrations, logiciels) est la propriété exclusive de Skal Service ou de ses partenaires et est protégé par les lois en vigueur relatives à la propriété intellectuelle.
+                L'ensemble du contenu de ce site (structure générale, textes, logos, images, photographies, vidéos, sons, illustrations, logiciels) est la propriété exclusive de Skal Services ou de ses partenaires et est protégé par les lois en vigueur relatives à la propriété intellectuelle.
               </p>
               <p className="leading-relaxed mt-3">
-                Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est strictement interdite sans l'autorisation écrite préalable de Skal Service.
+                Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est strictement interdite sans l'autorisation écrite préalable de Skal Services.
               </p>
             </div>
 
             <div>
               <h2 className="text-xl font-semibold mb-4 text-foreground uppercase tracking-wider">5. Limitation de responsabilité</h2>
               <p className="leading-relaxed">
-                Skal Service s'efforce de fournir des informations aussi précises que possible. Toutefois, la société ne pourra être tenue responsable des omissions, inexactitudes ou carences dans la mise à jour de ces informations, qu'elles soient de son fait ou de celui des tiers fournissant ces informations.
+                Skal Services s'efforce de fournir des informations aussi précises que possible. Toutefois, la société ne pourra être tenue responsable des omissions, inexactitudes ou carences dans la mise à jour de ces informations, qu'elles soient de son fait ou de celui des tiers fournissant ces informations.
               </p>
             </div>
 

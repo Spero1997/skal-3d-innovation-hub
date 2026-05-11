@@ -33,10 +33,10 @@ const Navbar: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b hairline">
       <div className="section-x h-14 sm:h-16 flex items-center justify-between gap-3 sm:gap-6">
-        <Link to="/" className="flex items-center gap-3 group min-w-0" aria-label="Skal Service — Accueil">
+        <Link to="/" className="flex items-center gap-3 group min-w-0" aria-label="Skal Services — Accueil">
           <img
             src={skalLogo}
-            alt="Skal Service"
+            alt="Skal Services"
             className="h-8 sm:h-9 md:h-10 w-auto object-contain"
             loading="eager"
             decoding="async"

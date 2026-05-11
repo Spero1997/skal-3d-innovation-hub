@@ -11,9 +11,9 @@ const TrustIndicators: React.FC = () => {
   ];
 
   const testimonials = [
-    { quote: "L'équipe de Skal Service a parfaitement compris nos besoins et a livré un travail de qualité exceptionnelle, bien au-delà de nos attentes.", author: "ACAKPO Charnel", company: "Chargé de la communication, La Ruche d'Or", rating: 5 },
+    { quote: "L'équipe de Skal Services a parfaitement compris nos besoins et a livré un travail de qualité exceptionnelle, bien au-delà de nos attentes.", author: "ACAKPO Charnel", company: "Chargé de la communication, La Ruche d'Or", rating: 5 },
     { quote: "Leur expertise en cartographie et leur conseil en IA nous ont permis d'optimiser considérablement nos processus. Un partenaire de confiance.", author: "TCHESSI JUNIOR", company: "Logisticien", rating: 5 },
-    { quote: "Un professionnalisme remarquable et une réactivité constante. Skal Service a transformé notre vision en réalité avec une précision impressionnante.", author: "DANNON Imelda", company: "Directrice Générale, MEL SHOP", rating: 5 },
+    { quote: "Un professionnalisme remarquable et une réactivité constante. Skal Services a transformé notre vision en réalité avec une précision impressionnante.", author: "DANNON Imelda", company: "Directrice Générale, MEL SHOP", rating: 5 },
     { quote: "Service exceptionnel et résultats à la hauteur de nos attentes. Je recommande vivement leur expertise pour tous vos projets.", author: "GUENDEHOU Côme", company: "Directeur, TECOMAV-ALU", rating: 5 },
   ];
 

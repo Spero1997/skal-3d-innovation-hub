@@ -40,7 +40,7 @@ const ProjectDetailPage: React.FC = () => {
   return (
     <OptimindLayout>
       <SEO
-        title={`${project.title} — Skal Service`}
+        title={`${project.title} — Skal Services`}
         description={project.description.slice(0, 160)}
         path={`/projects/${project.id}`}
         image={`https://skalservice.lovable.app${project.image}`}
@@ -51,7 +51,7 @@ const ProjectDetailPage: React.FC = () => {
           name: project.title,
           description: project.description,
           image: `https://skalservice.lovable.app${project.image}`,
-          creator: { '@type': 'Organization', name: 'Skal Service' },
+          creator: { '@type': 'Organization', name: 'Skal Services' },
         }}
       />
       <Navbar />

@@ -32,7 +32,7 @@ const DevisPage: React.FC = () => {
   return (
     <OptimindLayout>
       <SEO
-        title="Demander un devis gratuit — Skal Service"
+        title="Demander un devis gratuit — Skal Services"
         description="Décrivez votre projet et recevez une estimation personnalisée sous 48h. Sans engagement."
         path="/devis"
       />

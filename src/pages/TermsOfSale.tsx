@@ -13,8 +13,8 @@ const TermsOfSale: React.FC = () => {
   return (
     <OptimindLayout>
       <SEO
-        title="Conditions générales de vente — Skal Service"
-        description="CGV de Skal Service : commande, paiement (40% / 60%), livraison et garanties."
+        title="Conditions générales de vente — Skal Services"
+        description="CGV de Skal Services : commande, paiement (40% / 60%), livraison et garanties."
         path="/terms"
       />
       <Navbar />
@@ -35,7 +35,7 @@ const TermsOfSale: React.FC = () => {
             <div>
               <h2 className="text-xl font-semibold mb-4 text-foreground uppercase tracking-wider">1. Préambule</h2>
               <p className="leading-relaxed">
-                Les présentes conditions générales de vente (CGV) régissent les relations contractuelles entre Skal Service et ses clients.
+                Les présentes conditions générales de vente (CGV) régissent les relations contractuelles entre Skal Services et ses clients.
                 Toute commande implique l'acceptation sans réserve des présentes CGV.
               </p>
             </div>
@@ -43,7 +43,7 @@ const TermsOfSale: React.FC = () => {
             <div>
               <h2 className="text-xl font-semibold mb-4 text-foreground uppercase tracking-wider">2. Services</h2>
               <p className="leading-relaxed">
-                Skal Service propose des services dans les domaines suivants :
+                Skal Services propose des services dans les domaines suivants :
               </p>
               <ul className="list-disc pl-6 space-y-2 mt-3">
                 <li>Développement web et mobile</li>
@@ -86,7 +86,7 @@ const TermsOfSale: React.FC = () => {
             <div>
               <h2 className="text-xl font-semibold mb-4 text-foreground uppercase tracking-wider">6. Propriété intellectuelle</h2>
               <p className="leading-relaxed">
-                Skal Service reste propriétaire des droits de propriété intellectuelle sur les travaux réalisés
+                Skal Services reste propriétaire des droits de propriété intellectuelle sur les travaux réalisés
                 jusqu'au paiement intégral du prix. Le transfert des droits est précisé dans un contrat spécifique.
               </p>
             </div>
@@ -94,8 +94,8 @@ const TermsOfSale: React.FC = () => {
             <div>
               <h2 className="text-xl font-semibold mb-4 text-foreground uppercase tracking-wider">7. Responsabilité</h2>
               <p className="leading-relaxed">
-                La responsabilité de Skal Service est limitée au montant des prestations facturées.
-                Skal Service ne pourra être tenue responsable des contenus fournis par le client.
+                La responsabilité de Skal Services est limitée au montant des prestations facturées.
+                Skal Services ne pourra être tenue responsable des contenus fournis par le client.
               </p>
             </div>
 
