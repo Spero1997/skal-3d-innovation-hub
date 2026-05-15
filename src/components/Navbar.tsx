@@ -33,6 +33,7 @@ const Navbar: React.FC = () => {
   }, []);
 
   return (
+    <>
     <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b hairline">
       <div className="section-x h-14 sm:h-16 flex items-center justify-between gap-3 sm:gap-6">
         <Link to="/" className="flex items-center gap-3 group min-w-0" aria-label="Skal Services — Accueil">
