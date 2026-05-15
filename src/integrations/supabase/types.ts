@@ -133,6 +133,156 @@ export type Database = {
         }
         Relationships: []
       }
+      invoices: {
+        Row: {
+          amount_ht: number
+          amount_paid: number
+          amount_ttc: number
+          client_id: string | null
+          created_at: string
+          created_by: string | null
+          due_date: string | null
+          id: string
+          issue_date: string
+          line_items: Json | null
+          notes: string | null
+          number: string
+          payment_terms: string | null
+          project_id: string | null
+          status: Database["public"]["Enums"]["invoice_status"]
+          updated_at: string
+          vat_rate: number
+        }
+        Insert: {
+          amount_ht?: number
+          amount_paid?: number
+          amount_ttc?: number
+          client_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          due_date?: string | null
+          id?: string
+          issue_date?: string
+          line_items?: Json | null
+          notes?: string | null
+          number: string
+          payment_terms?: string | null
+          project_id?: string | null
+          status?: Database["public"]["Enums"]["invoice_status"]
+          updated_at?: string
+          vat_rate?: number
+        }
+        Update: {
+          amount_ht?: number
+          amount_paid?: number
+          amount_ttc?: number
+          client_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          due_date?: string | null
+          id?: string
+          issue_date?: string
+          line_items?: Json | null
+          notes?: string | null
+          number?: string
+          payment_terms?: string | null
+          project_id?: string | null
+          status?: Database["public"]["Enums"]["invoice_status"]
+          updated_at?: string
+          vat_rate?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          link: string | null
+          read_at: string | null
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title: string
+          type?: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title?: string
+          type?: Database["public"]["Enums"]["notification_type"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      payouts: {
+        Row: {
+          amount: number
+          beneficiary_id: string
+          beneficiary_role: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          payout_date: string
+          period_end: string | null
+          period_start: string | null
+          related_distribution_ids: string[] | null
+        }
+        Insert: {
+          amount: number
+          beneficiary_id: string
+          beneficiary_role?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          payout_date?: string
+          period_end?: string | null
+          period_start?: string | null
+          related_distribution_ids?: string[] | null
+        }
+        Update: {
+          amount?: number
+          beneficiary_id?: string
+          beneficiary_role?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          payout_date?: string
+          period_end?: string | null
+          period_start?: string | null
+          related_distribution_ids?: string[] | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -423,6 +573,39 @@ export type Database = {
           },
         ]
       }
+      team_invitations: {
+        Row: {
+          accepted_at: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string | null
+          role: Database["public"]["Enums"]["app_role"]
+          token: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          created_at?: string
+          email: string
+          expires_at?: string
+          id?: string
+          invited_by?: string | null
+          role: Database["public"]["Enums"]["app_role"]
+          token?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+          token?: string
+        }
+        Relationships: []
+      }
       transactions: {
         Row: {
           amount: number
@@ -544,6 +727,16 @@ export type Database = {
       is_admin_user: { Args: { _user_id: string }; Returns: boolean }
       is_direction: { Args: { _user_id: string }; Returns: boolean }
       is_internal_user: { Args: { _user_id: string }; Returns: boolean }
+      notify_user: {
+        Args: {
+          _body: string
+          _link: string
+          _title: string
+          _type: Database["public"]["Enums"]["notification_type"]
+          _user_id: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role:
@@ -554,6 +747,21 @@ export type Database = {
         | "prestataire"
       cash_direction: "entree" | "sortie"
       distribution_case: "cas1_interne" | "cas2_forfait" | "cas3_au_cout"
+      invoice_status:
+        | "brouillon"
+        | "envoyee"
+        | "partiellement_payee"
+        | "payee"
+        | "annulee"
+      notification_type:
+        | "task_assigned"
+        | "comment"
+        | "transaction"
+        | "invoice"
+        | "project_status"
+        | "deadline"
+        | "mention"
+        | "system"
       project_domain:
         | "architecture_btp"
         | "geomatique_sig"
@@ -701,6 +909,23 @@ export const Constants = {
       ],
       cash_direction: ["entree", "sortie"],
       distribution_case: ["cas1_interne", "cas2_forfait", "cas3_au_cout"],
+      invoice_status: [
+        "brouillon",
+        "envoyee",
+        "partiellement_payee",
+        "payee",
+        "annulee",
+      ],
+      notification_type: [
+        "task_assigned",
+        "comment",
+        "transaction",
+        "invoice",
+        "project_status",
+        "deadline",
+        "mention",
+        "system",
+      ],
       project_domain: [
         "architecture_btp",
         "geomatique_sig",
