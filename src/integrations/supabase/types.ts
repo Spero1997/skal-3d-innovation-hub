@@ -14,6 +14,47 @@ export type Database = {
   }
   public: {
     Tables: {
+      cash_movements: {
+        Row: {
+          amount: number
+          created_at: string
+          created_by: string | null
+          direction: Database["public"]["Enums"]["cash_direction"]
+          id: string
+          label: string
+          movement_date: string
+          source_transaction_id: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          created_by?: string | null
+          direction: Database["public"]["Enums"]["cash_direction"]
+          id?: string
+          label: string
+          movement_date?: string
+          source_transaction_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          created_by?: string | null
+          direction?: Database["public"]["Enums"]["cash_direction"]
+          id?: string
+          label?: string
+          movement_date?: string
+          source_transaction_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cash_movements_source_transaction_id_fkey"
+            columns: ["source_transaction_id"]
+            isOneToOne: false
+            referencedRelation: "transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clients: {
         Row: {
           address: string | null
@@ -266,6 +307,69 @@ export type Database = {
           },
         ]
       }
+      revenue_distributions: {
+        Row: {
+          associe_id: string | null
+          associe_share: number
+          caisse_share: number
+          case_used: Database["public"]["Enums"]["distribution_case"]
+          created_at: string
+          gross_amount: number
+          id: string
+          net_after_caisse_and_prestataire: number
+          prestataire_name: string | null
+          prestataire_share: number
+          project_id: string | null
+          spero_share: number
+          transaction_id: string
+        }
+        Insert: {
+          associe_id?: string | null
+          associe_share?: number
+          caisse_share?: number
+          case_used: Database["public"]["Enums"]["distribution_case"]
+          created_at?: string
+          gross_amount: number
+          id?: string
+          net_after_caisse_and_prestataire?: number
+          prestataire_name?: string | null
+          prestataire_share?: number
+          project_id?: string | null
+          spero_share?: number
+          transaction_id: string
+        }
+        Update: {
+          associe_id?: string | null
+          associe_share?: number
+          caisse_share?: number
+          case_used?: Database["public"]["Enums"]["distribution_case"]
+          created_at?: string
+          gross_amount?: number
+          id?: string
+          net_after_caisse_and_prestataire?: number
+          prestataire_name?: string | null
+          prestataire_share?: number
+          project_id?: string | null
+          spero_share?: number
+          transaction_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "revenue_distributions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "revenue_distributions_transaction_id_fkey"
+            columns: ["transaction_id"]
+            isOneToOne: true
+            referencedRelation: "transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tasks: {
         Row: {
           assignee_id: string | null
@@ -319,6 +423,77 @@ export type Database = {
           },
         ]
       }
+      transactions: {
+        Row: {
+          amount: number
+          associe_id: string | null
+          category: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          distribution_case:
+            | Database["public"]["Enums"]["distribution_case"]
+            | null
+          id: string
+          notes: string | null
+          prestataire_cost: number | null
+          prestataire_name: string | null
+          project_id: string | null
+          status: Database["public"]["Enums"]["transaction_status"]
+          transaction_date: string
+          type: Database["public"]["Enums"]["transaction_type"]
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          associe_id?: string | null
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          distribution_case?:
+            | Database["public"]["Enums"]["distribution_case"]
+            | null
+          id?: string
+          notes?: string | null
+          prestataire_cost?: number | null
+          prestataire_name?: string | null
+          project_id?: string | null
+          status?: Database["public"]["Enums"]["transaction_status"]
+          transaction_date?: string
+          type: Database["public"]["Enums"]["transaction_type"]
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          associe_id?: string | null
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          distribution_case?:
+            | Database["public"]["Enums"]["distribution_case"]
+            | null
+          id?: string
+          notes?: string | null
+          prestataire_cost?: number | null
+          prestataire_name?: string | null
+          project_id?: string | null
+          status?: Database["public"]["Enums"]["transaction_status"]
+          transaction_date?: string
+          type?: Database["public"]["Enums"]["transaction_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -342,7 +517,17 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      finance_summary: {
+        Row: {
+          caisse_balance: number | null
+          total_associes: number | null
+          total_expense: number | null
+          total_prestataires: number | null
+          total_revenue: number | null
+          total_spero: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       can_access_project: {
@@ -367,6 +552,8 @@ export type Database = {
         | "comptable"
         | "chef_projet"
         | "prestataire"
+      cash_direction: "entree" | "sortie"
+      distribution_case: "cas1_interne" | "cas2_forfait" | "cas3_au_cout"
       project_domain:
         | "architecture_btp"
         | "geomatique_sig"
@@ -376,6 +563,8 @@ export type Database = {
       project_priority: "basse" | "normale" | "haute" | "urgente"
       project_status: "prospect" | "en_cours" | "en_pause" | "livre" | "annule"
       task_status: "a_faire" | "en_cours" | "en_revue" | "termine"
+      transaction_status: "prevue" | "encaissee" | "annulee"
+      transaction_type: "revenu" | "depense"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -510,6 +699,8 @@ export const Constants = {
         "chef_projet",
         "prestataire",
       ],
+      cash_direction: ["entree", "sortie"],
+      distribution_case: ["cas1_interne", "cas2_forfait", "cas3_au_cout"],
       project_domain: [
         "architecture_btp",
         "geomatique_sig",
@@ -520,6 +711,8 @@ export const Constants = {
       project_priority: ["basse", "normale", "haute", "urgente"],
       project_status: ["prospect", "en_cours", "en_pause", "livre", "annule"],
       task_status: ["a_faire", "en_cours", "en_revue", "termine"],
+      transaction_status: ["prevue", "encaissee", "annulee"],
+      transaction_type: ["revenu", "depense"],
     },
   },
 } as const
