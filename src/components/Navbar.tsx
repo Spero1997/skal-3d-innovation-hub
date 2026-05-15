@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, ArrowLeft } from 'lucide-react';
 import skalLogo from '@/assets/skal-logo.png';
 
 const links = [
@@ -15,6 +15,8 @@ const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [time, setTime] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const tick = () => {
