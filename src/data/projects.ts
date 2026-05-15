@@ -1,3 +1,9 @@
+export interface GalleryItem {
+  src: string;
+  caption?: string;
+  description?: string;
+}
+
 export interface ProjectData {
   id: number;
   title: string;
@@ -5,7 +11,7 @@ export interface ProjectData {
   category: string;
   description: string;
   image: string;
-  gallery?: string[];
+  gallery?: (string | GalleryItem)[];
   services: string[];
   objectives: string[];
   technologies: string[];
