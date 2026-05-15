@@ -22,6 +22,12 @@ import AdminForgotPassword from "./pages/admin/AdminForgotPassword";
 import AdminResetPassword from "./pages/admin/AdminResetPassword";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminProjects from "./pages/admin/AdminProjects";
+import AdminProjectDetail from "./pages/admin/AdminProjectDetail";
+import AdminClients from "./pages/admin/AdminClients";
+import AdminDomains from "./pages/admin/AdminDomains";
+import AdminFinances from "./pages/admin/AdminFinances";
+import AdminCaisse from "./pages/admin/AdminCaisse";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -54,10 +60,14 @@ const App = () => (
           <Route path="/admin/reset-password" element={<AdminResetPassword />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />
+            <Route path="projets" element={<AdminProjects />} />
+            <Route path="projets/:id" element={<AdminProjectDetail />} />
+            <Route path="clients" element={<AdminClients />} />
+            <Route path="domaines" element={<AdminDomains />} />
+            <Route path="finances" element={<AdminFinances />} />
+            <Route path="caisse" element={<AdminCaisse />} />
           </Route>
 
-          {/* Redirection des routes malformées vers NotFound */}
-          <Route path="/projets" element={<Navigate to="/projects" replace />} />
           
           {/* Attraper toutes les autres routes non-définies */}
           <Route path="*" element={<NotFound />} />
