@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, FolderKanban, Wallet, Users, Briefcase,
-  FileText, Bell, Settings, PieChart, UsersRound, Building2,
+  FileText, Bell, Settings, PieChart, UsersRound, Building2, Coins,
 } from 'lucide-react';
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
@@ -31,6 +31,7 @@ const nav: { label: string; items: Item[] }[] = [
   {
     label: 'Finances',
     items: [
+      { title: 'Finances', url: '/admin/finances', icon: Coins, roles: ['super_admin', 'associe', 'comptable'] },
       { title: 'Caisse', url: '/admin/caisse', icon: Wallet, roles: ['super_admin', 'associe', 'comptable'] },
       { title: 'Dividendes', url: '/admin/dividendes', icon: PieChart, roles: ['super_admin', 'associe'] },
     ],
