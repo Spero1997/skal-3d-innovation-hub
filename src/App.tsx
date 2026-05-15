@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import ServicesPage from "./pages/ServicesPage";
 import DisciplinePage from "./pages/DisciplinePage";
+import DomainPage from "./pages/DomainPage";
 import ExpertisePage from "./pages/ExpertisePage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
@@ -29,6 +30,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/services/:slug" element={<DisciplinePage />} />
+          <Route path="/domaines" element={<Navigate to="/services" replace />} />
+          <Route path="/domaines/:slug" element={<DomainPage />} />
           <Route path="/expertise" element={<ExpertisePage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/projects/:id" element={<ProjectDetailPage />} />

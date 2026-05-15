@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { disciplines } from '@/data/disciplines';
+import { domains } from '@/data/domains';
 import AutoVideo from './media/AutoVideo';
 
 const Services: React.FC = () => {
@@ -13,6 +14,50 @@ const Services: React.FC = () => {
 
   return (
     <section ref={ref} id="services" className="section-x section-y border-t hairline">
+      {/* 4 domaines officiels */}
+      <div className="mb-16 sm:mb-20">
+        <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
+          <div>
+            <span className="ticker-tag">§ Nos 4 domaines</span>
+            <h2 className="display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[0.95] mt-4">
+              Quatre expertises, <span className="italic">un seul</span> interlocuteur.
+            </h2>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {domains.map((d, i) => {
+            const DIcon = d.icon;
+            return (
+              <motion.div
+                key={d.slug}
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+              >
+                <Link
+                  to={`/domaines/${d.slug}`}
+                  className="group relative border hairline rounded-md p-5 sm:p-6 bg-[hsl(var(--cream))] hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500 cursor-pointer min-h-[240px] flex flex-col h-full"
+                >
+                  <div className="flex items-start justify-between">
+                    <span className="mono text-[10px] uppercase tracking-[0.25em] opacity-60">
+                      {d.num} / 04{d.flagship ? ' · ★' : ''}
+                    </span>
+                    <ArrowUpRight className="w-5 h-5 opacity-40 group-hover:opacity-100 group-hover:rotate-45 transition-all duration-500" />
+                  </div>
+                  <DIcon className="w-7 h-7 mt-6 stroke-[1.2] text-[hsl(var(--tangerine))]" />
+                  <h3 className="display-serif text-2xl sm:text-3xl font-normal mt-auto pt-6 leading-[0.95]">
+                    {d.title}
+                  </h3>
+                  <p className="text-sm mt-3 leading-relaxed opacity-70 group-hover:opacity-90">
+                    {d.tagline}
+                  </p>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Editorial pairing — text LEFT, video RIGHT */}
       <div className="grid grid-cols-12 gap-6 md:gap-10 items-center mb-12 sm:mb-16">
         <motion.div
