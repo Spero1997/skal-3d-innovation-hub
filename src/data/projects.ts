@@ -307,9 +307,12 @@ export const projects: ProjectData[] = [
     title: "Construction R+1 — Suivi de chantier",
     subtitle: "Maison à étage : des fondations à la finition",
     category: "Construction & Suivi",
-    description: "Réalisation complète d'une maison R+1 (rez-de-chaussée + étage) suivie en quatre étapes clés : fondations et élévation du RDC, élévation et dalle de l'étage, pose de la toiture et finitions extérieures, livraison finale. Suivi technique, contrôle qualité et coordination des équipes sur l'ensemble du chantier.",
+    description: "Réalisation complète d'une maison R+1 (8,80 × 20,35 m) à partir du plan « Élégance & Confort » conçu par Skal Services. Suivi en quatre étapes clés : fondations et élévation du RDC, élévation et dalle de l'étage, pose de la toiture et finitions extérieures, livraison finale. Suivi technique, contrôle qualité et coordination des équipes sur l'ensemble du chantier.",
     image: "/lovable-uploads/chantier-rplus1-etapes.jpeg",
-    gallery: ["/lovable-uploads/chantier-rplus1-etapes.jpeg"],
+    gallery: [
+      "/lovable-uploads/chantier-rplus1-etapes.jpeg",
+      "/lovable-uploads/plan-maison-3.png",
+    ],
     services: ["Suivi de chantier", "Coordination des corps d'état", "Contrôle qualité", "Implantation et nivellement"],
     objectives: [
       "Mener le chantier des fondations à la livraison finale",
@@ -325,13 +328,14 @@ export const projects: ProjectData[] = [
     title: "Construction maison plain-pied — Suivi de chantier",
     subtitle: "De la fondation à la livraison clé en main",
     category: "Construction & Suivi",
-    description: "Construction d'une maison de plain-pied suivie en quatre étapes : fondations et élévation des murs, charpente bois, pose de la toiture en tôle, finitions extérieures et aménagement de la cour. Coordination des équipes, contrôle qualité et respect du planning sur toute la durée du chantier.",
+    description: "Construction d'une maison de plain-pied (15,00 × 7,70 m, échelle 1:100) à partir du plan « Confort, lumière & harmonie » conçu par Skal Services. Suivi en quatre étapes : fondations et élévation des murs, charpente bois, pose de la toiture en tôle, finitions extérieures et aménagement de la cour. Coordination des équipes, contrôle qualité et respect du planning sur toute la durée du chantier.",
     image: "/lovable-uploads/chantier-rdc-finition.jpeg",
     gallery: [
       "/lovable-uploads/chantier-rdc-fondation.jpeg",
       "/lovable-uploads/chantier-rdc-charpente.jpeg",
       "/lovable-uploads/chantier-rdc-toiture.jpeg",
       "/lovable-uploads/chantier-rdc-finition.jpeg",
+      "/lovable-uploads/plan-maison-1.png",
     ],
     services: ["Suivi de chantier", "Coordination des corps d'état", "Contrôle qualité", "Aménagement extérieur"],
     objectives: [
