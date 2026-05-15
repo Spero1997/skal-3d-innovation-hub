@@ -1,6 +1,6 @@
 import React, { useRef, useState, useMemo } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight, Clock, Eye } from 'lucide-react';
+import { ArrowUpRight, Eye } from 'lucide-react';
 import { articles } from '@/data/articles';
 
 type Filter = 'all' | 'article' | 'case-study';
