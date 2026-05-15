@@ -237,7 +237,13 @@ export const projects: ProjectData[] = [
     description: "Conception du logo et de l'identité visuelle de Golden Hive Design. Travail sur le monogramme « GH » en filigrane, la ruche dorée stylisée et la signature graphique en arc — un univers chromatique violet profond / or pour incarner artisanat, valeur et créativité.",
     image: "/lovable-uploads/golden-hive-logo.png",
     gallery: ["/lovable-uploads/golden-hive-logo.png"],
-    services: ["Identité visuelle", "Création de logo", "Charte graphique"],
+    services: [
+      "Création de logo (principal, monogramme, version monochrome)",
+      "Charte graphique complète (couleurs, typographies, grille, zone de protection)",
+      "Déclinaisons print (carte de visite, papier en-tête, enveloppe, flyer A5, brochure)",
+      "Déclinaisons web & digital (favicon, signature email, bannières réseaux sociaux, templates posts)",
+      "Livrables sources & exports (AI, PDF, SVG, PNG, JPG en HD et web)",
+    ],
     objectives: [
       "Créer un logo premium évoquant artisanat et créativité",
       "Composer un monogramme GH lisible à toutes les tailles",
