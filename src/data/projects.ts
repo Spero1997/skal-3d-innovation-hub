@@ -1,3 +1,9 @@
+export interface GalleryItem {
+  src: string;
+  caption?: string;
+  description?: string;
+}
+
 export interface ProjectData {
   id: number;
   title: string;
@@ -5,7 +11,7 @@ export interface ProjectData {
   category: string;
   description: string;
   image: string;
-  gallery?: string[];
+  gallery?: (string | GalleryItem)[];
   services: string[];
   objectives: string[];
   technologies: string[];
@@ -310,8 +316,16 @@ export const projects: ProjectData[] = [
     description: "Réalisation complète d'une maison R+1 (8,80 × 20,35 m) à partir du plan « Élégance & Confort » conçu par Skal Services. Suivi en quatre étapes clés : fondations et élévation du RDC, élévation et dalle de l'étage, pose de la toiture et finitions extérieures, livraison finale. Suivi technique, contrôle qualité et coordination des équipes sur l'ensemble du chantier.",
     image: "/lovable-uploads/chantier-rplus1-etapes.jpeg",
     gallery: [
-      "/lovable-uploads/chantier-rplus1-etapes.jpeg",
-      "/lovable-uploads/plan-maison-3.png",
+      {
+        src: "/lovable-uploads/chantier-rplus1-etapes.jpeg",
+        caption: "Chantier R+1 — Vue d'ensemble en 4 étapes",
+        description: "Récapitulatif visuel des grandes phases : fondations & RDC, élévation de l'étage, toiture & finitions extérieures, livraison finale.",
+      },
+      {
+        src: "/lovable-uploads/plan-maison-3.png",
+        caption: "Plan de référence — Élégance & Confort (8,80 × 20,35 m)",
+        description: "Plan architectural Skal Services ayant servi de base à la construction : 5 chambres, sanitaires, magasin, séjour ouvert et terrasse.",
+      },
     ],
     services: ["Suivi de chantier", "Coordination des corps d'état", "Contrôle qualité", "Implantation et nivellement"],
     objectives: [
@@ -331,11 +345,31 @@ export const projects: ProjectData[] = [
     description: "Construction d'une maison de plain-pied (15,00 × 7,70 m, échelle 1:100) à partir du plan « Confort, lumière & harmonie » conçu par Skal Services. Suivi en quatre étapes : fondations et élévation des murs, charpente bois, pose de la toiture en tôle, finitions extérieures et aménagement de la cour. Coordination des équipes, contrôle qualité et respect du planning sur toute la durée du chantier.",
     image: "/lovable-uploads/chantier-rdc-finition.jpeg",
     gallery: [
-      "/lovable-uploads/chantier-rdc-fondation.jpeg",
-      "/lovable-uploads/chantier-rdc-charpente.jpeg",
-      "/lovable-uploads/chantier-rdc-toiture.jpeg",
-      "/lovable-uploads/chantier-rdc-finition.jpeg",
-      "/lovable-uploads/plan-maison-1.png",
+      {
+        src: "/lovable-uploads/chantier-rdc-fondation.jpeg",
+        caption: "Étape 1 — Fondations & élévation des murs",
+        description: "Coulage de la dalle, élévation des murs porteurs en agglos et mise en place des chaînages. Implantation et nivellement validés.",
+      },
+      {
+        src: "/lovable-uploads/chantier-rdc-charpente.jpeg",
+        caption: "Étape 2 — Pose de la charpente bois",
+        description: "Montage de la charpente traditionnelle en bois, préparation des pannes et chevrons avant la couverture.",
+      },
+      {
+        src: "/lovable-uploads/chantier-rdc-toiture.jpeg",
+        caption: "Étape 3 — Couverture & enduits",
+        description: "Pose de la toiture en tôle, application des enduits extérieurs et préparation des menuiseries.",
+      },
+      {
+        src: "/lovable-uploads/chantier-rdc-finition.jpeg",
+        caption: "Étape 4 — Finitions & aménagement extérieur",
+        description: "Peinture finale, pose des menuiseries, aménagement de la cour et plantations. Maison livrée clé en main.",
+      },
+      {
+        src: "/lovable-uploads/plan-maison-1.png",
+        caption: "Plan de référence — Confort, lumière & harmonie (15,00 × 7,70 m)",
+        description: "Plan architectural Skal Services à l'échelle 1:100 ayant guidé la construction : 3 chambres, 3 salles d'eau, séjour-cuisine et 2 terrasses.",
+      },
     ],
     services: ["Suivi de chantier", "Coordination des corps d'état", "Contrôle qualité", "Aménagement extérieur"],
     objectives: [
