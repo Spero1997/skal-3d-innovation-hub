@@ -13,7 +13,11 @@ const ProjectDetailPage: React.FC = () => {
   const [activeImage, setActiveImage] = useState(0);
   
   const project = projects.find(p => p.id === parseInt(id || '0'));
-  const gallery = project?.gallery || (project ? [project.image] : []);
+  const rawGallery = project?.gallery || (project ? [project.image] : []);
+  const gallery = rawGallery.map((g) =>
+    typeof g === 'string' ? { src: g } : g
+  );
+  const current = gallery[activeImage];
   
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -66,10 +70,20 @@ const ProjectDetailPage: React.FC = () => {
             {/* Gallery */}
             <div className="relative h-64 md:h-96 overflow-hidden">
               <img 
-                src={gallery[activeImage]} 
-                alt={project.title} 
+                src={current.src}
+                alt={current.caption || project.title}
                 className="w-full h-full object-cover transition-opacity duration-300" 
               />
+              {(current.caption || current.description) && (
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4 md:p-6 pt-10 text-white">
+                  {current.caption && (
+                    <div className="text-sm md:text-base font-semibold leading-tight">{current.caption}</div>
+                  )}
+                  {current.description && (
+                    <p className="text-xs md:text-sm text-white/80 mt-1 max-w-3xl">{current.description}</p>
+                  )}
+                </div>
+              )}
               {gallery.length > 1 && (
                 <>
                   <button 
