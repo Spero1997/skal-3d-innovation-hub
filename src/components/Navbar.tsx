@@ -105,6 +105,22 @@ const Navbar: React.FC = () => {
         </div>
       )}
     </header>
+      {!isHome && (
+        <div className="sticky top-14 sm:top-16 z-40 w-full bg-background/70 backdrop-blur-md border-b hairline">
+          <div className="section-x h-10 flex items-center">
+            <button
+              type="button"
+              onClick={() => (window.history.length > 1 ? navigate(-1) : navigate('/'))}
+              className="inline-flex items-center gap-2 mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Retour"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              Retour
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
