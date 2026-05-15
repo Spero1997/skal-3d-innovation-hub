@@ -19,31 +19,6 @@ export interface ProjectData {
 
 export const projects: ProjectData[] = [
   {
-    id: 1,
-    title: "Projets Poumons verts de Cotonou",
-    subtitle: "Création du Parc urbain de Fifadji / Houéyihô",
-    category: "Urbanisme & Environnement",
-    description: "Le projet Poumon vert consiste à regénérer des zones naturelles dans la ville de Cotonou (Fifadji et Houéyihô), un grand parc urbain de 83 hectares pour contenir en partie les besoins d'assainissement, d'espace vert, d'écotourisme et de distraction.",
-    image: "/lovable-uploads/83485b7c-e7fb-40f0-808e-fa101e256af0.png",
-    gallery: [
-      "/lovable-uploads/83485b7c-e7fb-40f0-808e-fa101e256af0.png",
-    ],
-    services: ["Cartographie", "Arpentage topographique", "Conseil en urbanisme"],
-    objectives: [
-      "Régénérer 83 hectares de zones naturelles urbaines",
-      "Concevoir un parc multifonctionnel (assainissement, loisirs, écotourisme)",
-      "Établir un relevé topographique complet du site",
-      "Proposer un plan d'aménagement durable"
-    ],
-    technologies: ["SIG (ArcGIS / QGIS)", "Relevé GPS différentiel", "Modélisation 3D du terrain", "Drone photogrammétrique"],
-    testimonial: {
-      quote: "Skal Services a su allier rigueur technique et vision environnementale pour ce projet ambitieux. Leur expertise en cartographie a été déterminante.",
-      author: "Responsable du projet",
-      role: "Mairie de Cotonou"
-    },
-    delay: 0.1,
-  },
-  {
     id: 2,
     title: "Refonte Identité Ruche d'Or",
     subtitle: "La Ruche d'Or",
@@ -166,5 +141,47 @@ export const projects: ProjectData[] = [
     ],
     technologies: ["QGIS / ArcGIS", "Imagerie Landsat TM", "Données IGN / PAPDFGC", "Mise en page cartographique"],
     delay: 1.0,
+  },
+  {
+    id: 11,
+    title: "Carte pédologique du Bénin",
+    subtitle: "Cartographie nationale des sols",
+    category: "Cartographie & SIG",
+    description: "Production d'une carte pédologique couvrant l'ensemble du territoire béninois. Identification et représentation des principales unités de sol (sols ferrugineux tropicaux, ferralitiques, hydromorphes, minéraux bruts…) à partir des données CENAP, pour un usage en agronomie, aménagement et études environnementales.",
+    image: "/lovable-uploads/carte-pedologique-benin.jpeg",
+    gallery: ["/lovable-uploads/carte-pedologique-benin.jpeg"],
+    services: ["Cartographie thématique", "SIG", "Mise en page cartographique"],
+    objectives: [
+      "Représenter les grandes unités pédologiques du Bénin",
+      "Faciliter la lecture par une légende détaillée et une symbologie claire",
+      "Fournir un support exploitable pour études agricoles et environnementales",
+      "Intégrer les limites administratives et le réseau routier de référence",
+    ],
+    technologies: ["QGIS / ArcGIS", "Données CENAP", "Géoréférencement", "Mise en page A3 cartographique"],
+    delay: 1.1,
+  },
+  {
+    id: 12,
+    title: "Levés et implantations sur le terrain",
+    subtitle: "Portfolio d'interventions topographiques",
+    category: "Topographie & Implantation",
+    description: "Ensemble d'interventions terrain réalisées par Skal Services au Bénin : levés GPS de précision, relevés en zones humides, implantation de bâtiments et de voiries, suivi de carrière et production de fonds cartographiques. Chaque intervention combine matériel professionnel et restitution numérique exploitable par les bureaux d'études.",
+    image: "/lovable-uploads/portfolio-terrain.jpeg",
+    gallery: ["/lovable-uploads/portfolio-terrain.jpeg"],
+    services: [
+      "Levés topographiques",
+      "Morcellement de domaine",
+      "SIG & cartographie",
+      "Implantation d'ouvrages (bâtiment, route, carrière)",
+      "Vente et location d'appareils topographiques",
+    ],
+    objectives: [
+      "Réaliser des levés haute précision en milieu urbain et rural",
+      "Implanter bâtiments, voiries et ouvrages avec rigueur métrique",
+      "Suivre l'avancement de carrières et terrassements",
+      "Restituer les données sous forme exploitable (DWG, SIG, plans)",
+    ],
+    technologies: ["GPS RTK", "Station totale", "AutoCAD / Covadis", "QGIS", "Drone topographique"],
+    delay: 1.2,
   },
 ];
