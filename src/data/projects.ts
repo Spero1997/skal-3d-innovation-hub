@@ -69,38 +69,6 @@ export const projects: ProjectData[] = [
     delay: 0.2,
   },
   {
-    id: 3,
-    title: "Plateforme de Gestion Territoriale",
-    category: "Développement Web & IA",
-    description: "Développement d'une plateforme SaaS pour la gestion territoriale intégrant des fonctionnalités d'IA pour l'analyse prédictive.",
-    image: "https://images.unsplash.com/photo-1586227740560-8cf2732c1531?q=80&w=2161&auto=format&fit=crop",
-    services: ["Développement web", "Intelligence artificielle", "Conseil stratégique"],
-    objectives: [
-      "Concevoir une plateforme intuitive de gestion territoriale",
-      "Intégrer des modèles d'IA pour l'analyse prédictive",
-      "Assurer la scalabilité de la solution",
-      "Former les utilisateurs finaux"
-    ],
-    technologies: ["React", "Python / TensorFlow", "PostgreSQL", "API REST"],
-    delay: 0.3,
-  },
-  {
-    id: 4,
-    title: "Application de Tourisme Augmenté",
-    category: "Développement Mobile & AR",
-    description: "Application mobile utilisant la réalité augmentée pour enrichir l'expérience touristique dans les sites historiques.",
-    image: "https://images.unsplash.com/photo-1484712401471-05c7215830eb?q=80&w=2070&auto=format&fit=crop",
-    services: ["Développement mobile", "Réalité augmentée", "Design UX/UI"],
-    objectives: [
-      "Développer une app mobile iOS & Android",
-      "Intégrer la réalité augmentée sur sites patrimoniaux",
-      "Créer une expérience utilisateur immersive",
-      "Déployer sur les stores publics"
-    ],
-    technologies: ["React Native", "ARKit / ARCore", "Unity 3D", "Cloud Firebase"],
-    delay: 0.4,
-  },
-  {
     id: 5,
     title: "Relevé Topographique Domaine Viticole",
     category: "Arpentage & Analyse",
@@ -118,21 +86,5 @@ export const projects: ProjectData[] = [
     ],
     technologies: ["Station totale robotisée", "GPS RTK", "QGIS", "Modèle numérique de terrain"],
     delay: 0.5,
-  },
-  {
-    id: 6,
-    title: "Système de Monitoring Environnemental",
-    category: "IoT & Cartographie",
-    description: "Conception et déploiement d'un réseau de capteurs IoT pour le monitoring environnemental en zone urbaine avec visualisation cartographique.",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop",
-    services: ["IoT", "Cartographie", "Développement web"],
-    objectives: [
-      "Déployer un réseau de capteurs environnementaux",
-      "Créer un tableau de bord cartographique temps réel",
-      "Automatiser les alertes de dépassement de seuils",
-      "Analyser les tendances environnementales"
-    ],
-    technologies: ["LoRaWAN", "Capteurs PM2.5 / CO2", "Leaflet / Mapbox", "Node.js / MQTT"],
-    delay: 0.6,
   },
 ];
