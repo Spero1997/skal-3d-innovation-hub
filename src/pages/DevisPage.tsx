@@ -6,7 +6,7 @@ import SEO from '@/components/SEO';
 import { Send, CheckCircle, Loader2, Paperclip, X } from 'lucide-react';
 import { z } from 'zod';
 import { supabase } from '@/integrations/supabase/client';
-import { toast } from '@/components/ui/sonner';
+import { toast } from 'sonner';
 
 const serviceOptions = [
   "Architecture & BTP",
