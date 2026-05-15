@@ -16,8 +16,15 @@ const Footer: React.FC = () => {
             loading="lazy"
           />
           <p className="mt-6 max-w-md text-[hsl(var(--cream))/0.6] text-sm leading-relaxed">
-            Studio béninois — design éditorial, cartographie SIG, arpentage et conseil en intelligence artificielle.
+            SKAL SERVICES SARL — société multidisciplinaire immatriculée au Bénin.
+            Architecture &amp; BTP, géomatique &amp; cartographie SIG, graphisme &amp; IA, web &amp; digital.
+            Bénin · Togo · Niger · Côte d'Ivoire.
           </p>
+          <ul className="mt-6 space-y-1 mono text-[10px] uppercase tracking-[0.2em] text-[hsl(var(--cream))/0.5]">
+            <li>RCCM&nbsp;: RB/ABC/21 A 26495</li>
+            <li>IFU&nbsp;: 0202112334177</li>
+            <li>Agréments DGT · DGC · AL</li>
+          </ul>
         </div>
 
         <div className="col-span-6 md:col-span-2 md:col-start-9">

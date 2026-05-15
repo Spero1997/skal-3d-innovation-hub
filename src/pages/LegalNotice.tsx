@@ -31,13 +31,15 @@ const LegalNotice: React.FC = () => {
             <div>
               <h2 className="text-xl font-semibold mb-4 text-foreground uppercase tracking-wider">1. Identité de l'entreprise</h2>
               <p className="leading-relaxed">
-                <strong className="text-foreground">Skal Services</strong><br />
-                Forme juridique : <span className="italic">[À personnaliser — ex : SARL, SAS, auto-entrepreneur]</span><br />
-                Capital social : <span className="italic">[À personnaliser]</span><br />
+                <strong className="text-foreground">SKAL SERVICES SARL</strong><br />
+                Forme juridique : Société à Responsabilité Limitée (SARL)<br />
                 Numéro IFU : 0202112334177<br />
                 RCCM : RB/ABC/21 A 26495 du 28/01/2021<br />
+                Déclaration DGT : 0008803-ABC<br />
+                Carte DGC : 0008108-ABC<br />
+                Agrément AL : 0008122-ABC<br />
                 Siège social : Abomey-Calavi, Tokan, von EPP Tokan, Bénin<br />
-                Téléphone : +229 01 90315546<br />
+                Téléphone : +229 01 97 58 60 22 / +229 01 67 75 07 78<br />
                 Email : servicesskal@gmail.com
               </p>
             </div>

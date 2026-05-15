@@ -44,8 +44,8 @@ const CTABanner: React.FC = () => {
               <span className="italic text-[hsl(var(--tangerine))]">votre projet.</span>
             </h2>
             <p className="mt-6 sm:mt-8 text-base md:text-lg max-w-md text-[hsl(var(--cream))/0.85] leading-relaxed">
-              Devis gratuit sous 48h. Première consultation offerte, sans engagement,
-              pour évaluer ensemble la faisabilité.
+              Un seul interlocuteur pour tous vos projets — du plan cadastral à votre identité
+              visuelle. Devis gratuit sous 48h, première consultation offerte.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/devis" className="inline-flex items-center gap-2 px-5 sm:px-6 py-3 sm:py-4 bg-[hsl(var(--tangerine))] text-foreground mono text-[11px] uppercase tracking-[0.18em] rounded-full hover:opacity-90 transition-opacity">

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { CheckCircle, Award, Star, Users, Clock } from 'lucide-react';
+import { CheckCircle, Award, Star, Users, Clock, ShieldCheck } from 'lucide-react';
 
 const TrustIndicators: React.FC = () => {
   const trustStats = [
@@ -19,6 +19,27 @@ const TrustIndicators: React.FC = () => {
 
   return (
     <div className="py-12">
+      <div className="mb-16">
+        <h3 className="text-2xl optimind-heading text-center mb-10 text-foreground">UNE ENTREPRISE EN RÈGLE</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          {[
+            { label: 'Forme juridique', value: 'SARL' },
+            { label: 'RCCM', value: 'RB/ABC/21 A 26495' },
+            { label: 'IFU', value: '0202112334177' },
+            { label: 'Agréments', value: 'DGT · DGC · AL' },
+          ].map((item, i) => (
+            <div key={i} className="p-4 rounded-2xl bg-[hsl(var(--optimind-card))] border border-[hsl(var(--border))] flex flex-col items-center text-center">
+              <ShieldCheck className="w-5 h-5 text-[hsl(var(--optimind-glow))] mb-2" />
+              <span className="text-xs text-muted-foreground uppercase tracking-wider">{item.label}</span>
+              <span className="text-sm font-semibold text-foreground mt-1 break-all">{item.value}</span>
+            </div>
+          ))}
+        </div>
+        <p className="text-center text-xs text-muted-foreground mt-4">
+          SKAL SERVICES SARL — société immatriculée au Bénin, intervenant sur toute l'Afrique de l'Ouest.
+        </p>
+      </div>
+
       <div className="mb-16">
         <h3 className="text-2xl optimind-heading text-center mb-10 text-foreground">POURQUOI NOUS FAIRE CONFIANCE ?</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
