@@ -56,12 +56,15 @@ const AboutSection: React.FC = () => {
         >
           <span className="ticker-tag">§ Studio</span>
           <h2 className="display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[0.95] mt-6">
-            Un atelier <span className="italic">pluridisciplinaire</span>.
+            Un guichet unique <span className="italic">multidisciplinaire</span>.
           </h2>
           <p className="mt-6 text-base leading-relaxed text-foreground/80 max-w-md">
-            Skal Services réunit graphistes, géomètres et ingénieurs IA sous le même toit.
-            Nous concevons des objets utiles&nbsp;: chartes graphiques qui tiennent la route,
-            cartes que l'on lit sans manuel, automatisations qui font gagner des heures.
+            <strong>SKAL SERVICES SARL</strong> est une société multidisciplinaire immatriculée
+            au Bénin, rayonnant sur l'Afrique de l'Ouest. Architecture &amp; BTP, géomatique &amp;
+            cartographie, graphisme &amp; IA, web &amp; digital&nbsp;: là où d'autres se spécialisent
+            sur un seul métier, nous réunissons toutes ces expertises sous le même toit.
+            Un seul interlocuteur au lieu de quatre prestataires&nbsp;— c'est notre avantage
+            concurrentiel.
           </p>
         </motion.div>
       </div>

@@ -43,9 +43,9 @@ const Hero: React.FC = () => {
       <div className="grid grid-cols-12 gap-6 mt-10 sm:mt-12 md:mt-16">
         <div className="col-span-12 md:col-span-5">
           <p className="text-base md:text-lg leading-relaxed text-foreground/80 max-w-md">
-            Un studio béninois indépendant qui mêle <em className="display-serif">design éditorial</em>,
-            <span> SIG/topographie </span>
-            et conseil en intelligence artificielle. Une équipe, un toit, six disciplines.
+            Le <em className="display-serif">guichet unique</em> du Bénin pour vos projets&nbsp;:
+            architecture &amp; BTP, géomatique &amp; cartographie SIG, graphisme &amp; IA, web &amp; digital.
+            Un seul interlocuteur, quatre expertises — rayonnement Afrique de l'Ouest.
           </p>
           <div className="flex flex-wrap items-center gap-3 mt-8">
             <Link to="/devis" className="btn-ink">
