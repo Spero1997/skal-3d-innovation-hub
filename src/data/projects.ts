@@ -229,4 +229,22 @@ export const projects: ProjectData[] = [
     },
     delay: 1.5,
   },
+  {
+    id: 16,
+    title: "Création d'identité visuelle — Golden Hive Design",
+    subtitle: "Branding pour un studio créatif",
+    category: "Design & Identité",
+    description: "Conception du logo et de l'identité visuelle de Golden Hive Design. Travail sur le monogramme « GH » en filigrane, la ruche dorée stylisée et la signature graphique en arc — un univers chromatique violet profond / or pour incarner artisanat, valeur et créativité.",
+    image: "/lovable-uploads/golden-hive-logo.png",
+    gallery: ["/lovable-uploads/golden-hive-logo.png"],
+    services: ["Identité visuelle", "Création de logo", "Charte graphique"],
+    objectives: [
+      "Créer un logo premium évoquant artisanat et créativité",
+      "Composer un monogramme GH lisible à toutes les tailles",
+      "Définir une palette violet / or distinctive et mémorable",
+      "Décliner l'identité sur supports print et digitaux",
+    ],
+    technologies: ["Adobe Illustrator", "Adobe Photoshop", "Typographie serif personnalisée", "Charte graphique vectorielle"],
+    delay: 1.6,
+  },
 ];
