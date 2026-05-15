@@ -3,8 +3,9 @@ import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AdminSidebar } from './AdminSidebar';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
-import { Bell, LogOut, Search } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { LogOut } from 'lucide-react';
+import { NotificationBell } from './notifications/NotificationBell';
+import { GlobalSearch } from './GlobalSearch';
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
@@ -56,21 +57,13 @@ export default function AdminLayout() {
             <header className="h-14 border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur-xl sticky top-0 z-30 flex items-center px-4 gap-3">
               <SidebarTrigger className="text-white/60 hover:text-white" />
 
-              <div className="hidden md:flex items-center gap-2 flex-1 max-w-md ml-2">
-                <div className="relative w-full">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
-                  <Input
-                    placeholder="Rechercher projet, client, document…"
-                    className="pl-9 h-9 bg-white/5 border-white/10 text-white placeholder:text-white/30"
-                  />
-                </div>
+              <div className="hidden md:flex flex-1 max-w-md ml-2">
+                <GlobalSearch />
               </div>
 
               <div className="flex-1 md:hidden" />
 
-              <Button variant="ghost" size="icon" className="text-white/60 hover:text-white hover:bg-white/5">
-                <Bell className="w-4 h-4" />
-              </Button>
+              <NotificationBell />
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

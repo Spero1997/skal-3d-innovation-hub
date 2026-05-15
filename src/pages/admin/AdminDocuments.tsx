@@ -72,14 +72,11 @@ export default function AdminDocuments() {
           </Select>
         </div>
         <label>
-          <Input type="file" onChange={upload} disabled={uploading || !projectId} className="hidden" id="file-up" />
-          <Button asChild disabled={uploading || !projectId} className="bg-orange-500 hover:bg-orange-600 cursor-pointer">
-            <span><Upload className="w-4 h-4 mr-2" /> {uploading ? 'Envoi…' : 'Téléverser'}</span>
-          </Button>
+          <input type="file" onChange={upload} disabled={uploading || !projectId} className="hidden" id="file-up" />
+          <span className="inline-flex items-center justify-center rounded-md bg-orange-500 hover:bg-orange-600 text-white h-10 px-4 text-sm font-medium cursor-pointer">
+            <Upload className="w-4 h-4 mr-2" /> {uploading ? 'Envoi…' : 'Téléverser'}
+          </span>
         </label>
-        <input type="file" onChange={upload} disabled={uploading || !projectId}
-          className="absolute opacity-0 w-0 h-0" id="file-up-real"
-          ref={r => r && (window as any).__fileUp = r} />
       </div>
 
       <Card className="bg-[#111]/80 border-white/5 overflow-hidden">
