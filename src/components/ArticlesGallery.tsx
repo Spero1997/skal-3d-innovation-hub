@@ -138,12 +138,8 @@ const ArticlesGallery: React.FC = () => {
 
               {/* Content */}
               <div className="p-5 sm:p-6 flex flex-col gap-3 flex-1">
-                <div className="flex items-center justify-between mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                <div className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                   <span>{a.category}</span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <Clock className="w-3 h-3" />
-                    {a.readTime}
-                  </span>
                 </div>
 
                 <h3 className="display-serif text-xl sm:text-2xl font-light leading-tight">
