@@ -28,6 +28,13 @@ import AdminClients from "./pages/admin/AdminClients";
 import AdminDomains from "./pages/admin/AdminDomains";
 import AdminFinances from "./pages/admin/AdminFinances";
 import AdminCaisse from "./pages/admin/AdminCaisse";
+import AdminInvoices from "./pages/admin/AdminInvoices";
+import AdminInvoiceDetail from "./pages/admin/AdminInvoiceDetail";
+import AdminTeam from "./pages/admin/AdminTeam";
+import AdminDividendes from "./pages/admin/AdminDividendes";
+import AdminDocuments from "./pages/admin/AdminDocuments";
+import AdminJournal from "./pages/admin/AdminJournal";
+import AdminSettings from "./pages/admin/AdminSettings";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -66,6 +73,13 @@ const App = () => (
             <Route path="domaines" element={<AdminDomains />} />
             <Route path="finances" element={<AdminFinances />} />
             <Route path="caisse" element={<AdminCaisse />} />
+            <Route path="factures" element={<AdminInvoices />} />
+            <Route path="factures/:id" element={<AdminInvoiceDetail />} />
+            <Route path="users" element={<AdminTeam />} />
+            <Route path="dividendes" element={<AdminDividendes />} />
+            <Route path="documents" element={<AdminDocuments />} />
+            <Route path="journal" element={<AdminJournal />} />
+            <Route path="parametres" element={<AdminSettings />} />
           </Route>
 
           
