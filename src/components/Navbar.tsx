@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, ArrowLeft } from 'lucide-react';
 import skalLogo from '@/assets/skal-logo.png';
 
 const links = [
@@ -15,6 +15,8 @@ const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [time, setTime] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const tick = () => {
@@ -31,6 +33,7 @@ const Navbar: React.FC = () => {
   }, []);
 
   return (
+    <>
     <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b hairline">
       <div className="section-x h-14 sm:h-16 flex items-center justify-between gap-3 sm:gap-6">
         <Link to="/" className="flex items-center gap-3 group min-w-0" aria-label="Skal Services — Accueil">
@@ -103,6 +106,22 @@ const Navbar: React.FC = () => {
         </div>
       )}
     </header>
+      {!isHome && (
+        <div className="sticky top-14 sm:top-16 z-40 w-full bg-background/70 backdrop-blur-md border-b hairline">
+          <div className="section-x h-10 flex items-center">
+            <button
+              type="button"
+              onClick={() => (window.history.length > 1 ? navigate(-1) : navigate('/'))}
+              className="inline-flex items-center gap-2 mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Retour"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              Retour
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
