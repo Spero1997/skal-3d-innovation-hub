@@ -9,13 +9,16 @@ const rank = (l: Level) => ['public', 'internal', 'restricted', 'secret'].indexO
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  const t0 = Date.now();
+  let client: any = null;
+  let userLevel: Level = 'public';
   try {
     const auth = req.headers.get("Authorization");
     if (!auth) return new Response(JSON.stringify({ error: "Missing Authorization" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
-    const client = createClient(supabaseUrl, anonKey, { global: { headers: { Authorization: auth } } });
+    client = createClient(supabaseUrl, anonKey, { global: { headers: { Authorization: auth } } });
     const { data: userRes } = await client.auth.getUser();
     if (!userRes?.user) return new Response(JSON.stringify({ error: "Unauthenticated" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
@@ -26,6 +29,7 @@ Deno.serve(async (req) => {
       _user_id: userRes.user.id, _entity: 'finances',
     });
     const level = (lvl as Level) ?? 'public';
+    userLevel = level;
 
     // Date range
     const now = new Date();
@@ -75,12 +79,27 @@ Format : markdown clair avec sections : Vue d'ensemble, Faits saillants, Recomma
       prompt: `Données agrégées :\n${context}\n\nGénère le rapport.`,
     });
 
+    await client.rpc("log_ai_access", {
+      _agent_slug: "financial-report", _entity: "finances",
+      _requested: level, _granted: level,
+      _prompt_hash: null, _status: "ok", _error: null,
+      _duration_ms: Date.now() - t0,
+    });
+
     return new Response(JSON.stringify({ report: text, level, period: { start, end } }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e: any) {
     const msg = String(e?.message ?? e);
     const status = msg.includes("429") ? 429 : msg.includes("402") ? 402 : 500;
+    if (client) {
+      await client.rpc("log_ai_access", {
+        _agent_slug: "financial-report", _entity: "finances",
+        _requested: userLevel, _granted: userLevel,
+        _prompt_hash: null, _status: "error", _error: msg.slice(0, 500),
+        _duration_ms: Date.now() - t0,
+      }).catch(() => {});
+    }
     return new Response(JSON.stringify({ error: msg }), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
 });
