@@ -1909,6 +1909,7 @@ export type Database = {
         | "comptable"
         | "chef_projet"
         | "prestataire"
+        | "secretaire"
       beneficiary_type:
         | "caisse"
         | "spero"
@@ -2109,6 +2110,7 @@ export const Constants = {
         "comptable",
         "chef_projet",
         "prestataire",
+        "secretaire",
       ],
       beneficiary_type: [
         "caisse",
