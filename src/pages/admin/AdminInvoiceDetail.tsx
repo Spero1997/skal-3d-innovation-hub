@@ -10,7 +10,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { formatXOF, formatDate } from '@/lib/projects';
 import { toast } from 'sonner';
-import { useState as useStateReact } from 'react';
 
 export default function AdminInvoiceDetail() {
   const { id } = useParams();
