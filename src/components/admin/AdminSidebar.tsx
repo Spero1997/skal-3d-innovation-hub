@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, FolderKanban, Wallet, Users, Briefcase,
   FileText, Bell, Settings, PieChart, UsersRound, Building2, Coins, Receipt, Activity,
-  Scale, FlaskConical, CheckSquare, Handshake, Hammer, Percent, Bot, FileBarChart,
+  Scale, FlaskConical, CheckSquare, Handshake, Hammer, Percent, Bot, FileBarChart, History,
 } from 'lucide-react';
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
@@ -49,6 +49,7 @@ const nav: { label: string; items: Item[] }[] = [
       { title: 'Prestataires', url: '/admin/finances/prestataires', icon: Hammer, roles: ['super_admin', 'associe'] },
       { title: 'Agents IA', url: '/admin/finances/ia', icon: Bot, roles: ['super_admin'] },
       { title: 'Rapports IA', url: '/admin/finances/rapports', icon: FileBarChart, roles: ['super_admin', 'associe', 'comptable'] },
+      { title: 'Historique IA', url: '/admin/finances/historique-ia', icon: History, roles: ['super_admin', 'associe', 'comptable'] },
     ],
   },
   {
