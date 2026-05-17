@@ -86,12 +86,14 @@ Deno.serve(async (req) => {
 
     const promptHash = await sha256(prompt);
     const apiKey = Deno.env.get("LOVABLE_API_KEY");
+    const t0 = Date.now();
 
     if (!apiKey) {
       await userClient.rpc("log_ai_access", {
         _agent_slug: agent.slug, _entity: entity,
         _requested: userLevel, _granted: effective,
         _prompt_hash: promptHash, _status: "error", _error: "missing_api_key",
+        _duration_ms: Date.now() - t0,
       });
       return new Response(JSON.stringify({ error: "AI gateway not configured" }), {
         status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -121,6 +123,7 @@ Deno.serve(async (req) => {
         _agent_slug: agent.slug, _entity: entity,
         _requested: userLevel, _granted: effective,
         _prompt_hash: promptHash, _status: "ok", _error: null,
+        _duration_ms: Date.now() - t0,
       });
 
       return new Response(JSON.stringify({ text: safe, level: effective }), {
@@ -132,6 +135,7 @@ Deno.serve(async (req) => {
         _agent_slug: agent.slug, _entity: entity,
         _requested: userLevel, _granted: effective,
         _prompt_hash: promptHash, _status: "error", _error: msg.slice(0, 500),
+        _duration_ms: Date.now() - t0,
       });
       const status = msg.includes("429") ? 429 : msg.includes("402") ? 402 : 500;
       return new Response(JSON.stringify({ error: msg }), {

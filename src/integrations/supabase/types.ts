@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           agent_slug: string | null
           created_at: string
+          duration_ms: number | null
           entity: string | null
           error: string | null
           granted_level:
@@ -34,6 +35,7 @@ export type Database = {
         Insert: {
           agent_slug?: string | null
           created_at?: string
+          duration_ms?: number | null
           entity?: string | null
           error?: string | null
           granted_level?:
@@ -50,6 +52,7 @@ export type Database = {
         Update: {
           agent_slug?: string | null
           created_at?: string
+          duration_ms?: number | null
           entity?: string | null
           error?: string | null
           granted_level?:
@@ -1168,18 +1171,32 @@ export type Database = {
       is_admin_user: { Args: { _user_id: string }; Returns: boolean }
       is_direction: { Args: { _user_id: string }; Returns: boolean }
       is_internal_user: { Args: { _user_id: string }; Returns: boolean }
-      log_ai_access: {
-        Args: {
-          _agent_slug: string
-          _entity: string
-          _error: string
-          _granted: Database["public"]["Enums"]["confidentiality_level"]
-          _prompt_hash: string
-          _requested: Database["public"]["Enums"]["confidentiality_level"]
-          _status: string
-        }
-        Returns: string
-      }
+      log_ai_access:
+        | {
+            Args: {
+              _agent_slug: string
+              _entity: string
+              _error: string
+              _granted: Database["public"]["Enums"]["confidentiality_level"]
+              _prompt_hash: string
+              _requested: Database["public"]["Enums"]["confidentiality_level"]
+              _status: string
+            }
+            Returns: string
+          }
+        | {
+            Args: {
+              _agent_slug: string
+              _duration_ms?: number
+              _entity: string
+              _error: string
+              _granted: Database["public"]["Enums"]["confidentiality_level"]
+              _prompt_hash: string
+              _requested: Database["public"]["Enums"]["confidentiality_level"]
+              _status: string
+            }
+            Returns: string
+          }
       notify_user: {
         Args: {
           _body: string

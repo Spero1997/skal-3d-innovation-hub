@@ -16,15 +16,19 @@ const Schema = z.object({
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  const t0 = Date.now();
+  let client: any = null;
+  let userId: string | null = null;
   try {
     const auth = req.headers.get("Authorization");
     if (!auth) return new Response(JSON.stringify({ error: "Missing Authorization" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
-    const client = createClient(supabaseUrl, anonKey, { global: { headers: { Authorization: auth } } });
+    client = createClient(supabaseUrl, anonKey, { global: { headers: { Authorization: auth } } });
     const { data: userRes } = await client.auth.getUser();
     if (!userRes?.user) return new Response(JSON.stringify({ error: "Unauthenticated" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    userId = userRes.user.id;
 
     const { name, description, budget, client: clientName } = await req.json().catch(() => ({}));
     if (!description || typeof description !== "string") {
@@ -60,10 +64,25 @@ Budget : ${budget ?? 'non communiqué'}
 Description : ${description}`,
     });
 
+    await client.rpc("log_ai_access", {
+      _agent_slug: "classify-project", _entity: "projects",
+      _requested: "internal", _granted: "internal",
+      _prompt_hash: null, _status: "ok", _error: null,
+      _duration_ms: Date.now() - t0,
+    });
+
     return new Response(JSON.stringify(output), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e: any) {
     const msg = String(e?.message ?? e);
     const status = msg.includes("429") ? 429 : msg.includes("402") ? 402 : 500;
+    if (client) {
+      await client.rpc("log_ai_access", {
+        _agent_slug: "classify-project", _entity: "projects",
+        _requested: "internal", _granted: "internal",
+        _prompt_hash: null, _status: "error", _error: msg.slice(0, 500),
+        _duration_ms: Date.now() - t0,
+      }).catch(() => {});
+    }
     return new Response(JSON.stringify({ error: msg }), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
 });

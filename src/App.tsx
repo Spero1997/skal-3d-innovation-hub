@@ -44,6 +44,7 @@ import Prestataires from "./pages/admin/finance/Prestataires";
 import Commissions from "./pages/admin/finance/Commissions";
 import AiAgents from "./pages/admin/finance/AiAgents";
 import Rapports from "./pages/admin/finance/Rapports";
+import AiHistory from "./pages/admin/finance/AiHistory";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -95,6 +96,7 @@ const App = () => (
             <Route path="finances/commissions" element={<Commissions />} />
             <Route path="finances/ia" element={<AiAgents />} />
             <Route path="finances/rapports" element={<Rapports />} />
+            <Route path="finances/historique-ia" element={<AiHistory />} />
             <Route path="documents" element={<AdminDocuments />} />
             <Route path="journal" element={<AdminJournal />} />
             <Route path="parametres" element={<AdminSettings />} />
