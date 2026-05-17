@@ -23,12 +23,29 @@ export default function AdminLogin() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) {
       toast.error('Échec de connexion', { description: error.message });
+      try {
+        await supabase.from('audit_log').insert({
+          actor_id: null,
+          actor_email: email,
+          action: 'login_failed',
+          entity_type: 'auth',
+          metadata: { reason: error.message },
+        });
+      } catch {}
       return;
     }
+    try {
+      await supabase.from('audit_log').insert({
+        actor_id: data.user?.id ?? null,
+        actor_email: data.user?.email ?? email,
+        action: 'login_success',
+        entity_type: 'auth',
+      });
+    } catch {}
     toast.success('Bienvenue');
     navigate('/admin', { replace: true });
   };
