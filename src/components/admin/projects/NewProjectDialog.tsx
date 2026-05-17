@@ -280,104 +280,91 @@ export function NewProjectDialog({
                 <Sparkles className="h-3.5 w-3.5 mr-1" />
                 {classifying ? 'Analyse…' : 'Suggestion IA'}
               </Button>
-              <div className="flex items-center gap-2 text-[10px] text-white/40">
-                <span>Seuil min. (rôle)</span>
-                <Input
-                  type="number" min={0} max={100}
-                  value={threshold}
-                  onChange={(e) => setThreshold(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
-                  disabled={!allowForce}
-                  className="h-6 w-14 px-1 py-0 bg-white/5 border-white/10 text-white text-[11px]"
-                />
-                <span>%</span>
-              </div>
             </div>
 
-            {suggestion && (() => {
-              const ok = suggestion.confidence >= threshold;
-              const same = suggestion.suggested_domain === form.domain;
-              return (
-                <div className={`mt-2 rounded-md border p-3 ${ok ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-orange-500/40 bg-orange-500/5'}`}>
-                  <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-                    <div className="rounded bg-white/5 border border-white/10 p-2">
-                      <p className="text-[9px] uppercase tracking-wider text-white/40">Avant</p>
-                      <p className="text-sm text-white mt-0.5">{(DOMAIN_LABELS as any)[form.domain] ?? form.domain}</p>
+            {suggestion && (
+              <div className="mt-2 rounded-md border border-white/10 bg-white/[0.02] p-3 space-y-3">
+                {(['domain', 'project_type', 'involvement_level'] as FieldKey[]).map((field) => {
+                  const valueAfter =
+                    field === 'domain' ? suggestion.suggested_domain
+                    : field === 'project_type' ? (suggestion.project_type ?? '')
+                    : (suggestion.involvement_level ?? '');
+                  if (!valueAfter) return null;
+                  const agent = FIELD_AGENT[field];
+                  const th = getTh(agent);
+                  const ok = suggestion.confidence >= th.min;
+                  const valueBefore = (form as any)[field] ?? '';
+                  const labelBefore = field === 'domain'
+                    ? ((DOMAIN_LABELS as any)[valueBefore] ?? valueBefore ?? '—')
+                    : (valueBefore || '—');
+                  const labelAfter = field === 'domain'
+                    ? ((DOMAIN_LABELS as any)[valueAfter] ?? valueAfter)
+                    : valueAfter;
+                  const same = String(valueBefore) === String(valueAfter);
+                  const applied = appliedFields.has(field);
+                  return (
+                    <div key={field} className={`rounded p-2.5 border ${applied ? 'border-emerald-500/40 bg-emerald-500/5' : ok ? 'border-emerald-500/20 bg-emerald-500/[0.03]' : 'border-orange-500/30 bg-orange-500/5'}`}>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-[10px] uppercase tracking-wider text-white/50">{FIELD_LABEL[field]}</span>
+                        <span className={`text-[10px] ${ok ? 'text-emerald-300' : 'text-orange-300'}`}>
+                          {suggestion.confidence}% {ok ? '≥' : '<'} {th.min}%
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+                        <div className="rounded bg-white/5 border border-white/10 p-1.5">
+                          <p className="text-sm text-white truncate">{labelBefore}</p>
+                        </div>
+                        <ArrowRight className="w-3.5 h-3.5 text-white/40" />
+                        <div className={`rounded p-1.5 border ${ok ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-orange-500/10 border-orange-500/30'}`}>
+                          <p className="text-sm text-white truncate">{labelAfter}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1.5 mt-2">
+                        <Button
+                          type="button" size="sm"
+                          onClick={() => applyField(field, false)}
+                          disabled={!ok || same || applied}
+                          className="bg-emerald-500 hover:bg-emerald-600 text-white disabled:opacity-40 h-7 text-xs"
+                        >
+                          <Check className="w-3 h-3 mr-1" />
+                          {applied ? 'Appliqué' : same ? 'Identique' : 'Appliquer'}
+                        </Button>
+                        {!ok && !same && !applied && th.force && (
+                          <Button
+                            type="button" size="sm"
+                            onClick={() => applyField(field, true)}
+                            className="bg-orange-500 hover:bg-orange-600 text-white h-7 text-xs"
+                          >
+                            <Zap className="w-3 h-3 mr-1" />
+                            Forcer
+                          </Button>
+                        )}
+                        {!ok && !th.force && !applied && (
+                          <span className="text-[10px] text-orange-300 ml-1 inline-flex items-center gap-1">
+                            <ShieldAlert className="w-3 h-3" />
+                            Blocage : confiance insuffisante
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-white/40" />
-                    <div className={`rounded p-2 border ${ok ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-orange-500/10 border-orange-500/30'}`}>
-                      <p className="text-[9px] uppercase tracking-wider text-white/50">Après (IA)</p>
-                      <p className="text-sm text-white mt-0.5">
-                        {(DOMAIN_LABELS as any)[suggestion.suggested_domain] ?? suggestion.suggested_domain}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 space-y-1.5">
-                    <div className="flex items-center justify-between text-[10px]">
-                      <span className="text-white/50">Confiance</span>
-                      <span className={ok ? 'text-emerald-300' : 'text-orange-300'}>
-                        {suggestion.confidence}% {ok ? '≥' : '<'} seuil {threshold}%
-                      </span>
-                    </div>
-                    <div className="h-1.5 rounded-full bg-white/5 overflow-hidden relative">
-                      <div
-                        className={`h-full ${ok ? 'bg-emerald-400' : 'bg-orange-400'}`}
-                        style={{ width: `${suggestion.confidence}%` }}
-                      />
-                      <div
-                        className="absolute top-0 bottom-0 w-px bg-white/60"
-                        style={{ left: `${threshold}%` }}
-                        title={`Seuil ${threshold}%`}
-                      />
-                    </div>
-                  </div>
-
-                  {suggestion.rationale && (
-                    <p className="text-[10px] text-white/50 mt-2 leading-relaxed">
-                      {suggestion.rationale}
-                    </p>
-                  )}
-                  <div className="text-[10px] text-white/40 mt-1">
-                    Type : {suggestion.project_type ?? '—'} · Implication : {suggestion.involvement_level ?? '—'}
-                  </div>
-
-                  <div className="flex items-center gap-2 mt-3">
-                    <Button
-                      type="button" size="sm"
-                      onClick={() => applySuggestion(false)}
-                      disabled={!ok || same}
-                      className="bg-emerald-500 hover:bg-emerald-600 text-white disabled:opacity-40"
-                    >
-                      <Check className="w-3.5 h-3.5 mr-1" />
-                      {same ? 'Déjà appliqué' : 'Appliquer'}
-                    </Button>
-                    {!ok && !same && allowForce && (
-                      <Button
-                        type="button" size="sm"
-                        onClick={() => applySuggestion(true)}
-                        className="bg-orange-500 hover:bg-orange-600 text-white"
-                      >
-                        <Zap className="w-3.5 h-3.5 mr-1" />
-                        Forcer
-                      </Button>
-                    )}
-                    <Button
-                      type="button" size="sm" variant="ghost"
-                      onClick={ignoreSuggestion}
-                      className="text-white/60 hover:text-white hover:bg-white/5"
-                    >
-                      Ignorer
-                    </Button>
-                    {!ok && (
-                      <span className="text-[10px] text-orange-300 ml-auto inline-flex items-center gap-1">
-                        <ShieldAlert className="w-3 h-3" />
-                        {allowForce ? 'Confiance < seuil — forçage possible' : 'Blocage : confiance insuffisante'}
-                      </span>
-                    )}
-                  </div>
+                  );
+                })}
+                {suggestion.rationale && (
+                  <p className="text-[10px] text-white/50 leading-relaxed pt-1 border-t border-white/5">
+                    {suggestion.rationale}
+                  </p>
+                )}
+                <div className="flex justify-end">
+                  <Button
+                    type="button" size="sm" variant="ghost"
+                    onClick={ignoreAll}
+                    className="text-white/60 hover:text-white hover:bg-white/5 h-7 text-xs"
+                  >
+                    Fermer (ignorer le reste)
+                  </Button>
                 </div>
-              );
-            })()}
+              </div>
+            )}
           </div>
 
           <div className="space-y-1">
