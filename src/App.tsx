@@ -48,6 +48,7 @@ import AiHistory from "./pages/admin/finance/AiHistory";
 import AdminAccount from "./pages/admin/AdminAccount";
 import AdminAudit from "./pages/admin/AdminAudit";
 import AiStats from "./pages/admin/finance/AiStats";
+import AdminTemplates from "./pages/admin/AdminTemplates";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -106,6 +107,7 @@ const App = () => (
             <Route path="mon-compte" element={<AdminAccount />} />
             <Route path="audit" element={<AdminAudit />} />
             <Route path="parametres" element={<AdminSettings />} />
+            <Route path="modeles" element={<AdminTemplates />} />
           </Route>
 
           
