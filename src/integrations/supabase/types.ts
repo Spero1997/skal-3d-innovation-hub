@@ -14,6 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_data_access: {
+        Row: {
+          created_at: string
+          entity: string
+          id: string
+          max_level: Database["public"]["Enums"]["confidentiality_level"]
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Insert: {
+          created_at?: string
+          entity: string
+          id?: string
+          max_level?: Database["public"]["Enums"]["confidentiality_level"]
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Update: {
+          created_at?: string
+          entity?: string
+          id?: string
+          max_level?: Database["public"]["Enums"]["confidentiality_level"]
+          role?: Database["public"]["Enums"]["app_role"]
+        }
+        Relationships: []
+      }
+      apporteurs_affaires: {
+        Row: {
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string
+          created_by: string | null
+          default_commission_rate: number
+          id: string
+          is_active: boolean
+          name: string
+          notes: string | null
+          updated_at: string
+        }
+        Insert: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_commission_rate?: number
+          id?: string
+          is_active?: boolean
+          name: string
+          notes?: string | null
+          updated_at?: string
+        }
+        Update: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_commission_rate?: number
+          id?: string
+          is_active?: boolean
+          name?: string
+          notes?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cash_movements: {
         Row: {
           amount: number
@@ -94,6 +157,69 @@ export type Database = {
         }
         Relationships: []
       }
+      commissions: {
+        Row: {
+          amount: number
+          beneficiary_apporteur_id: string | null
+          beneficiary_label: string | null
+          beneficiary_prestataire_id: string | null
+          beneficiary_type: Database["public"]["Enums"]["beneficiary_type"]
+          beneficiary_user_id: string | null
+          created_at: string
+          distribution_id: string | null
+          id: string
+          paid_at: string | null
+          status: Database["public"]["Enums"]["commission_status"]
+          transaction_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          beneficiary_apporteur_id?: string | null
+          beneficiary_label?: string | null
+          beneficiary_prestataire_id?: string | null
+          beneficiary_type: Database["public"]["Enums"]["beneficiary_type"]
+          beneficiary_user_id?: string | null
+          created_at?: string
+          distribution_id?: string | null
+          id?: string
+          paid_at?: string | null
+          status?: Database["public"]["Enums"]["commission_status"]
+          transaction_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          beneficiary_apporteur_id?: string | null
+          beneficiary_label?: string | null
+          beneficiary_prestataire_id?: string | null
+          beneficiary_type?: Database["public"]["Enums"]["beneficiary_type"]
+          beneficiary_user_id?: string | null
+          created_at?: string
+          distribution_id?: string | null
+          id?: string
+          paid_at?: string | null
+          status?: Database["public"]["Enums"]["commission_status"]
+          transaction_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commissions_beneficiary_apporteur_id_fkey"
+            columns: ["beneficiary_apporteur_id"]
+            isOneToOne: false
+            referencedRelation: "apporteurs_affaires"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commissions_beneficiary_prestataire_id_fkey"
+            columns: ["beneficiary_prestataire_id"]
+            isOneToOne: false
+            referencedRelation: "prestataires"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       devis_requests: {
         Row: {
           budget: string | null
@@ -130,6 +256,172 @@ export type Database = {
           name?: string
           phone?: string | null
           service?: string
+        }
+        Relationships: []
+      }
+      finance_rule_sets: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          effective_from: string | null
+          effective_to: string | null
+          id: string
+          is_active: boolean
+          name: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          effective_from?: string | null
+          effective_to?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          effective_from?: string | null
+          effective_to?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
+      finance_rules: {
+        Row: {
+          allocations: Json
+          condition: Json
+          created_at: string
+          id: string
+          name: string
+          notes: string | null
+          priority: number
+          requires_validation: boolean
+          rule_set_id: string
+          updated_at: string
+        }
+        Insert: {
+          allocations?: Json
+          condition?: Json
+          created_at?: string
+          id?: string
+          name: string
+          notes?: string | null
+          priority?: number
+          requires_validation?: boolean
+          rule_set_id: string
+          updated_at?: string
+        }
+        Update: {
+          allocations?: Json
+          condition?: Json
+          created_at?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          priority?: number
+          requires_validation?: boolean
+          rule_set_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "finance_rules_rule_set_id_fkey"
+            columns: ["rule_set_id"]
+            isOneToOne: false
+            referencedRelation: "finance_rule_sets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      financial_scenarios: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          params: Json
+          result: Json | null
+          rule_set_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          params?: Json
+          result?: Json | null
+          rule_set_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          params?: Json
+          result?: Json | null
+          rule_set_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "financial_scenarios_rule_set_id_fkey"
+            columns: ["rule_set_id"]
+            isOneToOne: false
+            referencedRelation: "finance_rule_sets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      financial_validations: {
+        Row: {
+          comment: string | null
+          context: Json | null
+          created_at: string
+          entity_id: string
+          entity_type: string
+          id: string
+          requested_by: string | null
+          status: Database["public"]["Enums"]["validation_status"]
+          validated_at: string | null
+          validator_id: string | null
+        }
+        Insert: {
+          comment?: string | null
+          context?: Json | null
+          created_at?: string
+          entity_id: string
+          entity_type: string
+          id?: string
+          requested_by?: string | null
+          status?: Database["public"]["Enums"]["validation_status"]
+          validated_at?: string | null
+          validator_id?: string | null
+        }
+        Update: {
+          comment?: string | null
+          context?: Json | null
+          created_at?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          requested_by?: string | null
+          status?: Database["public"]["Enums"]["validation_status"]
+          validated_at?: string | null
+          validator_id?: string | null
         }
         Relationships: []
       }
@@ -280,6 +572,51 @@ export type Database = {
           period_end?: string | null
           period_start?: string | null
           related_distribution_ids?: string[] | null
+        }
+        Relationships: []
+      }
+      prestataires: {
+        Row: {
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string
+          created_by: string | null
+          default_rate: number | null
+          id: string
+          is_active: boolean
+          kind: string
+          name: string
+          notes: string | null
+          speciality: string | null
+          updated_at: string
+        }
+        Insert: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_rate?: number | null
+          id?: string
+          is_active?: boolean
+          kind?: string
+          name: string
+          notes?: string | null
+          speciality?: string | null
+          updated_at?: string
+        }
+        Update: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_rate?: number | null
+          id?: string
+          is_active?: boolean
+          kind?: string
+          name?: string
+          notes?: string | null
+          speciality?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -470,7 +807,10 @@ export type Database = {
           prestataire_name: string | null
           prestataire_share: number
           project_id: string | null
+          rule_id: string | null
+          rule_set_id: string | null
           spero_share: number
+          status: Database["public"]["Enums"]["distribution_status"]
           transaction_id: string
         }
         Insert: {
@@ -485,7 +825,10 @@ export type Database = {
           prestataire_name?: string | null
           prestataire_share?: number
           project_id?: string | null
+          rule_id?: string | null
+          rule_set_id?: string | null
           spero_share?: number
+          status?: Database["public"]["Enums"]["distribution_status"]
           transaction_id: string
         }
         Update: {
@@ -500,7 +843,10 @@ export type Database = {
           prestataire_name?: string | null
           prestataire_share?: number
           project_id?: string | null
+          rule_id?: string | null
+          rule_set_id?: string | null
           spero_share?: number
+          status?: Database["public"]["Enums"]["distribution_status"]
           transaction_id?: string
         }
         Relationships: [
@@ -713,6 +1059,7 @@ export type Database = {
       }
     }
     Functions: {
+      apply_finance_rules: { Args: { _transaction_id: string }; Returns: Json }
       can_access_project: {
         Args: { _project_id: string; _user_id: string }
         Returns: boolean
@@ -737,16 +1084,42 @@ export type Database = {
         }
         Returns: undefined
       }
+      simulate_rule_set: {
+        Args: { _amount: number; _context?: Json; _rule_set_id: string }
+        Returns: Json
+      }
     }
     Enums: {
+      allocation_basis:
+        | "gross"
+        | "net_after_caisse"
+        | "net_after_costs"
+        | "fixed"
       app_role:
         | "super_admin"
         | "associe"
         | "comptable"
         | "chef_projet"
         | "prestataire"
+      beneficiary_type:
+        | "caisse"
+        | "spero"
+        | "associe"
+        | "apporteur_affaires"
+        | "prestataire_interne"
+        | "prestataire_externe"
+        | "commission_commercial"
+        | "dividende_pool"
+        | "custom"
       cash_direction: "entree" | "sortie"
+      commission_status: "a_valider" | "validee" | "payee" | "annulee"
+      confidentiality_level: "public" | "internal" | "restricted" | "secret"
       distribution_case: "cas1_interne" | "cas2_forfait" | "cas3_au_cout"
+      distribution_status:
+        | "appliquee"
+        | "en_attente_validation"
+        | "rejetee"
+        | "annulee"
       invoice_status:
         | "brouillon"
         | "envoyee"
@@ -773,6 +1146,7 @@ export type Database = {
       task_status: "a_faire" | "en_cours" | "en_revue" | "termine"
       transaction_status: "prevue" | "encaissee" | "annulee"
       transaction_type: "revenu" | "depense"
+      validation_status: "en_attente" | "approuvee" | "rejetee"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -900,6 +1274,12 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      allocation_basis: [
+        "gross",
+        "net_after_caisse",
+        "net_after_costs",
+        "fixed",
+      ],
       app_role: [
         "super_admin",
         "associe",
@@ -907,8 +1287,27 @@ export const Constants = {
         "chef_projet",
         "prestataire",
       ],
+      beneficiary_type: [
+        "caisse",
+        "spero",
+        "associe",
+        "apporteur_affaires",
+        "prestataire_interne",
+        "prestataire_externe",
+        "commission_commercial",
+        "dividende_pool",
+        "custom",
+      ],
       cash_direction: ["entree", "sortie"],
+      commission_status: ["a_valider", "validee", "payee", "annulee"],
+      confidentiality_level: ["public", "internal", "restricted", "secret"],
       distribution_case: ["cas1_interne", "cas2_forfait", "cas3_au_cout"],
+      distribution_status: [
+        "appliquee",
+        "en_attente_validation",
+        "rejetee",
+        "annulee",
+      ],
       invoice_status: [
         "brouillon",
         "envoyee",
@@ -938,6 +1337,7 @@ export const Constants = {
       task_status: ["a_faire", "en_cours", "en_revue", "termine"],
       transaction_status: ["prevue", "encaissee", "annulee"],
       transaction_type: ["revenu", "depense"],
+      validation_status: ["en_attente", "approuvee", "rejetee"],
     },
   },
 } as const
