@@ -19,14 +19,14 @@ const nav: { label: string; items: Item[] }[] = [
     label: 'Pilotage',
     items: [
       { title: 'Tableau de bord', url: '/admin', icon: LayoutDashboard },
-      { title: 'Statistiques', url: '/admin/stats', icon: PieChart, roles: ['super_admin', 'associe', 'comptable'] },
+      { title: 'Statistiques', url: '/admin/stats', icon: PieChart, roles: ['super_admin', 'associe', 'comptable', 'secretaire'] },
     ],
   },
   {
     label: 'Activité',
     items: [
       { title: 'Projets', url: '/admin/projets', icon: FolderKanban },
-      { title: 'Modèles', url: '/admin/modeles', icon: Layers, roles: ['super_admin', 'associe', 'chef_projet'] },
+      { title: 'Modèles', url: '/admin/modeles', icon: Layers, roles: ['super_admin', 'associe', 'chef_projet', 'secretaire'] },
       { title: 'Domaines', url: '/admin/domaines', icon: Building2 },
       { title: 'Clients (CRM)', url: '/admin/clients', icon: UsersRound },
       { title: 'Assistant IA', url: '/admin/ia', icon: Bot },
@@ -35,9 +35,9 @@ const nav: { label: string; items: Item[] }[] = [
   {
     label: 'Finances',
     items: [
-      { title: 'Finances', url: '/admin/finances', icon: Coins, roles: ['super_admin', 'associe', 'comptable'] },
-      { title: 'Factures', url: '/admin/factures', icon: Receipt, roles: ['super_admin', 'associe', 'comptable', 'chef_projet'] },
-      { title: 'Caisse', url: '/admin/caisse', icon: Wallet, roles: ['super_admin', 'associe', 'comptable'] },
+      { title: 'Finances', url: '/admin/finances', icon: Coins, roles: ['super_admin', 'associe', 'comptable', 'secretaire'] },
+      { title: 'Factures', url: '/admin/factures', icon: Receipt, roles: ['super_admin', 'associe', 'comptable', 'chef_projet', 'secretaire'] },
+      { title: 'Caisse', url: '/admin/caisse', icon: Wallet, roles: ['super_admin', 'associe', 'comptable', 'secretaire'] },
       { title: 'Dividendes', url: '/admin/dividendes', icon: PieChart, roles: ['super_admin', 'associe'] },
     ],
   },
@@ -47,13 +47,13 @@ const nav: { label: string; items: Item[] }[] = [
       { title: 'Règles', url: '/admin/finances/regles', icon: Scale, roles: ['super_admin'] },
       { title: 'Scénarios', url: '/admin/finances/scenarios', icon: FlaskConical, roles: ['super_admin'] },
       { title: 'Validations', url: '/admin/finances/validations', icon: CheckSquare, roles: ['super_admin', 'associe'] },
-      { title: 'Commissions', url: '/admin/finances/commissions', icon: Percent, roles: ['super_admin', 'associe', 'comptable'] },
+      { title: 'Commissions', url: '/admin/finances/commissions', icon: Percent, roles: ['super_admin', 'associe', 'comptable', 'secretaire'] },
       { title: 'Apporteurs', url: '/admin/finances/apporteurs', icon: Handshake, roles: ['super_admin', 'associe'] },
       { title: 'Prestataires', url: '/admin/finances/prestataires', icon: Hammer, roles: ['super_admin', 'associe'] },
       { title: 'Agents IA', url: '/admin/finances/ia', icon: Bot, roles: ['super_admin'] },
-      { title: 'Rapports IA', url: '/admin/finances/rapports', icon: FileBarChart, roles: ['super_admin', 'associe', 'comptable'] },
-      { title: 'Historique IA', url: '/admin/finances/historique-ia', icon: History, roles: ['super_admin', 'associe', 'comptable'] },
-      { title: 'Statistiques IA', url: '/admin/finances/stats-ia', icon: BarChart3, roles: ['super_admin', 'associe', 'comptable'] },
+      { title: 'Rapports IA', url: '/admin/finances/rapports', icon: FileBarChart, roles: ['super_admin', 'associe', 'comptable', 'secretaire'] },
+      { title: 'Historique IA', url: '/admin/finances/historique-ia', icon: History, roles: ['super_admin', 'associe', 'comptable', 'secretaire'] },
+      { title: 'Statistiques IA', url: '/admin/finances/stats-ia', icon: BarChart3, roles: ['super_admin', 'associe', 'comptable', 'secretaire'] },
     ],
   },
   {
@@ -67,7 +67,7 @@ const nav: { label: string; items: Item[] }[] = [
     label: 'Système',
     items: [
       { title: 'Documents', url: '/admin/documents', icon: FileText },
-      { title: 'Journal', url: '/admin/journal', icon: Activity, roles: ['super_admin', 'associe', 'comptable'] },
+      { title: 'Journal', url: '/admin/journal', icon: Activity, roles: ['super_admin', 'associe', 'comptable', 'secretaire'] },
       { title: 'Audit global', url: '/admin/audit', icon: ShieldAlert, roles: ['super_admin'] },
       { title: 'Paramètres', url: '/admin/parametres', icon: Settings, roles: ['super_admin'] },
     ],
