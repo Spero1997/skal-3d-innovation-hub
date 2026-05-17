@@ -9,6 +9,7 @@ interface AuthCtx {
   session: Session | null;
   roles: AppRole[];
   loading: boolean;
+  rolesLoading: boolean;
   signOut: () => Promise<void>;
   hasRole: (r: AppRole | AppRole[]) => boolean;
   refreshRoles: () => Promise<void>;
@@ -21,10 +22,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [roles, setRoles] = useState<AppRole[]>([]);
   const [loading, setLoading] = useState(true);
+  const [rolesLoading, setRolesLoading] = useState(true);
 
   const fetchRoles = async (uid: string) => {
-    const { data } = await supabase.from('user_roles').select('role').eq('user_id', uid);
-    setRoles((data ?? []).map((r: any) => r.role as AppRole));
+    setRolesLoading(true);
+    try {
+      const { data } = await supabase.from('user_roles').select('role').eq('user_id', uid);
+      setRoles((data ?? []).map((r: any) => r.role as AppRole));
+    } finally {
+      setRolesLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -33,17 +40,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(sess);
       setUser(sess?.user ?? null);
       if (sess?.user) {
+        setRolesLoading(true);
         // defer to avoid recursion
         setTimeout(() => fetchRoles(sess.user.id), 0);
       } else {
         setRoles([]);
+        setRolesLoading(false);
       }
     });
 
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
       setUser(data.session?.user ?? null);
-      if (data.session?.user) fetchRoles(data.session.user.id);
+      if (data.session?.user) {
+        fetchRoles(data.session.user.id);
+      } else {
+        setRolesLoading(false);
+      }
       setLoading(false);
     });
 
@@ -65,7 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <Ctx.Provider value={{ user, session, roles, loading, signOut, hasRole, refreshRoles }}>
+    <Ctx.Provider value={{ user, session, roles, loading, rolesLoading, signOut, hasRole, refreshRoles }}>
       {children}
     </Ctx.Provider>
   );
