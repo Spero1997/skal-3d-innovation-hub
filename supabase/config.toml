@@ -5,3 +5,9 @@ verify_jwt = false
 
 [functions.document-share-access]
 verify_jwt = false
+
+[functions.cron-weekly-digest]
+verify_jwt = false
+
+[functions.cron-monthly-financial-report]
+verify_jwt = false

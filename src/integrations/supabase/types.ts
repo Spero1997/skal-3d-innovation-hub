@@ -690,6 +690,42 @@ export type Database = {
         }
         Relationships: []
       }
+      email_log: {
+        Row: {
+          created_at: string
+          error: string | null
+          id: string
+          notification_id: string | null
+          status: string
+          subject: string
+          template_name: string | null
+          to_email: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          id?: string
+          notification_id?: string | null
+          status?: string
+          subject: string
+          template_name?: string | null
+          to_email: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          id?: string
+          notification_id?: string | null
+          status?: string
+          subject?: string
+          template_name?: string | null
+          to_email?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       finance_rule_sets: {
         Row: {
           created_at: string
@@ -978,6 +1014,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      notification_preferences: {
+        Row: {
+          channel: Database["public"]["Enums"]["notification_channel"]
+          created_at: string
+          frequency: Database["public"]["Enums"]["notification_frequency"]
+          id: string
+          notification_type: Database["public"]["Enums"]["notification_type"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          channel?: Database["public"]["Enums"]["notification_channel"]
+          created_at?: string
+          frequency?: Database["public"]["Enums"]["notification_frequency"]
+          id?: string
+          notification_type: Database["public"]["Enums"]["notification_type"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          channel?: Database["public"]["Enums"]["notification_channel"]
+          created_at?: string
+          frequency?: Database["public"]["Enums"]["notification_frequency"]
+          id?: string
+          notification_type?: Database["public"]["Enums"]["notification_type"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       notifications: {
         Row: {
@@ -1691,6 +1757,13 @@ export type Database = {
         Args: { _entity: string; _user_id: string }
         Returns: Database["public"]["Enums"]["confidentiality_level"]
       }
+      get_user_notification_channel: {
+        Args: {
+          _type: Database["public"]["Enums"]["notification_type"]
+          _user_id: string
+        }
+        Returns: Database["public"]["Enums"]["notification_channel"]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1745,6 +1818,7 @@ export type Database = {
         Args: { _amount: number; _context?: Json; _rule_set_id: string }
         Returns: Json
       }
+      weekly_director_digest_payload: { Args: never; Returns: Json }
     }
     Enums: {
       allocation_basis:
@@ -1796,6 +1870,8 @@ export type Database = {
         | "partiellement_payee"
         | "payee"
         | "annulee"
+      notification_channel: "off" | "in_app" | "email" | "both"
+      notification_frequency: "immediate" | "daily_digest" | "weekly_digest"
       notification_type:
         | "task_assigned"
         | "comment"
@@ -2000,6 +2076,8 @@ export const Constants = {
         "payee",
         "annulee",
       ],
+      notification_channel: ["off", "in_app", "email", "both"],
+      notification_frequency: ["immediate", "daily_digest", "weekly_digest"],
       notification_type: [
         "task_assigned",
         "comment",
