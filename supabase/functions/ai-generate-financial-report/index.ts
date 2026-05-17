@@ -2,6 +2,7 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { generateText } from "npm:ai";
 import { createLovableAiGatewayProvider } from "../_shared/ai-gateway.ts";
+import { withAiRetry, checkRateLimit } from "../_shared/ai-retry.ts";
 
 type Level = 'public' | 'internal' | 'restricted' | 'secret';
 const rank = (l: Level) => ['public', 'internal', 'restricted', 'secret'].indexOf(l);
@@ -22,7 +23,28 @@ Deno.serve(async (req) => {
     const { data: userRes } = await client.auth.getUser();
     if (!userRes?.user) return new Response(JSON.stringify({ error: "Unauthenticated" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
-    const { period = 'month', from, to } = await req.json().catch(() => ({}));
+    // Rate-limit per user (20/min, burst 30)
+    const rl = checkRateLimit(`fin-report:${userRes.user.id}`, 20, 30);
+    if (!('ok' in rl) || !rl.ok) {
+      const retryS = Math.ceil(rl.retryAfterMs / 1000);
+      return new Response(JSON.stringify({ error: `Rate limit dépassé. Réessaie dans ${retryS}s` }), {
+        status: 429,
+        headers: { ...corsHeaders, "Content-Type": "application/json", "Retry-After": String(retryS) },
+      });
+    }
+
+    const body = await req.json().catch(() => ({}));
+    const {
+      period = 'month',
+      from,
+      to,
+      filters = {},
+      persist = false,
+      source = 'manual',
+    } = body;
+    const projectId: string | undefined = filters?.project_id;
+    const category: string | undefined = filters?.category;
+    const associeId: string | undefined = filters?.associe_id;
 
     // Determine user level for finances
     const { data: lvl } = await client.rpc('get_user_max_ai_level', {
@@ -35,29 +57,76 @@ Deno.serve(async (req) => {
     const now = new Date();
     const start = from ? new Date(from) : new Date(now.getFullYear(), period === 'quarter' ? now.getMonth() - 2 : now.getMonth(), 1);
     const end = to ? new Date(to) : now;
+    const toISO = (d: Date) => d.toISOString().slice(0, 10);
+
+    const buildQuery = (gte: Date, lte: Date) => {
+      let q = client
+        .from('transactions')
+        .select('type, amount, transaction_date, category, project_id, associe_id')
+        .gte('transaction_date', toISO(gte))
+        .lte('transaction_date', toISO(lte));
+      if (projectId) q = q.eq('project_id', projectId);
+      if (category) q = q.eq('category', category);
+      if (associeId) q = q.eq('associe_id', associeId);
+      return q;
+    };
 
     // Aggregate transactions (RLS will block if not direction — that's intentional)
-    const { data: tx, error: txErr } = await client
-      .from('transactions')
-      .select('type, amount, transaction_date, category')
-      .gte('transaction_date', start.toISOString().slice(0, 10))
-      .lte('transaction_date', end.toISOString().slice(0, 10));
+    const { data: tx, error: txErr } = await buildQuery(start, end);
 
     if (txErr) {
       return new Response(JSON.stringify({ error: "Accès refusé aux finances" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const revenu = (tx ?? []).filter((t: any) => t.type === 'revenu').reduce((s: number, t: any) => s + Number(t.amount), 0);
-    const depense = (tx ?? []).filter((t: any) => t.type === 'depense').reduce((s: number, t: any) => s + Number(t.amount), 0);
+    const sum = (rows: any[], type: string) =>
+      rows.filter((t: any) => t.type === type).reduce((s: number, t: any) => s + Number(t.amount), 0);
+    const revenu = sum(tx ?? [], 'revenu');
+    const depense = sum(tx ?? [], 'depense');
+
+    // M-1 (mois précédent même longueur)
+    const periodMs = end.getTime() - start.getTime();
+    const prevEnd = new Date(start.getTime() - 86400000);
+    const prevStart = new Date(prevEnd.getTime() - periodMs);
+    const { data: txPrev } = await buildQuery(prevStart, prevEnd);
+    const prevRevenu = sum(txPrev ?? [], 'revenu');
+    const prevDepense = sum(txPrev ?? [], 'depense');
+
+    // N-1 (même fenêtre, année précédente)
+    const yStart = new Date(start); yStart.setFullYear(yStart.getFullYear() - 1);
+    const yEnd = new Date(end); yEnd.setFullYear(yEnd.getFullYear() - 1);
+    const { data: txYear } = await buildQuery(yStart, yEnd);
+    const yRevenu = sum(txYear ?? [], 'revenu');
+    const yDepense = sum(txYear ?? [], 'depense');
+
+    const variation = (curr: number, ref: number) => ref === 0 ? null : Math.round(((curr - ref) / ref) * 1000) / 10;
+
+    // Time series mensuelle
+    const monthly: Record<string, { revenu: number; depense: number }> = {};
+    for (const t of tx ?? []) {
+      const k = String(t.transaction_date).slice(0, 7);
+      monthly[k] ??= { revenu: 0, depense: 0 };
+      monthly[k][t.type === 'revenu' ? 'revenu' : 'depense'] += Number(t.amount);
+    }
+    const monthlySeries = Object.entries(monthly).sort().map(([month, v]) => ({ month, ...v }));
+
+    // Catégories
+    const catMap: Record<string, number> = {};
+    for (const t of tx ?? []) {
+      const k = t.category || 'Non catégorisé';
+      catMap[k] = (catMap[k] ?? 0) + Number(t.amount) * (t.type === 'depense' ? 1 : 0);
+    }
+    const byCategory = Object.entries(catMap).map(([category, amount]) => ({ category, amount })).sort((a, b) => b.amount - a.amount);
 
     // Build summary respecting confidentiality
-    let context = `Période : ${start.toISOString().slice(0,10)} → ${end.toISOString().slice(0,10)}
+    let context = `Période : ${toISO(start)} → ${toISO(end)}
 Nombre de transactions : ${(tx ?? []).length}`;
 
     if (rank(level) >= rank('restricted')) {
       context += `\nRevenus : ${revenu.toLocaleString('fr-FR')} FCFA
 Dépenses : ${depense.toLocaleString('fr-FR')} FCFA
-Solde : ${(revenu - depense).toLocaleString('fr-FR')} FCFA`;
+Solde : ${(revenu - depense).toLocaleString('fr-FR')} FCFA
+M-1 — Revenus : ${prevRevenu.toLocaleString('fr-FR')} (${variation(revenu, prevRevenu) ?? 'n/a'}%) | Dépenses : ${prevDepense.toLocaleString('fr-FR')} (${variation(depense, prevDepense) ?? 'n/a'}%)
+N-1 — Revenus : ${yRevenu.toLocaleString('fr-FR')} (${variation(revenu, yRevenu) ?? 'n/a'}%) | Dépenses : ${yDepense.toLocaleString('fr-FR')} (${variation(depense, yDepense) ?? 'n/a'}%)`;
     } else if (rank(level) >= rank('internal')) {
       context += `\nActivité : ${(tx ?? []).length} mouvements enregistrés (montants masqués)`;
     } else {
@@ -70,14 +139,14 @@ Solde : ${(revenu - depense).toLocaleString('fr-FR')} FCFA`;
     const gateway = createLovableAiGatewayProvider(apiKey);
     const model = gateway("google/gemini-3-flash-preview");
 
-    const { text } = await generateText({
+    const { text } = await withAiRetry(() => generateText({
       model,
       system: `Tu rédiges un rapport financier synthétique pour SKAL SERVICES.
 Niveau d'accès demandeur : ${level}.
 INTERDIT : pourcentages de répartition, capital social, noms de prestataires, mécanismes internes.
-Format : markdown clair avec sections : Vue d'ensemble, Faits saillants, Recommandations.`,
+Format : markdown clair avec sections : Vue d'ensemble, Comparatifs (M-1, N-1), Faits saillants, Recommandations.`,
       prompt: `Données agrégées :\n${context}\n\nGénère le rapport.`,
-    });
+    }));
 
     await client.rpc("log_ai_access", {
       _agent_slug: "financial-report", _entity: "finances",
@@ -87,7 +156,7 @@ Format : markdown clair avec sections : Vue d'ensemble, Faits saillants, Recomma
     });
 
     const showAmounts = rank(level) >= rank('restricted');
-    return new Response(JSON.stringify({
+    const payload = {
       report: text,
       level,
       period: { start, end },
@@ -97,8 +166,34 @@ Format : markdown clair avec sections : Vue d'ensemble, Faits saillants, Recomma
         depense: showAmounts ? depense : null,
         solde: showAmounts ? revenu - depense : null,
       },
+      comparisons: showAmounts ? {
+        previous: { from: toISO(prevStart), to: toISO(prevEnd), revenu: prevRevenu, depense: prevDepense,
+          var_revenu: variation(revenu, prevRevenu), var_depense: variation(depense, prevDepense) },
+        year: { from: toISO(yStart), to: toISO(yEnd), revenu: yRevenu, depense: yDepense,
+          var_revenu: variation(revenu, yRevenu), var_depense: variation(depense, yDepense) },
+      } : {},
+      monthlySeries: showAmounts ? monthlySeries : [],
+      byCategory: showAmounts ? byCategory : [],
+      filters: { project_id: projectId ?? null, category: category ?? null, associe_id: associeId ?? null },
       transactions: showAmounts ? (tx ?? []) : [],
-    }), {
+    };
+
+    if (persist) {
+      await client.from('financial_reports').insert({
+        generated_by: userRes.user.id,
+        period_label: period,
+        period_start: toISO(start),
+        period_end: toISO(end),
+        level,
+        filters: payload.filters,
+        summary: payload.summary,
+        comparisons: payload.comparisons,
+        report_markdown: text,
+        source,
+      });
+    }
+
+    return new Response(JSON.stringify(payload), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e: any) {
