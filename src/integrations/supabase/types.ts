@@ -107,6 +107,36 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_conversations: {
+        Row: {
+          agent_slug: string
+          created_at: string
+          entity: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          agent_slug: string
+          created_at?: string
+          entity?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          agent_slug?: string
+          created_at?: string
+          entity?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       ai_data_access: {
         Row: {
           created_at: string
@@ -130,6 +160,53 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
         }
         Relationships: []
+      }
+      ai_messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          created_at: string
+          duration_ms: number | null
+          granted_level:
+            | Database["public"]["Enums"]["confidentiality_level"]
+            | null
+          id: string
+          model: string | null
+          role: string
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          created_at?: string
+          duration_ms?: number | null
+          granted_level?:
+            | Database["public"]["Enums"]["confidentiality_level"]
+            | null
+          id?: string
+          model?: string | null
+          role: string
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          duration_ms?: number | null
+          granted_level?:
+            | Database["public"]["Enums"]["confidentiality_level"]
+            | null
+          id?: string
+          model?: string | null
+          role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "ai_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       ai_role_thresholds: {
         Row: {

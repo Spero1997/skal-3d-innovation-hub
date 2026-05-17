@@ -29,6 +29,7 @@ const nav: { label: string; items: Item[] }[] = [
       { title: 'Modèles', url: '/admin/modeles', icon: Layers, roles: ['super_admin', 'associe', 'chef_projet'] },
       { title: 'Domaines', url: '/admin/domaines', icon: Building2 },
       { title: 'Clients (CRM)', url: '/admin/clients', icon: UsersRound },
+      { title: 'Assistant IA', url: '/admin/ia', icon: Bot },
     ],
   },
   {
