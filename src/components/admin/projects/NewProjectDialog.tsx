@@ -13,9 +13,20 @@ import {
 import { DOMAIN_LABELS, STATUS_LABELS, PRIORITY_LABELS } from '@/lib/projects';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, ArrowRight, ShieldAlert, Check } from 'lucide-react';
 
 type Client = { id: string; name: string };
+
+type Suggestion = {
+  suggested_domain: string;
+  project_type?: string;
+  involvement_level?: string;
+  confidence: number;
+  rationale?: string;
+};
+
+const THRESHOLD_KEY = 'ai_classify_threshold';
+const DEFAULT_THRESHOLD = 70;
 
 export function NewProjectDialog({
   open, onOpenChange, onCreated,
@@ -24,7 +35,11 @@ export function NewProjectDialog({
   const [clients, setClients] = useState<Client[]>([]);
   const [saving, setSaving] = useState(false);
   const [classifying, setClassifying] = useState(false);
-  const [aiHint, setAiHint] = useState<string | null>(null);
+  const [suggestion, setSuggestion] = useState<Suggestion | null>(null);
+  const [threshold, setThreshold] = useState<number>(() => {
+    const v = Number(localStorage.getItem(THRESHOLD_KEY));
+    return Number.isFinite(v) && v > 0 ? v : DEFAULT_THRESHOLD;
+  });
   const [form, setForm] = useState({
     code: '', name: '', description: '',
     domain: 'autre', status: 'prospect', priority: 'normale',
@@ -37,6 +52,10 @@ export function NewProjectDialog({
       setClients((data ?? []) as Client[]);
     });
   }, [open]);
+
+  useEffect(() => {
+    localStorage.setItem(THRESHOLD_KEY, String(threshold));
+  }, [threshold]);
 
   const submit = async () => {
     if (!form.name.trim()) {
@@ -79,7 +98,7 @@ export function NewProjectDialog({
       return;
     }
     setClassifying(true);
-    setAiHint(null);
+    setSuggestion(null);
     const { data, error } = await supabase.functions.invoke('ai-classify-project', {
       body: {
         name: form.name, description: form.description,
@@ -90,13 +109,27 @@ export function NewProjectDialog({
     setClassifying(false);
     if (error) return toast.error('Erreur IA', { description: error.message });
     const d = data as any;
-    if (d?.suggested_domain && d.suggested_domain in (DOMAIN_LABELS as any)) {
-      setForm((f) => ({ ...f, domain: d.suggested_domain }));
+    if (!d?.suggested_domain || !(d.suggested_domain in (DOMAIN_LABELS as any))) {
+      return toast.error('Suggestion IA invalide');
     }
-    setAiHint(
-      `Type: ${d?.project_type} · Implication: ${d?.involvement_level} · Confiance: ${Math.round((d?.confidence ?? 0) * 100)}% — ${d?.rationale ?? ''}`
-    );
-    toast.success('Suggestion IA appliquée');
+    setSuggestion({
+      suggested_domain: d.suggested_domain,
+      project_type: d.project_type,
+      involvement_level: d.involvement_level,
+      confidence: Math.round((d.confidence ?? 0) * 100),
+      rationale: d.rationale,
+    });
+  };
+
+  const applySuggestion = () => {
+    if (!suggestion) return;
+    if (suggestion.confidence < threshold) {
+      toast.error(`Confiance ${suggestion.confidence}% < seuil ${threshold}%`);
+      return;
+    }
+    setForm((f) => ({ ...f, domain: suggestion.suggested_domain }));
+    toast.success('Suggestion appliquée');
+    setSuggestion(null);
   };
 
   return (
@@ -157,8 +190,92 @@ export function NewProjectDialog({
                 <Sparkles className="h-3.5 w-3.5 mr-1" />
                 {classifying ? 'Analyse…' : 'Suggestion IA'}
               </Button>
-              {aiHint && <p className="text-[10px] text-white/50 ml-2">{aiHint}</p>}
+              <div className="flex items-center gap-2 text-[10px] text-white/40">
+                <span>Seuil min.</span>
+                <Input
+                  type="number" min={0} max={100}
+                  value={threshold}
+                  onChange={(e) => setThreshold(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
+                  className="h-6 w-14 px-1 py-0 bg-white/5 border-white/10 text-white text-[11px]"
+                />
+                <span>%</span>
+              </div>
             </div>
+
+            {suggestion && (() => {
+              const ok = suggestion.confidence >= threshold;
+              const same = suggestion.suggested_domain === form.domain;
+              return (
+                <div className={`mt-2 rounded-md border p-3 ${ok ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-orange-500/40 bg-orange-500/5'}`}>
+                  <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+                    <div className="rounded bg-white/5 border border-white/10 p-2">
+                      <p className="text-[9px] uppercase tracking-wider text-white/40">Avant</p>
+                      <p className="text-sm text-white mt-0.5">{(DOMAIN_LABELS as any)[form.domain] ?? form.domain}</p>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-white/40" />
+                    <div className={`rounded p-2 border ${ok ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-orange-500/10 border-orange-500/30'}`}>
+                      <p className="text-[9px] uppercase tracking-wider text-white/50">Après (IA)</p>
+                      <p className="text-sm text-white mt-0.5">
+                        {(DOMAIN_LABELS as any)[suggestion.suggested_domain] ?? suggestion.suggested_domain}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 space-y-1.5">
+                    <div className="flex items-center justify-between text-[10px]">
+                      <span className="text-white/50">Confiance</span>
+                      <span className={ok ? 'text-emerald-300' : 'text-orange-300'}>
+                        {suggestion.confidence}% {ok ? '≥' : '<'} seuil {threshold}%
+                      </span>
+                    </div>
+                    <div className="h-1.5 rounded-full bg-white/5 overflow-hidden relative">
+                      <div
+                        className={`h-full ${ok ? 'bg-emerald-400' : 'bg-orange-400'}`}
+                        style={{ width: `${suggestion.confidence}%` }}
+                      />
+                      <div
+                        className="absolute top-0 bottom-0 w-px bg-white/60"
+                        style={{ left: `${threshold}%` }}
+                        title={`Seuil ${threshold}%`}
+                      />
+                    </div>
+                  </div>
+
+                  {suggestion.rationale && (
+                    <p className="text-[10px] text-white/50 mt-2 leading-relaxed">
+                      {suggestion.rationale}
+                    </p>
+                  )}
+                  <div className="text-[10px] text-white/40 mt-1">
+                    Type : {suggestion.project_type ?? '—'} · Implication : {suggestion.involvement_level ?? '—'}
+                  </div>
+
+                  <div className="flex items-center gap-2 mt-3">
+                    <Button
+                      type="button" size="sm"
+                      onClick={applySuggestion}
+                      disabled={!ok || same}
+                      className="bg-emerald-500 hover:bg-emerald-600 text-white disabled:opacity-40"
+                    >
+                      <Check className="w-3.5 h-3.5 mr-1" />
+                      {same ? 'Déjà appliqué' : 'Appliquer'}
+                    </Button>
+                    <Button
+                      type="button" size="sm" variant="ghost"
+                      onClick={() => setSuggestion(null)}
+                      className="text-white/60 hover:text-white hover:bg-white/5"
+                    >
+                      Ignorer
+                    </Button>
+                    {!ok && (
+                      <span className="text-[10px] text-orange-300 ml-auto inline-flex items-center gap-1">
+                        <ShieldAlert className="w-3 h-3" /> Blocage : confiance insuffisante
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
           </div>
 
           <div className="space-y-1">
