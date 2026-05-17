@@ -3,6 +3,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { generateText, Output } from "npm:ai";
 import { z } from "npm:zod";
 import { createLovableAiGatewayProvider } from "../_shared/ai-gateway.ts";
+import { withAiRetry, checkRateLimit } from "../_shared/ai-retry.ts";
 
 const Schema = z.object({
   project_type: z.enum(['interne', 'forfait', 'au_cout', 'mixte']),
@@ -30,6 +31,15 @@ Deno.serve(async (req) => {
     if (!userRes?.user) return new Response(JSON.stringify({ error: "Unauthenticated" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     userId = userRes.user.id;
 
+    const rl = checkRateLimit(`classify:${userId}`, 30, 40);
+    if (!('ok' in rl) || !rl.ok) {
+      const retryS = Math.ceil(rl.retryAfterMs / 1000);
+      return new Response(JSON.stringify({ error: `Rate limit dépassé. Réessaie dans ${retryS}s` }), {
+        status: 429,
+        headers: { ...corsHeaders, "Content-Type": "application/json", "Retry-After": String(retryS) },
+      });
+    }
+
     const { name, description, budget, client: clientName } = await req.json().catch(() => ({}));
     if (!description || typeof description !== "string") {
       return new Response(JSON.stringify({ error: "description is required" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -47,7 +57,7 @@ Deno.serve(async (req) => {
 
     const ruleSetList = (ruleSets ?? []).map((r: any) => `- ${r.id} : ${r.name}${r.description ? ` — ${r.description}` : ''}`).join('\n') || '(aucun)';
 
-    const { output } = await generateText({
+    const { output } = await withAiRetry(() => generateText({
       model,
       output: Output.object({ schema: Schema }),
       system: `Tu classifies des projets pour SKAL SERVICES (Bénin, multidisciplinaire).
@@ -62,7 +72,7 @@ ${ruleSetList}`,
 Client : ${clientName ?? 'inconnu'}
 Budget : ${budget ?? 'non communiqué'}
 Description : ${description}`,
-    });
+    }));
 
     await client.rpc("log_ai_access", {
       _agent_slug: "classify-project", _entity: "projects",
