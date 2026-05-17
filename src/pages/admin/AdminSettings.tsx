@@ -4,9 +4,10 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Settings, KeyRound } from 'lucide-react';
+import { Settings, KeyRound, Bell } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 export default function AdminSettings() {
   const { user } = useAuth();
@@ -39,6 +40,19 @@ export default function AdminSettings() {
           <p className="text-sm text-white mt-1">{user?.email}</p>
         </div>
       </Card>
+
+      <Link to="/admin/parametres/notifications">
+        <Card className="p-5 bg-[#111]/80 border-white/5 hover:border-orange-500/40 transition cursor-pointer flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Bell className="w-5 h-5 text-orange-400" />
+            <div>
+              <p className="text-sm font-semibold text-white">Préférences de notifications</p>
+              <p className="text-xs text-white/40">Canal (in-app / email) et fréquence par type d'événement.</p>
+            </div>
+          </div>
+          <span className="text-white/40">→</span>
+        </Card>
+      </Link>
 
       <Card className="p-5 bg-[#111]/80 border-white/5 space-y-3">
         <h2 className="text-base font-semibold text-white flex items-center gap-2">
