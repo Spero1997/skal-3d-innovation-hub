@@ -35,6 +35,7 @@ import AdminDividendes from "./pages/admin/AdminDividendes";
 import AdminDocuments from "./pages/admin/AdminDocuments";
 import AdminJournal from "./pages/admin/AdminJournal";
 import AdminSettings from "./pages/admin/AdminSettings";
+import AdminNotificationPreferences from "./pages/admin/AdminNotificationPreferences";
 import RulesIndex from "./pages/admin/finance/RulesIndex";
 import RuleEditor from "./pages/admin/finance/RuleEditor";
 import Scenarios from "./pages/admin/finance/Scenarios";
@@ -109,6 +110,7 @@ const App = () => (
             <Route path="mon-compte" element={<AdminAccount />} />
             <Route path="audit" element={<AdminAudit />} />
             <Route path="parametres" element={<AdminSettings />} />
+            <Route path="parametres/notifications" element={<AdminNotificationPreferences />} />
             <Route path="modeles" element={<AdminTemplates />} />
           </Route>
 
