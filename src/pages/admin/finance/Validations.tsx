@@ -24,13 +24,13 @@ export default function Validations() {
 
   useEffect(() => { load(); }, []);
 
-  const decide = async (id: string, status: 'validee' | 'rejetee') => {
+  const decide = async (id: string, status: 'approuvee' | 'rejetee') => {
     const { error } = await supabase
       .from('financial_validations')
       .update({ status, validator_id: user?.id, validated_at: new Date().toISOString() })
       .eq('id', id);
     if (error) return toast({ title: 'Erreur', description: error.message, variant: 'destructive' });
-    toast({ title: status === 'validee' ? 'Validé' : 'Rejeté' });
+    toast({ title: status === 'approuvee' ? 'Validé' : 'Rejeté' });
     load();
   };
 
@@ -51,13 +51,13 @@ export default function Validations() {
                 <span className="font-mono text-xs text-white/60">{it.entity_id.slice(0, 8)}</span>
                 <Badge className={
                   it.status === 'en_attente' ? 'bg-orange-500/20 text-orange-400 border-0'
-                  : it.status === 'validee' ? 'bg-green-500/20 text-green-400 border-0'
+                  : it.status === 'approuvee' ? 'bg-green-500/20 text-green-400 border-0'
                   : 'bg-red-500/20 text-red-400 border-0'
                 }>{it.status}</Badge>
               </CardTitle>
               {it.status === 'en_attente' && (
                 <div className="flex gap-2">
-                  <Button size="sm" onClick={() => decide(it.id, 'validee')} className="bg-green-600 hover:bg-green-700">
+                  <Button size="sm" onClick={() => decide(it.id, 'approuvee')} className="bg-green-600 hover:bg-green-700">
                     <Check className="h-3.5 w-3.5" />
                   </Button>
                   <Button size="sm" variant="outline" onClick={() => decide(it.id, 'rejetee')}>
