@@ -13,6 +13,7 @@ import {
 import { DOMAIN_LABELS, STATUS_LABELS, PRIORITY_LABELS } from '@/lib/projects';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { Sparkles } from 'lucide-react';
 
 type Client = { id: string; name: string };
 
@@ -22,6 +23,8 @@ export function NewProjectDialog({
   const { user } = useAuth();
   const [clients, setClients] = useState<Client[]>([]);
   const [saving, setSaving] = useState(false);
+  const [classifying, setClassifying] = useState(false);
+  const [aiHint, setAiHint] = useState<string | null>(null);
   const [form, setForm] = useState({
     code: '', name: '', description: '',
     domain: 'autre', status: 'prospect', priority: 'normale',
@@ -68,6 +71,32 @@ export function NewProjectDialog({
       domain: 'autre', status: 'prospect', priority: 'normale',
       client_id: 'none', budget: '', start_date: '', due_date: '',
     });
+  };
+
+  const classify = async () => {
+    if (!form.description.trim()) {
+      toast.error('Ajoute une description pour la classification IA');
+      return;
+    }
+    setClassifying(true);
+    setAiHint(null);
+    const { data, error } = await supabase.functions.invoke('ai-classify-project', {
+      body: {
+        name: form.name, description: form.description,
+        budget: form.budget,
+        client: clients.find((c) => c.id === form.client_id)?.name,
+      },
+    });
+    setClassifying(false);
+    if (error) return toast.error('Erreur IA', { description: error.message });
+    const d = data as any;
+    if (d?.suggested_domain && d.suggested_domain in (DOMAIN_LABELS as any)) {
+      setForm((f) => ({ ...f, domain: d.suggested_domain }));
+    }
+    setAiHint(
+      `Type: ${d?.project_type} · Implication: ${d?.involvement_level} · Confiance: ${Math.round((d?.confidence ?? 0) * 100)}% — ${d?.rationale ?? ''}`
+    );
+    toast.success('Suggestion IA appliquée');
   };
 
   return (
@@ -119,6 +148,17 @@ export function NewProjectDialog({
               rows={3}
               className="bg-white/5 border-white/10 text-white"
             />
+            <div className="flex items-center justify-between pt-1">
+              <Button
+                type="button" size="sm" variant="outline"
+                onClick={classify} disabled={classifying}
+                className="border-orange-500/40 text-orange-400 hover:bg-orange-500/10"
+              >
+                <Sparkles className="h-3.5 w-3.5 mr-1" />
+                {classifying ? 'Analyse…' : 'Suggestion IA'}
+              </Button>
+              {aiHint && <p className="text-[10px] text-white/50 ml-2">{aiHint}</p>}
+            </div>
           </div>
 
           <div className="space-y-1">
