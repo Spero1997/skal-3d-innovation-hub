@@ -3,6 +3,7 @@ import {
   LayoutDashboard, FolderKanban, Wallet, Users, Briefcase,
   FileText, Bell, Settings, PieChart, UsersRound, Building2, Coins, Receipt, Activity,
   Scale, FlaskConical, CheckSquare, Handshake, Hammer, Percent, Bot, FileBarChart, History,
+  UserCircle, ShieldAlert,
 } from 'lucide-react';
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
@@ -56,6 +57,7 @@ const nav: { label: string; items: Item[] }[] = [
     label: 'Équipe',
     items: [
       { title: 'Utilisateurs', url: '/admin/users', icon: Users, roles: ['super_admin'] },
+      { title: 'Mon compte', url: '/admin/mon-compte', icon: UserCircle },
     ],
   },
   {
@@ -63,6 +65,7 @@ const nav: { label: string; items: Item[] }[] = [
     items: [
       { title: 'Documents', url: '/admin/documents', icon: FileText },
       { title: 'Journal', url: '/admin/journal', icon: Activity, roles: ['super_admin', 'associe', 'comptable'] },
+      { title: 'Audit global', url: '/admin/audit', icon: ShieldAlert, roles: ['super_admin'] },
       { title: 'Paramètres', url: '/admin/parametres', icon: Settings, roles: ['super_admin'] },
     ],
   },

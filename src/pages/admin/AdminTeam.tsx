@@ -9,7 +9,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { UserPlus, Loader2, Users } from 'lucide-react';
+import { UserPlus, Loader2, Users, Plus, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -19,6 +19,8 @@ const ROLE_LABELS: Record<string, string> = {
   comptable: 'Comptable',
   chef_projet: 'Chef de projet',
 };
+
+const ALL_ROLES = Object.keys(ROLE_LABELS);
 
 const ROLE_BADGE: Record<string, string> = {
   super_admin: 'bg-orange-500/15 text-orange-400 border-orange-500/30',
@@ -71,6 +73,28 @@ export default function AdminTeam() {
   };
 
   const isSuper = hasRole('super_admin');
+
+  const grantRole = async (userId: string, role: string, current: string[]) => {
+    if (current.includes(role)) return;
+    const { error } = await supabase
+      .from('user_roles')
+      .insert({ user_id: userId, role: role as any });
+    if (error) return toast.error('Erreur', { description: error.message });
+    toast.success(`Rôle ${ROLE_LABELS[role] ?? role} ajouté`);
+    load();
+  };
+
+  const revokeRole = async (userId: string, role: string) => {
+    if (!confirm(`Retirer le rôle "${ROLE_LABELS[role] ?? role}" ?`)) return;
+    const { error } = await supabase
+      .from('user_roles')
+      .delete()
+      .eq('user_id', userId)
+      .eq('role', role as any);
+    if (error) return toast.error('Erreur', { description: error.message });
+    toast.success('Rôle retiré');
+    load();
+  };
 
   return (
     <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-6">
@@ -130,15 +154,39 @@ export default function AdminTeam() {
         ) : (
           <ul className="divide-y divide-white/5">
             {members.map(m => (
-              <li key={m.user_id} className="p-4 flex items-center justify-between gap-4">
+              <li key={m.user_id} className="p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 <div className="min-w-0">
                   <p className="text-sm text-white font-medium truncate">{m.full_name ?? '—'}</p>
-                  <p className="text-xs text-white/40">{m.phone ?? ''}</p>
+                  <p className="text-xs text-white/40 font-mono truncate">{m.user_id}</p>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap items-center gap-1.5">
                   {m.roles.map((r: string) => (
-                    <Badge key={r} variant="outline" className={ROLE_BADGE[r] ?? ''}>{ROLE_LABELS[r] ?? r}</Badge>
+                    <Badge key={r} variant="outline" className={`${ROLE_BADGE[r] ?? ''} flex items-center gap-1`}>
+                      {ROLE_LABELS[r] ?? r}
+                      {isSuper && (
+                        <button
+                          onClick={() => revokeRole(m.user_id, r)}
+                          className="ml-1 hover:text-red-400"
+                          title="Retirer ce rôle"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      )}
+                    </Badge>
                   ))}
+                  {isSuper && (
+                    <Select onValueChange={(v) => grantRole(m.user_id, v, m.roles)}>
+                      <SelectTrigger className="h-7 w-[150px] bg-white/5 border-white/10 text-xs">
+                        <Plus className="w-3 h-3 mr-1" />
+                        <SelectValue placeholder="Ajouter rôle" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#111] border-white/10 text-white">
+                        {ALL_ROLES.filter(r => !m.roles.includes(r)).map(r => (
+                          <SelectItem key={r} value={r}>{ROLE_LABELS[r]}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
                 </div>
               </li>
             ))}
