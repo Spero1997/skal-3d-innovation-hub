@@ -86,7 +86,19 @@ Format : markdown clair avec sections : Vue d'ensemble, Faits saillants, Recomma
       _duration_ms: Date.now() - t0,
     });
 
-    return new Response(JSON.stringify({ report: text, level, period: { start, end } }), {
+    const showAmounts = rank(level) >= rank('restricted');
+    return new Response(JSON.stringify({
+      report: text,
+      level,
+      period: { start, end },
+      summary: {
+        transactions: (tx ?? []).length,
+        revenu: showAmounts ? revenu : null,
+        depense: showAmounts ? depense : null,
+        solde: showAmounts ? revenu - depense : null,
+      },
+      transactions: showAmounts ? (tx ?? []) : [],
+    }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e: any) {
