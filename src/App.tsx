@@ -35,6 +35,13 @@ import AdminDividendes from "./pages/admin/AdminDividendes";
 import AdminDocuments from "./pages/admin/AdminDocuments";
 import AdminJournal from "./pages/admin/AdminJournal";
 import AdminSettings from "./pages/admin/AdminSettings";
+import RulesIndex from "./pages/admin/finance/RulesIndex";
+import RuleEditor from "./pages/admin/finance/RuleEditor";
+import Scenarios from "./pages/admin/finance/Scenarios";
+import Validations from "./pages/admin/finance/Validations";
+import Apporteurs from "./pages/admin/finance/Apporteurs";
+import Prestataires from "./pages/admin/finance/Prestataires";
+import Commissions from "./pages/admin/finance/Commissions";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -77,6 +84,13 @@ const App = () => (
             <Route path="factures/:id" element={<AdminInvoiceDetail />} />
             <Route path="users" element={<AdminTeam />} />
             <Route path="dividendes" element={<AdminDividendes />} />
+            <Route path="finances/regles" element={<RulesIndex />} />
+            <Route path="finances/regles/:id" element={<RuleEditor />} />
+            <Route path="finances/scenarios" element={<Scenarios />} />
+            <Route path="finances/validations" element={<Validations />} />
+            <Route path="finances/apporteurs" element={<Apporteurs />} />
+            <Route path="finances/prestataires" element={<Prestataires />} />
+            <Route path="finances/commissions" element={<Commissions />} />
             <Route path="documents" element={<AdminDocuments />} />
             <Route path="journal" element={<AdminJournal />} />
             <Route path="parametres" element={<AdminSettings />} />
