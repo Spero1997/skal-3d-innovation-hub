@@ -61,3 +61,21 @@ export function formatDate(d: string | null | undefined) {
     day: '2-digit', month: 'short', year: 'numeric',
   });
 }
+
+export function formatHours(h: number | null | undefined) {
+  if (h == null || isNaN(Number(h))) return '0h';
+  const n = Number(h);
+  if (n === 0) return '0h';
+  const hours = Math.floor(n);
+  const mins = Math.round((n - hours) * 60);
+  if (hours === 0) return `${mins}min`;
+  if (mins === 0) return `${hours}h`;
+  return `${hours}h${String(mins).padStart(2, '0')}`;
+}
+
+export const DEPENDENCY_LABELS: Record<string, string> = {
+  finish_to_start: 'Fin → Début',
+  start_to_start: 'Début → Début',
+  finish_to_finish: 'Fin → Fin',
+  start_to_finish: 'Début → Fin',
+};

@@ -3,7 +3,7 @@ import {
   LayoutDashboard, FolderKanban, Wallet, Users, Briefcase,
   FileText, Bell, Settings, PieChart, UsersRound, Building2, Coins, Receipt, Activity,
   Scale, FlaskConical, CheckSquare, Handshake, Hammer, Percent, Bot, FileBarChart, History,
-  UserCircle, ShieldAlert, BarChart3,
+  UserCircle, ShieldAlert, BarChart3, Layers,
 } from 'lucide-react';
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
@@ -26,6 +26,7 @@ const nav: { label: string; items: Item[] }[] = [
     label: 'Activité',
     items: [
       { title: 'Projets', url: '/admin/projets', icon: FolderKanban },
+      { title: 'Modèles', url: '/admin/modeles', icon: Layers, roles: ['super_admin', 'associe', 'chef_projet'] },
       { title: 'Domaines', url: '/admin/domaines', icon: Building2 },
       { title: 'Clients (CRM)', url: '/admin/clients', icon: UsersRound },
     ],

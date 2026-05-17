@@ -13,6 +13,8 @@ import {
 } from '@/lib/projects';
 import { TasksKanban } from '@/components/admin/projects/TasksKanban';
 import { ProjectComments } from '@/components/admin/projects/ProjectComments';
+import { ProjectGantt } from '@/components/admin/projects/ProjectGantt';
+import { ApplyTemplateDialog } from '@/components/admin/projects/ApplyTemplateDialog';
 
 export default function AdminProjectDetail() {
   const { id } = useParams<{ id: string }>();
@@ -20,6 +22,7 @@ export default function AdminProjectDetail() {
   const [project, setProject] = useState<any>(null);
   const [client, setClient] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [tplOpen, setTplOpen] = useState(false);
 
   const load = async () => {
     if (!id) return;
@@ -71,6 +74,9 @@ export default function AdminProjectDetail() {
             <h1 className="text-2xl md:text-3xl font-bold text-white mt-3">{project.name}</h1>
             {project.description && <p className="text-sm text-white/60 mt-2 max-w-3xl">{project.description}</p>}
           </div>
+          <Button variant="outline" className="border-white/10 text-white" onClick={() => setTplOpen(true)}>
+            Créer depuis un modèle
+          </Button>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-t border-white/5">
@@ -92,15 +98,25 @@ export default function AdminProjectDetail() {
       <Tabs defaultValue="tasks">
         <TabsList className="bg-[#111] border border-white/5">
           <TabsTrigger value="tasks" className="data-[state=active]:bg-orange-500/15 data-[state=active]:text-orange-400">Tâches</TabsTrigger>
+          <TabsTrigger value="gantt" className="data-[state=active]:bg-orange-500/15 data-[state=active]:text-orange-400">Gantt</TabsTrigger>
           <TabsTrigger value="comments" className="data-[state=active]:bg-orange-500/15 data-[state=active]:text-orange-400">Commentaires</TabsTrigger>
         </TabsList>
         <TabsContent value="tasks" className="mt-4">
           <TasksKanban projectId={project.id} />
         </TabsContent>
+        <TabsContent value="gantt" className="mt-4">
+          <ProjectGantt projectId={project.id} />
+        </TabsContent>
         <TabsContent value="comments" className="mt-4">
           <ProjectComments projectId={project.id} />
         </TabsContent>
       </Tabs>
+
+      <ApplyTemplateDialog
+        projectId={project.id}
+        open={tplOpen}
+        onOpenChange={setTplOpen}
+      />
     </div>
   );
 }
