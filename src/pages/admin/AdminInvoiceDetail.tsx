@@ -193,6 +193,44 @@ export default function AdminInvoiceDetail() {
           <p className="text-[10px] text-gray-400 mt-6 text-center">SKAL SERVICES SARL — Architecture & BTP · Géomatique & SIG · Graphisme & IA · Web & Digital</p>
         </div>
       </div>
+
+      <Dialog open={payOpen} onOpenChange={setPayOpen}>
+        <DialogContent className="bg-[#0f0f0f] border-white/10 text-white">
+          <DialogHeader>
+            <DialogTitle>Enregistrer un paiement</DialogTitle>
+            <DialogDescription className="text-white/50">
+              Facture {inv.number} — Restant : <span className="text-orange-400 font-semibold">{formatXOF(remaining)}</span>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div>
+              <Label className="text-white/70">Montant reçu (XOF)</Label>
+              <Input
+                type="number" min="0" step="1"
+                value={payAmount}
+                onChange={e => setPayAmount(e.target.value)}
+                className="bg-white/5 border-white/10 text-white mt-1"
+              />
+            </div>
+            <div className="flex gap-2">
+              <Button size="sm" variant="outline" className="border-white/10 text-white/70"
+                onClick={() => setPayAmount(String(remaining))}>
+                Solde total ({formatXOF(remaining)})
+              </Button>
+              <Button size="sm" variant="outline" className="border-white/10 text-white/70"
+                onClick={() => setPayAmount(String(+(remaining / 2).toFixed(0)))}>
+                50%
+              </Button>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setPayOpen(false)} disabled={paying}>Annuler</Button>
+            <Button onClick={confirmPay} disabled={paying} className="bg-emerald-500 hover:bg-emerald-600 text-white">
+              {paying ? 'Enregistrement…' : 'Confirmer'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
