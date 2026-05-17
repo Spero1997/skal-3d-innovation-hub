@@ -131,6 +131,78 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_role_thresholds: {
+        Row: {
+          agent_slug: string
+          allow_force: boolean
+          id: string
+          min_confidence: number
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string
+        }
+        Insert: {
+          agent_slug?: string
+          allow_force?: boolean
+          id?: string
+          min_confidence?: number
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+        }
+        Update: {
+          agent_slug?: string
+          allow_force?: boolean
+          id?: string
+          min_confidence?: number
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ai_suggestion_audit: {
+        Row: {
+          agent_slug: string
+          confidence: number | null
+          context: Json
+          created_at: string
+          decision: string
+          entity: string
+          field: string
+          id: string
+          threshold: number | null
+          user_id: string | null
+          value_after: string | null
+          value_before: string | null
+        }
+        Insert: {
+          agent_slug: string
+          confidence?: number | null
+          context?: Json
+          created_at?: string
+          decision: string
+          entity: string
+          field: string
+          id?: string
+          threshold?: number | null
+          user_id?: string | null
+          value_after?: string | null
+          value_before?: string | null
+        }
+        Update: {
+          agent_slug?: string
+          confidence?: number | null
+          context?: Json
+          created_at?: string
+          decision?: string
+          entity?: string
+          field?: string
+          id?: string
+          threshold?: number | null
+          user_id?: string | null
+          value_after?: string | null
+          value_before?: string | null
+        }
+        Relationships: []
+      }
       apporteurs_affaires: {
         Row: {
           contact_email: string | null
