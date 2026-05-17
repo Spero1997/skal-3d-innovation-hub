@@ -49,6 +49,7 @@ import AdminAccount from "./pages/admin/AdminAccount";
 import AdminAudit from "./pages/admin/AdminAudit";
 import AiStats from "./pages/admin/finance/AiStats";
 import AdminTemplates from "./pages/admin/AdminTemplates";
+import SharedDocument from "./pages/SharedDocument";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -74,6 +75,7 @@ const App = () => (
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfSale />} />
           <Route path="/devis" element={<DevisPage />} />
+          <Route path="/partage/:token" element={<SharedDocument />} />
 
           {/* Espace interne sécurisé */}
           <Route path="/admin/login" element={<AdminLogin />} />

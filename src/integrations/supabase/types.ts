@@ -457,6 +457,239 @@ export type Database = {
         }
         Relationships: []
       }
+      document_extractions: {
+        Row: {
+          confidence: number | null
+          created_at: string
+          created_by: string | null
+          data: Json
+          document_id: string
+          id: string
+          kind: string
+          model: string | null
+          summary: string | null
+          version: number
+        }
+        Insert: {
+          confidence?: number | null
+          created_at?: string
+          created_by?: string | null
+          data?: Json
+          document_id: string
+          id?: string
+          kind?: string
+          model?: string | null
+          summary?: string | null
+          version: number
+        }
+        Update: {
+          confidence?: number | null
+          created_at?: string
+          created_by?: string | null
+          data?: Json
+          document_id?: string
+          id?: string
+          kind?: string
+          model?: string | null
+          summary?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_extractions_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_shares: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          document_id: string
+          download_count: number
+          expires_at: string | null
+          id: string
+          label: string | null
+          max_downloads: number | null
+          password_hash: string | null
+          revoked_at: string | null
+          token: string
+          version: number | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          document_id: string
+          download_count?: number
+          expires_at?: string | null
+          id?: string
+          label?: string | null
+          max_downloads?: number | null
+          password_hash?: string | null
+          revoked_at?: string | null
+          token?: string
+          version?: number | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          document_id?: string
+          download_count?: number
+          expires_at?: string | null
+          id?: string
+          label?: string | null
+          max_downloads?: number | null
+          password_hash?: string | null
+          revoked_at?: string | null
+          token?: string
+          version?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_shares_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_signatures: {
+        Row: {
+          document_id: string
+          id: string
+          ip_address: string | null
+          signature_data: string
+          signed_at: string
+          signed_by: string | null
+          signer_email: string | null
+          signer_name: string
+          signer_role: string | null
+          user_agent: string | null
+          version: number
+        }
+        Insert: {
+          document_id: string
+          id?: string
+          ip_address?: string | null
+          signature_data: string
+          signed_at?: string
+          signed_by?: string | null
+          signer_email?: string | null
+          signer_name: string
+          signer_role?: string | null
+          user_agent?: string | null
+          version: number
+        }
+        Update: {
+          document_id?: string
+          id?: string
+          ip_address?: string | null
+          signature_data?: string
+          signed_at?: string
+          signed_by?: string | null
+          signer_email?: string | null
+          signer_name?: string
+          signer_role?: string | null
+          user_agent?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_signatures_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_versions: {
+        Row: {
+          created_at: string
+          document_id: string
+          id: string
+          mime_type: string | null
+          notes: string | null
+          original_name: string
+          size_bytes: number | null
+          storage_path: string
+          uploaded_by: string | null
+          version: number
+        }
+        Insert: {
+          created_at?: string
+          document_id: string
+          id?: string
+          mime_type?: string | null
+          notes?: string | null
+          original_name: string
+          size_bytes?: number | null
+          storage_path: string
+          uploaded_by?: string | null
+          version: number
+        }
+        Update: {
+          created_at?: string
+          document_id?: string
+          id?: string
+          mime_type?: string | null
+          notes?: string | null
+          original_name?: string
+          size_bytes?: number | null
+          storage_path?: string
+          uploaded_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_versions_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      documents: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          current_version: number
+          description: string | null
+          id: string
+          kind: Database["public"]["Enums"]["document_kind"]
+          name: string
+          project_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          current_version?: number
+          description?: string | null
+          id?: string
+          kind?: Database["public"]["Enums"]["document_kind"]
+          name: string
+          project_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          current_version?: number
+          description?: string | null
+          id?: string
+          kind?: Database["public"]["Enums"]["document_kind"]
+          name?: string
+          project_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       finance_rule_sets: {
         Row: {
           created_at: string
@@ -1549,6 +1782,14 @@ export type Database = {
         | "en_attente_validation"
         | "rejetee"
         | "annulee"
+      document_kind:
+        | "contrat"
+        | "facture"
+        | "devis"
+        | "rapport"
+        | "plan"
+        | "photo"
+        | "autre"
       invoice_status:
         | "brouillon"
         | "envoyee"
@@ -1742,6 +1983,15 @@ export const Constants = {
         "en_attente_validation",
         "rejetee",
         "annulee",
+      ],
+      document_kind: [
+        "contrat",
+        "facture",
+        "devis",
+        "rapport",
+        "plan",
+        "photo",
+        "autre",
       ],
       invoice_status: [
         "brouillon",
