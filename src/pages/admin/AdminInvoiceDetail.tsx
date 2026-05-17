@@ -3,12 +3,21 @@ import { useParams, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Printer, CheckCircle2 } from 'lucide-react';
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { formatXOF, formatDate } from '@/lib/projects';
 import { toast } from 'sonner';
+import { useState as useStateReact } from 'react';
 
 export default function AdminInvoiceDetail() {
   const { id } = useParams();
   const [inv, setInv] = useState<any>(null);
+  const [payOpen, setPayOpen] = useState(false);
+  const [payAmount, setPayAmount] = useState('');
+  const [paying, setPaying] = useState(false);
 
   const load = async () => {
     const { data } = await (supabase as any).from('invoices')
@@ -19,11 +28,67 @@ export default function AdminInvoiceDetail() {
 
   if (!inv) return <div className="p-8 text-white/40">Chargement…</div>;
   const lines = (inv.line_items as any[]) ?? [];
+  const ttc = Number(inv.amount_ttc ?? 0);
+  const paid = Number(inv.amount_paid ?? 0);
+  const remaining = Math.max(0, ttc - paid);
 
-  const markPaid = async () => {
-    await (supabase as any).from('invoices').update({ status: 'payee', amount_paid: inv.amount_ttc }).eq('id', inv.id);
-    toast.success('Marquée payée');
-    load();
+  const openPay = () => {
+    setPayAmount(String(remaining));
+    setPayOpen(true);
+  };
+
+  const confirmPay = async () => {
+    const amt = Number(payAmount);
+    if (!Number.isFinite(amt) || amt <= 0) {
+      toast.error('Montant invalide');
+      return;
+    }
+    if (amt > remaining + 0.01) {
+      toast.error(`Le montant dépasse le restant (${formatXOF(remaining)})`);
+      return;
+    }
+    setPaying(true);
+    try {
+      const newPaid = +(paid + amt).toFixed(2);
+      const newStatus = newPaid + 0.01 >= ttc ? 'payee' : 'partiellement_payee';
+      const { error } = await (supabase as any)
+        .from('invoices')
+        .update({ amount_paid: newPaid, status: newStatus })
+        .eq('id', inv.id);
+      if (error) throw error;
+
+      // Notifications → direction + project manager
+      try {
+        const recipients = new Set<string>();
+        const { data: dirs } = await (supabase as any)
+          .from('user_roles')
+          .select('user_id')
+          .in('role', ['super_admin', 'associe', 'comptable']);
+        (dirs ?? []).forEach((r: any) => r.user_id && recipients.add(r.user_id));
+        if (inv.project_id) {
+          const { data: p } = await (supabase as any)
+            .from('projects').select('manager_id').eq('id', inv.project_id).maybeSingle();
+          if (p?.manager_id) recipients.add(p.manager_id);
+        }
+        const title = newStatus === 'payee' ? 'Facture payée' : 'Paiement partiel reçu';
+        const body = `${inv.number} — ${formatXOF(amt)} (${formatXOF(newPaid)} / ${formatXOF(ttc)})`;
+        const link = `/admin/factures/${inv.id}`;
+        const rows = Array.from(recipients).map(user_id => ({
+          user_id, type: 'transaction', title, body, link,
+        }));
+        if (rows.length) await (supabase as any).from('notifications').insert(rows);
+      } catch (e) {
+        console.warn('notifications insert failed', e);
+      }
+
+      toast.success(newStatus === 'payee' ? 'Facture marquée payée' : 'Paiement enregistré');
+      setPayOpen(false);
+      load();
+    } catch (e: any) {
+      toast.error(e.message ?? 'Erreur');
+    } finally {
+      setPaying(false);
+    }
   };
 
   return (
@@ -32,13 +97,29 @@ export default function AdminInvoiceDetail() {
         <Link to="/admin/factures"><Button variant="ghost" className="text-white/60"><ArrowLeft className="w-4 h-4 mr-2" /> Retour</Button></Link>
         <div className="flex gap-2">
           {inv.status !== 'payee' && (
-            <Button onClick={markPaid} variant="outline" className="border-emerald-500/30 text-emerald-400">
-              <CheckCircle2 className="w-4 h-4 mr-2" /> Marquer payée
+            <Button onClick={openPay} variant="outline" className="border-emerald-500/30 text-emerald-400">
+              <CheckCircle2 className="w-4 h-4 mr-2" /> Enregistrer un paiement
             </Button>
           )}
           <Button onClick={() => window.print()} className="bg-orange-500 hover:bg-orange-600">
             <Printer className="w-4 h-4 mr-2" /> Imprimer / PDF
           </Button>
+        </div>
+      </div>
+
+      {/* KPIs paiement */}
+      <div className="grid grid-cols-3 gap-3 print:hidden">
+        <div className="rounded-lg border border-white/5 bg-[#111]/80 p-4">
+          <p className="text-[10px] uppercase tracking-wider text-white/40">Facturé TTC</p>
+          <p className="text-lg font-bold text-white mt-1">{formatXOF(ttc)}</p>
+        </div>
+        <div className="rounded-lg border border-white/5 bg-[#111]/80 p-4">
+          <p className="text-[10px] uppercase tracking-wider text-white/40">Encaissé</p>
+          <p className="text-lg font-bold text-emerald-400 mt-1">{formatXOF(paid)}</p>
+        </div>
+        <div className="rounded-lg border border-white/5 bg-[#111]/80 p-4">
+          <p className="text-[10px] uppercase tracking-wider text-white/40">Restant</p>
+          <p className="text-lg font-bold text-orange-400 mt-1">{formatXOF(remaining)}</p>
         </div>
       </div>
 
