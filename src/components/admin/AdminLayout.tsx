@@ -14,10 +14,10 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Loader2 } from 'lucide-react';
 
 export default function AdminLayout() {
-  const { user, loading, roles, signOut } = useAuth();
+  const { user, loading, rolesLoading, roles, signOut } = useAuth();
   const navigate = useNavigate();
 
-  if (loading) {
+  if (loading || (user && rolesLoading)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a]">
         <Loader2 className="w-6 h-6 animate-spin text-orange-500" />
