@@ -13,7 +13,7 @@ import {
 import { DOMAIN_LABELS, STATUS_LABELS, PRIORITY_LABELS } from '@/lib/projects';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
-import { Sparkles, ArrowRight, ShieldAlert, Check } from 'lucide-react';
+import { Sparkles, ArrowRight, ShieldAlert, Check, Zap } from 'lucide-react';
 
 type Client = { id: string; name: string };
 
@@ -25,21 +25,19 @@ type Suggestion = {
   rationale?: string;
 };
 
-const THRESHOLD_KEY = 'ai_classify_threshold';
 const DEFAULT_THRESHOLD = 70;
+const AGENT = 'classify-project';
 
 export function NewProjectDialog({
   open, onOpenChange, onCreated,
 }: { open: boolean; onOpenChange: (o: boolean) => void; onCreated: () => void }) {
-  const { user } = useAuth();
+  const { user, roles } = useAuth();
   const [clients, setClients] = useState<Client[]>([]);
   const [saving, setSaving] = useState(false);
   const [classifying, setClassifying] = useState(false);
   const [suggestion, setSuggestion] = useState<Suggestion | null>(null);
-  const [threshold, setThreshold] = useState<number>(() => {
-    const v = Number(localStorage.getItem(THRESHOLD_KEY));
-    return Number.isFinite(v) && v > 0 ? v : DEFAULT_THRESHOLD;
-  });
+  const [threshold, setThreshold] = useState<number>(DEFAULT_THRESHOLD);
+  const [allowForce, setAllowForce] = useState<boolean>(false);
   const [form, setForm] = useState({
     code: '', name: '', description: '',
     domain: 'autre', status: 'prospect', priority: 'normale',
@@ -53,9 +51,48 @@ export function NewProjectDialog({
     });
   }, [open]);
 
+  // Load per-role threshold from DB (most permissive role wins)
   useEffect(() => {
-    localStorage.setItem(THRESHOLD_KEY, String(threshold));
-  }, [threshold]);
+    if (!open || roles.length === 0) return;
+    (async () => {
+      const { data } = await supabase
+        .from('ai_role_thresholds')
+        .select('role, min_confidence, allow_force')
+        .eq('agent_slug', AGENT)
+        .in('role', roles as any);
+      if (data && data.length > 0) {
+        setThreshold(Math.min(...data.map((r: any) => r.min_confidence)));
+        setAllowForce(data.some((r: any) => r.allow_force));
+      } else {
+        setThreshold(DEFAULT_THRESHOLD);
+        setAllowForce(false);
+      }
+    })();
+  }, [open, roles]);
+
+  const logDecision = async (
+    decision: 'applied' | 'blocked' | 'forced' | 'ignored',
+    sug: Suggestion,
+  ) => {
+    if (!user) return;
+    await supabase.from('ai_suggestion_audit').insert({
+      user_id: user.id,
+      agent_slug: AGENT,
+      entity: 'projects',
+      field: 'domain',
+      value_before: form.domain,
+      value_after: sug.suggested_domain,
+      confidence: sug.confidence,
+      threshold,
+      decision,
+      context: {
+        project_name: form.name || null,
+        project_type: sug.project_type,
+        involvement_level: sug.involvement_level,
+        roles,
+      },
+    });
+  };
 
   const submit = async () => {
     if (!form.name.trim()) {
@@ -121,14 +158,26 @@ export function NewProjectDialog({
     });
   };
 
-  const applySuggestion = () => {
+  const applySuggestion = async (force = false) => {
     if (!suggestion) return;
-    if (suggestion.confidence < threshold) {
-      toast.error(`Confiance ${suggestion.confidence}% < seuil ${threshold}%`);
+    const ok = suggestion.confidence >= threshold;
+    if (!ok && !force) {
+      await logDecision('blocked', suggestion);
+      toast.error(`Bloqué : confiance ${suggestion.confidence}% < seuil ${threshold}%`);
+      return;
+    }
+    if (!ok && force && !allowForce) {
+      toast.error('Vous n\'avez pas le droit de forcer cette suggestion');
       return;
     }
     setForm((f) => ({ ...f, domain: suggestion.suggested_domain }));
-    toast.success('Suggestion appliquée');
+    await logDecision(force && !ok ? 'forced' : 'applied', suggestion);
+    toast.success(force && !ok ? 'Suggestion forcée' : 'Suggestion appliquée');
+    setSuggestion(null);
+  };
+
+  const ignoreSuggestion = async () => {
+    if (suggestion) await logDecision('ignored', suggestion);
     setSuggestion(null);
   };
 
@@ -191,11 +240,12 @@ export function NewProjectDialog({
                 {classifying ? 'Analyse…' : 'Suggestion IA'}
               </Button>
               <div className="flex items-center gap-2 text-[10px] text-white/40">
-                <span>Seuil min.</span>
+                <span>Seuil min. (rôle)</span>
                 <Input
                   type="number" min={0} max={100}
                   value={threshold}
                   onChange={(e) => setThreshold(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
+                  disabled={!allowForce}
                   className="h-6 w-14 px-1 py-0 bg-white/5 border-white/10 text-white text-[11px]"
                 />
                 <span>%</span>
@@ -253,23 +303,34 @@ export function NewProjectDialog({
                   <div className="flex items-center gap-2 mt-3">
                     <Button
                       type="button" size="sm"
-                      onClick={applySuggestion}
+                      onClick={() => applySuggestion(false)}
                       disabled={!ok || same}
                       className="bg-emerald-500 hover:bg-emerald-600 text-white disabled:opacity-40"
                     >
                       <Check className="w-3.5 h-3.5 mr-1" />
                       {same ? 'Déjà appliqué' : 'Appliquer'}
                     </Button>
+                    {!ok && !same && allowForce && (
+                      <Button
+                        type="button" size="sm"
+                        onClick={() => applySuggestion(true)}
+                        className="bg-orange-500 hover:bg-orange-600 text-white"
+                      >
+                        <Zap className="w-3.5 h-3.5 mr-1" />
+                        Forcer
+                      </Button>
+                    )}
                     <Button
                       type="button" size="sm" variant="ghost"
-                      onClick={() => setSuggestion(null)}
+                      onClick={ignoreSuggestion}
                       className="text-white/60 hover:text-white hover:bg-white/5"
                     >
                       Ignorer
                     </Button>
                     {!ok && (
                       <span className="text-[10px] text-orange-300 ml-auto inline-flex items-center gap-1">
-                        <ShieldAlert className="w-3 h-3" /> Blocage : confiance insuffisante
+                        <ShieldAlert className="w-3 h-3" />
+                        {allowForce ? 'Confiance < seuil — forçage possible' : 'Blocage : confiance insuffisante'}
                       </span>
                     )}
                   </div>
