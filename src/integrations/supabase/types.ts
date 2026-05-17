@@ -543,6 +543,54 @@ export type Database = {
           },
         ]
       }
+      financial_reports: {
+        Row: {
+          comparisons: Json
+          created_at: string
+          filters: Json
+          generated_at: string
+          generated_by: string | null
+          id: string
+          level: string
+          period_end: string
+          period_label: string
+          period_start: string
+          report_markdown: string
+          source: string
+          summary: Json
+        }
+        Insert: {
+          comparisons?: Json
+          created_at?: string
+          filters?: Json
+          generated_at?: string
+          generated_by?: string | null
+          id?: string
+          level: string
+          period_end: string
+          period_label: string
+          period_start: string
+          report_markdown: string
+          source?: string
+          summary?: Json
+        }
+        Update: {
+          comparisons?: Json
+          created_at?: string
+          filters?: Json
+          generated_at?: string
+          generated_by?: string | null
+          id?: string
+          level?: string
+          period_end?: string
+          period_label?: string
+          period_start?: string
+          report_markdown?: string
+          source?: string
+          summary?: Json
+        }
+        Relationships: []
+      }
       financial_scenarios: {
         Row: {
           created_at: string
