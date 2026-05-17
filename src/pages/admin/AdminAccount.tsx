@@ -10,6 +10,7 @@ const ROLE_LABELS: Record<string, string> = {
   associe: 'Associé',
   comptable: 'Comptable',
   chef_projet: 'Chef de projet',
+  secretaire: 'Secrétaire',
 };
 
 export default function AdminAccount() {
