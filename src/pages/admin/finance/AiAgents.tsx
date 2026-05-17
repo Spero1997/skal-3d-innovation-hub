@@ -14,6 +14,7 @@ import { Plus, Save, Trash2, Send } from 'lucide-react';
 import { SuperAdminGuard } from '@/components/admin/finance/rules/Guard';
 
 const LEVELS = ['public', 'internal', 'restricted', 'secret'];
+const ROLES = ['super_admin', 'associe', 'comptable', 'chef_projet'] as const;
 const MODELS = [
   'google/gemini-3-flash-preview',
   'google/gemini-2.5-flash',
@@ -193,6 +194,145 @@ function PlaygroundTab() {
   );
 }
 
+function ThresholdsTab() {
+  const [rows, setRows] = useState<any[]>([]);
+  const load = async () => {
+    const { data } = await supabase
+      .from('ai_role_thresholds')
+      .select('*')
+      .order('agent_slug')
+      .order('role');
+    setRows(data ?? []);
+  };
+  useEffect(() => { load(); }, []);
+
+  const upsertDefault = async (role: string, agent_slug: string) => {
+    const { error } = await supabase.from('ai_role_thresholds').insert({
+      role: role as any, agent_slug, min_confidence: 70, allow_force: false,
+    });
+    if (error) return toast({ title: 'Erreur', description: error.message, variant: 'destructive' });
+    load();
+  };
+
+  const save = async (r: any) => {
+    const { error } = await supabase.from('ai_role_thresholds').update({
+      min_confidence: r.min_confidence, allow_force: r.allow_force, updated_at: new Date().toISOString(),
+    }).eq('id', r.id);
+    if (error) return toast({ title: 'Erreur', description: error.message, variant: 'destructive' });
+    toast({ title: 'Seuil sauvegardé' });
+  };
+
+  const update = (i: number, patch: any) =>
+    setRows((rs) => rs.map((r, k) => (k === i ? { ...r, ...patch } : r)));
+
+  return (
+    <div className="space-y-4">
+      <p className="text-xs text-white/50">
+        Seuils minimaux de confiance IA requis par rôle pour appliquer une suggestion.
+        L'option « Forçage autorisé » permet à un rôle d'appliquer une suggestion sous le seuil.
+        Les utilisateurs ayant plusieurs rôles bénéficient du seuil le plus permissif.
+      </p>
+      <div className="rounded border border-white/10 overflow-hidden">
+        <table className="w-full text-sm">
+          <thead className="bg-white/5 text-white/60 text-xs">
+            <tr>
+              <th className="text-left p-2">Rôle</th>
+              <th className="text-left p-2">Agent</th>
+              <th className="text-left p-2 w-32">Seuil min. (%)</th>
+              <th className="text-left p-2 w-32">Forçage</th>
+              <th className="text-right p-2 w-24"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r, i) => (
+              <tr key={r.id} className="border-t border-white/5">
+                <td className="p-2 text-white">{r.role}</td>
+                <td className="p-2 text-white/70">{r.agent_slug}</td>
+                <td className="p-2">
+                  <Input
+                    type="number" min={0} max={100}
+                    value={r.min_confidence}
+                    onChange={(e) => update(i, { min_confidence: Math.max(0, Math.min(100, Number(e.target.value) || 0)) })}
+                    className="h-8 bg-white/5 border-white/10 text-white"
+                  />
+                </td>
+                <td className="p-2">
+                  <Switch checked={r.allow_force} onCheckedChange={(v) => update(i, { allow_force: v })} />
+                </td>
+                <td className="p-2 text-right">
+                  <Button size="sm" onClick={() => save(r)} className="bg-orange-500 hover:bg-orange-600">
+                    <Save className="h-3.5 w-3.5" />
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {ROLES.map((role) => {
+          const exists = rows.some((r) => r.role === role && r.agent_slug === 'classify-project');
+          if (exists) return null;
+          return (
+            <Button key={role} size="sm" variant="outline"
+              onClick={() => upsertDefault(role, 'classify-project')}
+              className="border-white/10 text-white/70 hover:bg-white/5">
+              <Plus className="h-3.5 w-3.5 mr-1" /> {role} / classify-project
+            </Button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function AuditTab() {
+  const [rows, setRows] = useState<any[]>([]);
+  useEffect(() => {
+    supabase.from('ai_suggestion_audit').select('*').order('created_at', { ascending: false }).limit(200)
+      .then(({ data }) => setRows(data ?? []));
+  }, []);
+
+  const color = (d: string) =>
+    d === 'applied' ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+    : d === 'forced' ? 'bg-orange-500/15 text-orange-300 border-orange-500/30'
+    : d === 'blocked' ? 'bg-red-500/15 text-red-300 border-red-500/30'
+    : 'bg-white/5 text-white/60 border-white/10';
+
+  return (
+    <div className="rounded border border-white/10 overflow-hidden">
+      <table className="w-full text-xs">
+        <thead className="bg-white/5 text-white/60">
+          <tr>
+            <th className="text-left p-2">Quand</th>
+            <th className="text-left p-2">Agent</th>
+            <th className="text-left p-2">Champ</th>
+            <th className="text-left p-2">Avant → Après</th>
+            <th className="text-left p-2">Confiance / Seuil</th>
+            <th className="text-left p-2">Décision</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.length === 0 && (
+            <tr><td colSpan={6} className="p-6 text-center text-white/40">Aucune décision enregistrée</td></tr>
+          )}
+          {rows.map((r) => (
+            <tr key={r.id} className="border-t border-white/5">
+              <td className="p-2 text-white/60 whitespace-nowrap">{new Date(r.created_at).toLocaleString('fr-FR')}</td>
+              <td className="p-2 text-white/80">{r.agent_slug}</td>
+              <td className="p-2 text-white/60">{r.entity}.{r.field}</td>
+              <td className="p-2 text-white">{r.value_before ?? '—'} → <span className="text-emerald-300">{r.value_after ?? '—'}</span></td>
+              <td className="p-2 text-white/70">{r.confidence ?? '—'}% / {r.threshold ?? '—'}%</td>
+              <td className="p-2"><Badge className={color(r.decision)}>{r.decision}</Badge></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function Content() {
   return (
     <div className="space-y-6">
@@ -204,10 +344,14 @@ function Content() {
         <TabsList className="bg-white/5">
           <TabsTrigger value="agents">Agents</TabsTrigger>
           <TabsTrigger value="playground">Test</TabsTrigger>
+          <TabsTrigger value="thresholds">Seuils par rôle</TabsTrigger>
+          <TabsTrigger value="audit">Audit suggestions</TabsTrigger>
           <TabsTrigger value="logs">Journal</TabsTrigger>
         </TabsList>
         <TabsContent value="agents"><AgentsTab /></TabsContent>
         <TabsContent value="playground"><PlaygroundTab /></TabsContent>
+        <TabsContent value="thresholds"><ThresholdsTab /></TabsContent>
+        <TabsContent value="audit"><AuditTab /></TabsContent>
         <TabsContent value="logs"><LogsTab /></TabsContent>
       </Tabs>
     </div>
