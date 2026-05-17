@@ -966,6 +966,42 @@ export type Database = {
           },
         ]
       }
+      project_templates: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          domain: Database["public"]["Enums"]["project_domain"]
+          id: string
+          is_active: boolean
+          name: string
+          tasks_structure: Json
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          domain?: Database["public"]["Enums"]["project_domain"]
+          id?: string
+          is_active?: boolean
+          name: string
+          tasks_structure?: Json
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          domain?: Database["public"]["Enums"]["project_domain"]
+          id?: string
+          is_active?: boolean
+          name?: string
+          tasks_structure?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       projects: {
         Row: {
           amount_collected: number | null
@@ -1112,50 +1148,114 @@ export type Database = {
           },
         ]
       }
+      task_dependencies: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          lag_days: number
+          predecessor_id: string
+          successor_id: string
+          type: Database["public"]["Enums"]["dependency_type"]
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          lag_days?: number
+          predecessor_id: string
+          successor_id: string
+          type?: Database["public"]["Enums"]["dependency_type"]
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          lag_days?: number
+          predecessor_id?: string
+          successor_id?: string
+          type?: Database["public"]["Enums"]["dependency_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_dependencies_predecessor_id_fkey"
+            columns: ["predecessor_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_dependencies_successor_id_fkey"
+            columns: ["successor_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tasks: {
         Row: {
+          actual_hours: number
           assignee_id: string | null
           created_at: string
           created_by: string | null
           description: string | null
           due_date: string | null
+          estimated_hours: number | null
           id: string
+          parent_task_id: string | null
           position: number
           priority: Database["public"]["Enums"]["project_priority"]
           project_id: string
+          start_date: string | null
           status: Database["public"]["Enums"]["task_status"]
           title: string
           updated_at: string
         }
         Insert: {
+          actual_hours?: number
           assignee_id?: string | null
           created_at?: string
           created_by?: string | null
           description?: string | null
           due_date?: string | null
+          estimated_hours?: number | null
           id?: string
+          parent_task_id?: string | null
           position?: number
           priority?: Database["public"]["Enums"]["project_priority"]
           project_id: string
+          start_date?: string | null
           status?: Database["public"]["Enums"]["task_status"]
           title: string
           updated_at?: string
         }
         Update: {
+          actual_hours?: number
           assignee_id?: string | null
           created_at?: string
           created_by?: string | null
           description?: string | null
           due_date?: string | null
+          estimated_hours?: number | null
           id?: string
+          parent_task_id?: string | null
           position?: number
           priority?: Database["public"]["Enums"]["project_priority"]
           project_id?: string
+          start_date?: string | null
           status?: Database["public"]["Enums"]["task_status"]
           title?: string
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "tasks_parent_task_id_fkey"
+            columns: ["parent_task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "tasks_project_id_fkey"
             columns: ["project_id"]
@@ -1197,6 +1297,50 @@ export type Database = {
           token?: string
         }
         Relationships: []
+      }
+      time_entries: {
+        Row: {
+          created_at: string
+          description: string | null
+          duration_minutes: number | null
+          ended_at: string | null
+          id: string
+          started_at: string
+          task_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          duration_minutes?: number | null
+          ended_at?: string | null
+          id?: string
+          started_at?: string
+          task_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          duration_minutes?: number | null
+          ended_at?: string | null
+          id?: string
+          started_at?: string
+          task_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "time_entries_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       transactions: {
         Row: {
@@ -1321,6 +1465,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      instantiate_project_template: {
+        Args: { _project_id: string; _template_id: string }
+        Returns: number
+      }
       is_admin_user: { Args: { _user_id: string }; Returns: boolean }
       is_direction: { Args: { _user_id: string }; Returns: boolean }
       is_internal_user: { Args: { _user_id: string }; Returns: boolean }
@@ -1390,6 +1538,11 @@ export type Database = {
       cash_direction: "entree" | "sortie"
       commission_status: "a_valider" | "validee" | "payee" | "annulee"
       confidentiality_level: "public" | "internal" | "restricted" | "secret"
+      dependency_type:
+        | "finish_to_start"
+        | "start_to_start"
+        | "finish_to_finish"
+        | "start_to_finish"
       distribution_case: "cas1_interne" | "cas2_forfait" | "cas3_au_cout"
       distribution_status:
         | "appliquee"
@@ -1577,6 +1730,12 @@ export const Constants = {
       cash_direction: ["entree", "sortie"],
       commission_status: ["a_valider", "validee", "payee", "annulee"],
       confidentiality_level: ["public", "internal", "restricted", "secret"],
+      dependency_type: [
+        "finish_to_start",
+        "start_to_start",
+        "finish_to_finish",
+        "start_to_finish",
+      ],
       distribution_case: ["cas1_interne", "cas2_forfait", "cas3_au_cout"],
       distribution_status: [
         "appliquee",
