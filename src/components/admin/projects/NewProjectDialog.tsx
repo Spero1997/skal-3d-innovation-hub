@@ -26,7 +26,21 @@ type Suggestion = {
 };
 
 const DEFAULT_THRESHOLD = 70;
-const AGENT = 'classify-project';
+const AGENT_DOMAIN = 'classify-project';
+const AGENT_TYPE = 'classify-project-type';
+const AGENT_INVOLVE = 'classify-involvement-level';
+
+type FieldKey = 'domain' | 'project_type' | 'involvement_level';
+const FIELD_AGENT: Record<FieldKey, string> = {
+  domain: AGENT_DOMAIN,
+  project_type: AGENT_TYPE,
+  involvement_level: AGENT_INVOLVE,
+};
+const FIELD_LABEL: Record<FieldKey, string> = {
+  domain: 'Domaine',
+  project_type: 'Type de projet',
+  involvement_level: 'Niveau d\'implication',
+};
 
 export function NewProjectDialog({
   open, onOpenChange, onCreated,
@@ -36,11 +50,12 @@ export function NewProjectDialog({
   const [saving, setSaving] = useState(false);
   const [classifying, setClassifying] = useState(false);
   const [suggestion, setSuggestion] = useState<Suggestion | null>(null);
-  const [threshold, setThreshold] = useState<number>(DEFAULT_THRESHOLD);
-  const [allowForce, setAllowForce] = useState<boolean>(false);
+  const [thresholds, setThresholds] = useState<Record<string, { min: number; force: boolean }>>({});
+  const [appliedFields, setAppliedFields] = useState<Set<FieldKey>>(new Set());
   const [form, setForm] = useState({
     code: '', name: '', description: '',
-    domain: 'autre', status: 'prospect', priority: 'normale',
+    domain: 'autre', project_type: '', involvement_level: '',
+    status: 'prospect', priority: 'normale',
     client_id: 'none', budget: '', start_date: '', due_date: '',
   });
 
@@ -51,46 +66,48 @@ export function NewProjectDialog({
     });
   }, [open]);
 
-  // Load per-role threshold from DB (most permissive role wins)
+  // Load per-role thresholds for ALL agents (most permissive role wins per agent)
   useEffect(() => {
     if (!open || roles.length === 0) return;
     (async () => {
       const { data } = await supabase
         .from('ai_role_thresholds')
-        .select('role, min_confidence, allow_force')
-        .eq('agent_slug', AGENT)
+        .select('role, agent_slug, min_confidence, allow_force')
         .in('role', roles as any);
-      if (data && data.length > 0) {
-        setThreshold(Math.min(...data.map((r: any) => r.min_confidence)));
-        setAllowForce(data.some((r: any) => r.allow_force));
-      } else {
-        setThreshold(DEFAULT_THRESHOLD);
-        setAllowForce(false);
-      }
+      const acc: Record<string, { min: number; force: boolean }> = {};
+      (data ?? []).forEach((r: any) => {
+        const cur = acc[r.agent_slug];
+        acc[r.agent_slug] = cur
+          ? { min: Math.min(cur.min, r.min_confidence), force: cur.force || r.allow_force }
+          : { min: r.min_confidence, force: r.allow_force };
+      });
+      setThresholds(acc);
     })();
   }, [open, roles]);
 
+  const getTh = (agent: string) =>
+    thresholds[agent] ?? { min: DEFAULT_THRESHOLD, force: false };
+
   const logDecision = async (
     decision: 'applied' | 'blocked' | 'forced' | 'ignored',
-    sug: Suggestion,
+    field: FieldKey,
+    valueBefore: string,
+    valueAfter: string,
+    confidence: number,
   ) => {
     if (!user) return;
+    const agent = FIELD_AGENT[field];
     await supabase.from('ai_suggestion_audit').insert({
       user_id: user.id,
-      agent_slug: AGENT,
+      agent_slug: agent,
       entity: 'projects',
-      field: 'domain',
-      value_before: form.domain,
-      value_after: sug.suggested_domain,
-      confidence: sug.confidence,
-      threshold,
+      field,
+      value_before: valueBefore || null,
+      value_after: valueAfter || null,
+      confidence,
+      threshold: getTh(agent).min,
       decision,
-      context: {
-        project_name: form.name || null,
-        project_type: sug.project_type,
-        involvement_level: sug.involvement_level,
-        roles,
-      },
+      context: { project_name: form.name || null, roles },
     });
   };
 
@@ -103,7 +120,11 @@ export function NewProjectDialog({
     const { error } = await supabase.from('projects').insert({
       code: form.code.trim() || null,
       name: form.name.trim(),
-      description: form.description.trim() || null,
+      description: [
+        form.description.trim(),
+        form.project_type && `[Type: ${form.project_type}]`,
+        form.involvement_level && `[Implication: ${form.involvement_level}]`,
+      ].filter(Boolean).join('\n') || null,
       domain: form.domain as any,
       status: form.status as any,
       priority: form.priority as any,
@@ -124,9 +145,11 @@ export function NewProjectDialog({
     onCreated();
     setForm({
       code: '', name: '', description: '',
-      domain: 'autre', status: 'prospect', priority: 'normale',
+      domain: 'autre', project_type: '', involvement_level: '',
+      status: 'prospect', priority: 'normale',
       client_id: 'none', budget: '', start_date: '', due_date: '',
     });
+    setAppliedFields(new Set());
   };
 
   const classify = async () => {
@@ -158,27 +181,45 @@ export function NewProjectDialog({
     });
   };
 
-  const applySuggestion = async (force = false) => {
+  const applyField = async (field: FieldKey, force = false) => {
     if (!suggestion) return;
-    const ok = suggestion.confidence >= threshold;
+    const valueAfter =
+      field === 'domain' ? suggestion.suggested_domain
+      : field === 'project_type' ? (suggestion.project_type ?? '')
+      : (suggestion.involvement_level ?? '');
+    if (!valueAfter) return;
+    const agent = FIELD_AGENT[field];
+    const th = getTh(agent);
+    const ok = suggestion.confidence >= th.min;
+    const valueBefore = (form as any)[field] ?? '';
     if (!ok && !force) {
-      await logDecision('blocked', suggestion);
-      toast.error(`Bloqué : confiance ${suggestion.confidence}% < seuil ${threshold}%`);
+      await logDecision('blocked', field, valueBefore, valueAfter, suggestion.confidence);
+      toast.error(`Bloqué : ${FIELD_LABEL[field]} ${suggestion.confidence}% < seuil ${th.min}%`);
       return;
     }
-    if (!ok && force && !allowForce) {
-      toast.error('Vous n\'avez pas le droit de forcer cette suggestion');
+    if (!ok && force && !th.force) {
+      toast.error(`Vous n'avez pas le droit de forcer ${FIELD_LABEL[field]}`);
       return;
     }
-    setForm((f) => ({ ...f, domain: suggestion.suggested_domain }));
-    await logDecision(force && !ok ? 'forced' : 'applied', suggestion);
-    toast.success(force && !ok ? 'Suggestion forcée' : 'Suggestion appliquée');
-    setSuggestion(null);
+    setForm((f) => ({ ...f, [field]: valueAfter }));
+    setAppliedFields((s) => new Set(s).add(field));
+    await logDecision(force && !ok ? 'forced' : 'applied', field, valueBefore, valueAfter, suggestion.confidence);
+    toast.success(`${FIELD_LABEL[field]} ${force && !ok ? 'forcé' : 'appliqué'}`);
   };
 
-  const ignoreSuggestion = async () => {
-    if (suggestion) await logDecision('ignored', suggestion);
+  const ignoreAll = async () => {
+    if (!suggestion) return;
+    for (const field of ['domain', 'project_type', 'involvement_level'] as FieldKey[]) {
+      if (appliedFields.has(field)) continue;
+      const valueAfter =
+        field === 'domain' ? suggestion.suggested_domain
+        : field === 'project_type' ? (suggestion.project_type ?? '')
+        : (suggestion.involvement_level ?? '');
+      if (!valueAfter) continue;
+      await logDecision('ignored', field, (form as any)[field] ?? '', valueAfter, suggestion.confidence);
+    }
     setSuggestion(null);
+    setAppliedFields(new Set());
   };
 
   return (
