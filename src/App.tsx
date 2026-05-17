@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
+import Install from "./pages/Install";
 import ServicesPage from "./pages/ServicesPage";
 import DisciplinePage from "./pages/DisciplinePage";
 import DomainPage from "./pages/DomainPage";
@@ -73,6 +74,7 @@ const App = () => (
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/projects/:id" element={<ProjectDetailPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/install" element={<Install />} />
           <Route path="/legal" element={<LegalNotice />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfSale />} />
