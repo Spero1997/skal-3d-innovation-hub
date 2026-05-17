@@ -26,7 +26,21 @@ type Suggestion = {
 };
 
 const DEFAULT_THRESHOLD = 70;
-const AGENT = 'classify-project';
+const AGENT_DOMAIN = 'classify-project';
+const AGENT_TYPE = 'classify-project-type';
+const AGENT_INVOLVE = 'classify-involvement-level';
+
+type FieldKey = 'domain' | 'project_type' | 'involvement_level';
+const FIELD_AGENT: Record<FieldKey, string> = {
+  domain: AGENT_DOMAIN,
+  project_type: AGENT_TYPE,
+  involvement_level: AGENT_INVOLVE,
+};
+const FIELD_LABEL: Record<FieldKey, string> = {
+  domain: 'Domaine',
+  project_type: 'Type de projet',
+  involvement_level: 'Niveau d\'implication',
+};
 
 export function NewProjectDialog({
   open, onOpenChange, onCreated,
@@ -36,11 +50,12 @@ export function NewProjectDialog({
   const [saving, setSaving] = useState(false);
   const [classifying, setClassifying] = useState(false);
   const [suggestion, setSuggestion] = useState<Suggestion | null>(null);
-  const [threshold, setThreshold] = useState<number>(DEFAULT_THRESHOLD);
-  const [allowForce, setAllowForce] = useState<boolean>(false);
+  const [thresholds, setThresholds] = useState<Record<string, { min: number; force: boolean }>>({});
+  const [appliedFields, setAppliedFields] = useState<Set<FieldKey>>(new Set());
   const [form, setForm] = useState({
     code: '', name: '', description: '',
-    domain: 'autre', status: 'prospect', priority: 'normale',
+    domain: 'autre', project_type: '', involvement_level: '',
+    status: 'prospect', priority: 'normale',
     client_id: 'none', budget: '', start_date: '', due_date: '',
   });
 
@@ -51,46 +66,48 @@ export function NewProjectDialog({
     });
   }, [open]);
 
-  // Load per-role threshold from DB (most permissive role wins)
+  // Load per-role thresholds for ALL agents (most permissive role wins per agent)
   useEffect(() => {
     if (!open || roles.length === 0) return;
     (async () => {
       const { data } = await supabase
         .from('ai_role_thresholds')
-        .select('role, min_confidence, allow_force')
-        .eq('agent_slug', AGENT)
+        .select('role, agent_slug, min_confidence, allow_force')
         .in('role', roles as any);
-      if (data && data.length > 0) {
-        setThreshold(Math.min(...data.map((r: any) => r.min_confidence)));
-        setAllowForce(data.some((r: any) => r.allow_force));
-      } else {
-        setThreshold(DEFAULT_THRESHOLD);
-        setAllowForce(false);
-      }
+      const acc: Record<string, { min: number; force: boolean }> = {};
+      (data ?? []).forEach((r: any) => {
+        const cur = acc[r.agent_slug];
+        acc[r.agent_slug] = cur
+          ? { min: Math.min(cur.min, r.min_confidence), force: cur.force || r.allow_force }
+          : { min: r.min_confidence, force: r.allow_force };
+      });
+      setThresholds(acc);
     })();
   }, [open, roles]);
 
+  const getTh = (agent: string) =>
+    thresholds[agent] ?? { min: DEFAULT_THRESHOLD, force: false };
+
   const logDecision = async (
     decision: 'applied' | 'blocked' | 'forced' | 'ignored',
-    sug: Suggestion,
+    field: FieldKey,
+    valueBefore: string,
+    valueAfter: string,
+    confidence: number,
   ) => {
     if (!user) return;
+    const agent = FIELD_AGENT[field];
     await supabase.from('ai_suggestion_audit').insert({
       user_id: user.id,
-      agent_slug: AGENT,
+      agent_slug: agent,
       entity: 'projects',
-      field: 'domain',
-      value_before: form.domain,
-      value_after: sug.suggested_domain,
-      confidence: sug.confidence,
-      threshold,
+      field,
+      value_before: valueBefore || null,
+      value_after: valueAfter || null,
+      confidence,
+      threshold: getTh(agent).min,
       decision,
-      context: {
-        project_name: form.name || null,
-        project_type: sug.project_type,
-        involvement_level: sug.involvement_level,
-        roles,
-      },
+      context: { project_name: form.name || null, roles },
     });
   };
 
@@ -103,7 +120,11 @@ export function NewProjectDialog({
     const { error } = await supabase.from('projects').insert({
       code: form.code.trim() || null,
       name: form.name.trim(),
-      description: form.description.trim() || null,
+      description: [
+        form.description.trim(),
+        form.project_type && `[Type: ${form.project_type}]`,
+        form.involvement_level && `[Implication: ${form.involvement_level}]`,
+      ].filter(Boolean).join('\n') || null,
       domain: form.domain as any,
       status: form.status as any,
       priority: form.priority as any,
@@ -124,9 +145,11 @@ export function NewProjectDialog({
     onCreated();
     setForm({
       code: '', name: '', description: '',
-      domain: 'autre', status: 'prospect', priority: 'normale',
+      domain: 'autre', project_type: '', involvement_level: '',
+      status: 'prospect', priority: 'normale',
       client_id: 'none', budget: '', start_date: '', due_date: '',
     });
+    setAppliedFields(new Set());
   };
 
   const classify = async () => {
@@ -158,27 +181,45 @@ export function NewProjectDialog({
     });
   };
 
-  const applySuggestion = async (force = false) => {
+  const applyField = async (field: FieldKey, force = false) => {
     if (!suggestion) return;
-    const ok = suggestion.confidence >= threshold;
+    const valueAfter =
+      field === 'domain' ? suggestion.suggested_domain
+      : field === 'project_type' ? (suggestion.project_type ?? '')
+      : (suggestion.involvement_level ?? '');
+    if (!valueAfter) return;
+    const agent = FIELD_AGENT[field];
+    const th = getTh(agent);
+    const ok = suggestion.confidence >= th.min;
+    const valueBefore = (form as any)[field] ?? '';
     if (!ok && !force) {
-      await logDecision('blocked', suggestion);
-      toast.error(`Bloqué : confiance ${suggestion.confidence}% < seuil ${threshold}%`);
+      await logDecision('blocked', field, valueBefore, valueAfter, suggestion.confidence);
+      toast.error(`Bloqué : ${FIELD_LABEL[field]} ${suggestion.confidence}% < seuil ${th.min}%`);
       return;
     }
-    if (!ok && force && !allowForce) {
-      toast.error('Vous n\'avez pas le droit de forcer cette suggestion');
+    if (!ok && force && !th.force) {
+      toast.error(`Vous n'avez pas le droit de forcer ${FIELD_LABEL[field]}`);
       return;
     }
-    setForm((f) => ({ ...f, domain: suggestion.suggested_domain }));
-    await logDecision(force && !ok ? 'forced' : 'applied', suggestion);
-    toast.success(force && !ok ? 'Suggestion forcée' : 'Suggestion appliquée');
-    setSuggestion(null);
+    setForm((f) => ({ ...f, [field]: valueAfter }));
+    setAppliedFields((s) => new Set(s).add(field));
+    await logDecision(force && !ok ? 'forced' : 'applied', field, valueBefore, valueAfter, suggestion.confidence);
+    toast.success(`${FIELD_LABEL[field]} ${force && !ok ? 'forcé' : 'appliqué'}`);
   };
 
-  const ignoreSuggestion = async () => {
-    if (suggestion) await logDecision('ignored', suggestion);
+  const ignoreAll = async () => {
+    if (!suggestion) return;
+    for (const field of ['domain', 'project_type', 'involvement_level'] as FieldKey[]) {
+      if (appliedFields.has(field)) continue;
+      const valueAfter =
+        field === 'domain' ? suggestion.suggested_domain
+        : field === 'project_type' ? (suggestion.project_type ?? '')
+        : (suggestion.involvement_level ?? '');
+      if (!valueAfter) continue;
+      await logDecision('ignored', field, (form as any)[field] ?? '', valueAfter, suggestion.confidence);
+    }
     setSuggestion(null);
+    setAppliedFields(new Set());
   };
 
   return (
@@ -239,104 +280,91 @@ export function NewProjectDialog({
                 <Sparkles className="h-3.5 w-3.5 mr-1" />
                 {classifying ? 'Analyse…' : 'Suggestion IA'}
               </Button>
-              <div className="flex items-center gap-2 text-[10px] text-white/40">
-                <span>Seuil min. (rôle)</span>
-                <Input
-                  type="number" min={0} max={100}
-                  value={threshold}
-                  onChange={(e) => setThreshold(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
-                  disabled={!allowForce}
-                  className="h-6 w-14 px-1 py-0 bg-white/5 border-white/10 text-white text-[11px]"
-                />
-                <span>%</span>
-              </div>
             </div>
 
-            {suggestion && (() => {
-              const ok = suggestion.confidence >= threshold;
-              const same = suggestion.suggested_domain === form.domain;
-              return (
-                <div className={`mt-2 rounded-md border p-3 ${ok ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-orange-500/40 bg-orange-500/5'}`}>
-                  <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-                    <div className="rounded bg-white/5 border border-white/10 p-2">
-                      <p className="text-[9px] uppercase tracking-wider text-white/40">Avant</p>
-                      <p className="text-sm text-white mt-0.5">{(DOMAIN_LABELS as any)[form.domain] ?? form.domain}</p>
+            {suggestion && (
+              <div className="mt-2 rounded-md border border-white/10 bg-white/[0.02] p-3 space-y-3">
+                {(['domain', 'project_type', 'involvement_level'] as FieldKey[]).map((field) => {
+                  const valueAfter =
+                    field === 'domain' ? suggestion.suggested_domain
+                    : field === 'project_type' ? (suggestion.project_type ?? '')
+                    : (suggestion.involvement_level ?? '');
+                  if (!valueAfter) return null;
+                  const agent = FIELD_AGENT[field];
+                  const th = getTh(agent);
+                  const ok = suggestion.confidence >= th.min;
+                  const valueBefore = (form as any)[field] ?? '';
+                  const labelBefore = field === 'domain'
+                    ? ((DOMAIN_LABELS as any)[valueBefore] ?? valueBefore ?? '—')
+                    : (valueBefore || '—');
+                  const labelAfter = field === 'domain'
+                    ? ((DOMAIN_LABELS as any)[valueAfter] ?? valueAfter)
+                    : valueAfter;
+                  const same = String(valueBefore) === String(valueAfter);
+                  const applied = appliedFields.has(field);
+                  return (
+                    <div key={field} className={`rounded p-2.5 border ${applied ? 'border-emerald-500/40 bg-emerald-500/5' : ok ? 'border-emerald-500/20 bg-emerald-500/[0.03]' : 'border-orange-500/30 bg-orange-500/5'}`}>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-[10px] uppercase tracking-wider text-white/50">{FIELD_LABEL[field]}</span>
+                        <span className={`text-[10px] ${ok ? 'text-emerald-300' : 'text-orange-300'}`}>
+                          {suggestion.confidence}% {ok ? '≥' : '<'} {th.min}%
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+                        <div className="rounded bg-white/5 border border-white/10 p-1.5">
+                          <p className="text-sm text-white truncate">{labelBefore}</p>
+                        </div>
+                        <ArrowRight className="w-3.5 h-3.5 text-white/40" />
+                        <div className={`rounded p-1.5 border ${ok ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-orange-500/10 border-orange-500/30'}`}>
+                          <p className="text-sm text-white truncate">{labelAfter}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1.5 mt-2">
+                        <Button
+                          type="button" size="sm"
+                          onClick={() => applyField(field, false)}
+                          disabled={!ok || same || applied}
+                          className="bg-emerald-500 hover:bg-emerald-600 text-white disabled:opacity-40 h-7 text-xs"
+                        >
+                          <Check className="w-3 h-3 mr-1" />
+                          {applied ? 'Appliqué' : same ? 'Identique' : 'Appliquer'}
+                        </Button>
+                        {!ok && !same && !applied && th.force && (
+                          <Button
+                            type="button" size="sm"
+                            onClick={() => applyField(field, true)}
+                            className="bg-orange-500 hover:bg-orange-600 text-white h-7 text-xs"
+                          >
+                            <Zap className="w-3 h-3 mr-1" />
+                            Forcer
+                          </Button>
+                        )}
+                        {!ok && !th.force && !applied && (
+                          <span className="text-[10px] text-orange-300 ml-1 inline-flex items-center gap-1">
+                            <ShieldAlert className="w-3 h-3" />
+                            Blocage : confiance insuffisante
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-white/40" />
-                    <div className={`rounded p-2 border ${ok ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-orange-500/10 border-orange-500/30'}`}>
-                      <p className="text-[9px] uppercase tracking-wider text-white/50">Après (IA)</p>
-                      <p className="text-sm text-white mt-0.5">
-                        {(DOMAIN_LABELS as any)[suggestion.suggested_domain] ?? suggestion.suggested_domain}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 space-y-1.5">
-                    <div className="flex items-center justify-between text-[10px]">
-                      <span className="text-white/50">Confiance</span>
-                      <span className={ok ? 'text-emerald-300' : 'text-orange-300'}>
-                        {suggestion.confidence}% {ok ? '≥' : '<'} seuil {threshold}%
-                      </span>
-                    </div>
-                    <div className="h-1.5 rounded-full bg-white/5 overflow-hidden relative">
-                      <div
-                        className={`h-full ${ok ? 'bg-emerald-400' : 'bg-orange-400'}`}
-                        style={{ width: `${suggestion.confidence}%` }}
-                      />
-                      <div
-                        className="absolute top-0 bottom-0 w-px bg-white/60"
-                        style={{ left: `${threshold}%` }}
-                        title={`Seuil ${threshold}%`}
-                      />
-                    </div>
-                  </div>
-
-                  {suggestion.rationale && (
-                    <p className="text-[10px] text-white/50 mt-2 leading-relaxed">
-                      {suggestion.rationale}
-                    </p>
-                  )}
-                  <div className="text-[10px] text-white/40 mt-1">
-                    Type : {suggestion.project_type ?? '—'} · Implication : {suggestion.involvement_level ?? '—'}
-                  </div>
-
-                  <div className="flex items-center gap-2 mt-3">
-                    <Button
-                      type="button" size="sm"
-                      onClick={() => applySuggestion(false)}
-                      disabled={!ok || same}
-                      className="bg-emerald-500 hover:bg-emerald-600 text-white disabled:opacity-40"
-                    >
-                      <Check className="w-3.5 h-3.5 mr-1" />
-                      {same ? 'Déjà appliqué' : 'Appliquer'}
-                    </Button>
-                    {!ok && !same && allowForce && (
-                      <Button
-                        type="button" size="sm"
-                        onClick={() => applySuggestion(true)}
-                        className="bg-orange-500 hover:bg-orange-600 text-white"
-                      >
-                        <Zap className="w-3.5 h-3.5 mr-1" />
-                        Forcer
-                      </Button>
-                    )}
-                    <Button
-                      type="button" size="sm" variant="ghost"
-                      onClick={ignoreSuggestion}
-                      className="text-white/60 hover:text-white hover:bg-white/5"
-                    >
-                      Ignorer
-                    </Button>
-                    {!ok && (
-                      <span className="text-[10px] text-orange-300 ml-auto inline-flex items-center gap-1">
-                        <ShieldAlert className="w-3 h-3" />
-                        {allowForce ? 'Confiance < seuil — forçage possible' : 'Blocage : confiance insuffisante'}
-                      </span>
-                    )}
-                  </div>
+                  );
+                })}
+                {suggestion.rationale && (
+                  <p className="text-[10px] text-white/50 leading-relaxed pt-1 border-t border-white/5">
+                    {suggestion.rationale}
+                  </p>
+                )}
+                <div className="flex justify-end">
+                  <Button
+                    type="button" size="sm" variant="ghost"
+                    onClick={ignoreAll}
+                    className="text-white/60 hover:text-white hover:bg-white/5 h-7 text-xs"
+                  >
+                    Fermer (ignorer le reste)
+                  </Button>
                 </div>
-              );
-            })()}
+              </div>
+            )}
           </div>
 
           <div className="space-y-1">
