@@ -18,6 +18,7 @@ const ROLE_LABELS: Record<string, string> = {
   associe: 'Associé',
   comptable: 'Comptable',
   chef_projet: 'Chef de projet',
+  secretaire: 'Secrétaire',
 };
 
 const ALL_ROLES = Object.keys(ROLE_LABELS);
@@ -27,6 +28,7 @@ const ROLE_BADGE: Record<string, string> = {
   associe: 'bg-purple-500/15 text-purple-400 border-purple-500/30',
   comptable: 'bg-blue-500/15 text-blue-400 border-blue-500/30',
   chef_projet: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
+  secretaire: 'bg-pink-500/15 text-pink-400 border-pink-500/30',
 };
 
 export default function AdminTeam() {
