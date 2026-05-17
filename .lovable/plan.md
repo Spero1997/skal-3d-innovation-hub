@@ -1,108 +1,85 @@
-# ERP/CRM Interne SKAL SERVICES SARL
+# Phase 7 — Moteur financier dynamique & sécurité IA
 
-Système de gestion d'entreprise premium accessible uniquement aux dirigeants, associés, comptables, chefs de projet et prestataires.
+Objectif : transformer la logique de répartition aujourd'hui codée en dur (cas1/cas2/cas3 dans `handle_revenue_distribution`) en un **moteur de règles administrable**, et poser les fondations de confidentialité pour les futurs agents IA.
 
-## Stratégie de livraison
-
-L'ampleur du projet (auth + 5 rôles + 10 modules + finance automatisée + CRM + RH + documents + notifications) dépasse largement ce qu'on peut livrer dans une seule itération de qualité. Je propose de livrer en **6 phases**, chacune indépendante et fonctionnelle. Vous validez chaque phase avant la suivante.
-
-Note technique : le stack reste **React + Vite + Tailwind + Lovable Cloud (Supabase/Postgres) + Recharts**. Next.js n'est pas supporté sur Lovable et n'apporte rien ici (l'app est en SPA authentifiée).
+Travail conséquent → je découpe en 4 lots livrables successivement. Je commence par valider le périmètre avec toi avant d'écrire la première migration.
 
 ---
 
-## Phase 1 — Fondations & Authentification (cette itération)
+## Lot 1 — Schéma "Finance Engine" (base de données)
 
-**Base de données**
-- Table `profiles` (id, user_id, full_name, phone, avatar_url, status)
-- Enum `app_role` : `super_admin`, `associe`, `comptable`, `chef_projet`, `prestataire`
-- Table `user_roles` (user_id, role) + fonction `has_role()` SECURITY DEFINER
-- Trigger auto-création profil au signup
-- RLS strictes partout
+Nouvelles tables (toutes RLS `super_admin` only en écriture, `is_direction` en lecture) :
 
-**Authentification**
-- Page `/admin/login` (email + mot de passe, design premium dark)
-- Page `/admin/forgot-password` + `/admin/reset-password`
-- Protection 2FA (TOTP Supabase MFA)
-- Session persistante + auto-refresh
-- Redirection selon rôle après login
-- HIBP password check activé
+- `finance_rule_sets` — un jeu de règles nommé (ex. "Modèle Skal v2", "Modèle BTP forfait"). Champs : `name`, `description`, `is_active`, `version`, `effective_from`, `effective_to`.
+- `finance_rules` — règles ordonnées dans un set. Champs : `rule_set_id`, `priority`, `condition` (JSONB : `{ project_domain, project_type, has_apporteur, has_prestataire_externe, amount_min, amount_max, involvement_level, ... }`), `allocations` (JSONB : tableau `[{ beneficiary_type, beneficiary_role, basis: 'gross'|'net_after_caisse'|'net_after_costs', percent, fixed_amount }]`), `requires_validation` (bool), `notes`.
+- `beneficiary_types` — catalogue : `caisse`, `spero`, `associe`, `apporteur_affaires`, `prestataire_interne`, `prestataire_externe`, `commission_commercial`, `dividende_pool`, `custom`.
+- `apporteurs_affaires` — annuaire (nom, type, taux par défaut, statut).
+- `prestataires` — annuaire (nom, interne/externe, taux ou coût, projets liés).
+- `commissions` — calculées par règle, liées à `transaction_id` + `beneficiary_id` + montant + statut (`a_valider|valide|paye`).
+- `financial_validations` — workflow : `entity_type` (transaction|distribution|payout|commission), `entity_id`, `requested_by`, `validator_id`, `status`, `comment`, `validated_at`.
+- `financial_scenarios` — simulations sauvegardées (snapshot d'un rule_set + paramètres) pour tester avant activation.
+- `ai_confidentiality_levels` — enum stockée (`public`, `internal`, `restricted`, `secret`) + table de mapping `ai_data_access` (`role`, `entity`, `max_level`).
 
-**Layout admin**
-- `/admin/*` — layout dédié avec sidebar moderne (collapsible icon mode)
-- Dark mode forcé dans la zone admin
-- Header avec recherche, notifications, profil
-- Navigation conditionnelle selon rôle
-- Page d'accueil `/admin` = dashboard placeholder
+Refonte de `handle_revenue_distribution` :
+- Devient un orchestrateur qui charge le `finance_rule_set` actif, évalue les règles par priorité, applique la première qui matche, écrit dans `revenue_distributions` + `cash_movements` + `commissions`.
+- Si `requires_validation = true` → la distribution passe en statut `en_attente_validation` au lieu d'être finalisée.
+- Fallback : si aucune règle ne matche → garde les 3 cas historiques pour rétro-compatibilité.
 
-**Sécurité**
-- Pas de rôle sur la table profiles (seulement sur `user_roles`)
-- Toutes les futures tables auront RLS basée sur `has_role()`
-- **Données financières confidentielles** : règles d'accès strictes (caisse, dividendes, répartitions = super_admin + associe + comptable uniquement)
+Nouveau type enum `distribution_status` : `appliquee | en_attente_validation | rejetee | annulee`.
 
----
+## Lot 2 — Panneau Super Admin "Règles financières"
 
-## Phase 2 — Module Projets + Domaines
+Nouvelles pages (toutes gated par `hasRole('super_admin')`) :
 
-- Table `projects` (nom, client_id, domaine, budget, statut, échéance, responsable_id, description)
-- Table `project_files`, `project_comments`, `project_activity`
-- Table `tasks` (project_id, assigne_id, statut, échéance)
-- Storage bucket `project-files` privé
-- UI : liste filtrée, fiche projet complète, kanban tâches, timeline activité
-- Statistiques par domaine (Architecture, Géomatique, Graphisme, Web)
+- `/admin/finances/regles` — liste des `rule_sets`, activer/désactiver, dupliquer, versionner.
+- `/admin/finances/regles/:id` — éditeur visuel : drag-and-drop des règles, conditions, allocations en % ou montant fixe, aperçu live "si revenu = X, voici la répartition".
+- `/admin/finances/scenarios` — simulateur : choisir un rule_set + saisir des revenus fictifs → graphique de répartition (Recharts).
+- `/admin/finances/validations` — file d'attente des distributions/commissions à valider.
+- `/admin/finances/apporteurs` & `/admin/finances/prestataires` — annuaires CRUD.
+- `/admin/finances/commissions` — suivi des commissions générées, statuts, paiements.
+- `/admin/finances/dividendes` — déjà existant, étendu : pool calculé depuis le moteur.
 
----
+Composants : `RuleBuilder`, `AllocationEditor`, `ConditionEditor`, `ScenarioSimulator`, `ValidationQueue`.
 
-## Phase 3 — Module Financier + Caisse + Répartitions automatiques
+## Lot 3 — Sécurité IA & cloisonnement
 
-- Table `clients` (CRM léger : nom, email, tel, société, pipeline_status)
-- Table `transactions` (project_id, type, montant, date, description)
-- Table `revenue_distributions` calculée automatiquement selon les 3 cas :
-  - Cas 1 : 15% caisse / 70% Spero / 15% associé
-  - Cas 2 : 15% caisse / 35% Spero / 35% prestataire / 15% associé
-  - Cas 3 : 15% caisse / coût prestataire / 50-50 bénéfice net
-- Trigger Postgres qui calcule la répartition à chaque revenu encaissé
-- Vue `caisse_balance` temps réel
-- Exports PDF/Excel
-- **Visibilité réservée** : super_admin, associé, comptable
+- Table `ai_agents` (nom, modèle, niveau max accessible, system_prompt).
+- Table `ai_data_access` (role × entity × max_confidentiality_level).
+- Edge function `ai-query` : **toute** requête IA passe par là. Elle :
+  1. Authentifie l'utilisateur (JWT).
+  2. Récupère son rôle + le niveau de confidentialité de l'agent appelé.
+  3. Filtre/masque les données avant envoi au modèle (jamais de % de répartition, jamais de capital, jamais de noms prestataires sauf rôle direction).
+  4. Logge dans `ai_access_log` (qui, quoi, niveau, hash de la requête).
+- Les calculs financiers sensibles (répartitions, commissions) sont **uniquement** exécutés dans des fonctions SQL `SECURITY DEFINER` ou edge functions — jamais recalculés côté client.
+- Le frontend ne reçoit que les **résultats agrégés** auxquels le rôle a droit. Ex. un `chef_projet` voit "montant projet" mais jamais "part associé".
+- Mémoire de sécurité mise à jour : règles financières = `secret`, agents IA ne peuvent jamais les exposer.
 
----
+## Lot 4 — Moteur IA d'auto-classification
 
-## Phase 4 — Dashboard interactif + Graphiques
-
-- Cartes statistiques temps réel (CA, bénéfices, caisse, dépenses, projets)
-- Graphiques Recharts (évolution revenus, dépenses, répartition par domaine, croissance)
-- Filtres période (mois, trimestre, année)
-- Realtime Supabase pour mise à jour live
+Edge function `ai-classify-project` (Lovable AI Gateway, `google/gemini-3-flash-preview`) :
+- Input : description projet + métadonnées.
+- Output structuré (AI SDK `Output.object`) : `{ project_type, suggested_domain, involvement_level, suggested_rule_set_id, confidence }`.
+- Appelée à la création d'un projet ou d'une transaction → propose la règle à appliquer, le super_admin valide.
+- Edge function `ai-generate-financial-report` : rapport mensuel/trimestriel à partir de `finance_summary` + distributions, en respectant le niveau de confidentialité du demandeur.
 
 ---
 
-## Phase 5 — CRM + RH/Prestataires + Documents + Dividendes
+## Détails techniques
 
-- CRM complet avec pipeline drag&drop
-- Fiches prestataires + missions + rémunérations
-- Espace documents (contrats, factures, plans, juridiques) avec recherche
-- Module dividendes : calcul, historique, simulations, rapports annuels
-
----
-
-## Phase 6 — Notifications temps réel + Journal activité + Polish
-
-- Notifications in-app (Supabase Realtime)
-- Rappels échéances, alertes retard, alertes financières
-- Audit log toutes actions sensibles
-- Historique connexions
-- Animations finales (framer-motion), polish visuel
+- Stack : conserve React/Vite/Tailwind + Lovable Cloud. Pas de nouveau framework.
+- Toutes les nouvelles tables ont RLS strict. Les fonctions de calcul sont `SECURITY DEFINER` avec `EXECUTE` révoqué de `PUBLIC`/`anon`/`authenticated`.
+- Migration backwards-compatible : un rule_set "Skal Historique v1" est seedé avec les 3 cas existants pour que rien ne casse.
+- Recharts pour les graphes de simulation.
+- AI SDK + Lovable AI Gateway pour les edge functions IA (jamais d'appel direct OpenAI/Google).
 
 ---
 
-## Confidentialité
+## Question avant de démarrer
 
-Conformément à la mémoire projet : les données financières sensibles (capital, parts %, répartitions Spero/associé, simulations, noms prestataires) restent **strictement internes à `/admin/*`**, jamais exposées sur le site public, jamais dans des metadata SEO, jamais accessibles sans rôle vérifié côté serveur (RLS).
+C'est ~4 livraisons. Tu veux que :
 
----
+**A.** Je livre **tout en une fois** (gros message, ~15-20 fichiers, plusieurs migrations) ?
+**B.** Je livre **lot par lot** en attendant ton feu vert entre chaque ? (recommandé : tu peux tester le moteur avant qu'on branche l'IA dessus).
+**C.** Tu veux d'abord juste le **Lot 1 + Lot 2** (moteur + panneau admin) et on verra l'IA plus tard ?
 
-## Cette itération = Phase 1 uniquement
-
-Je livre maintenant : tables auth/rôles + RLS + page login premium + layout admin + sidebar + dashboard placeholder. Vous testez la connexion, créez les premiers comptes, puis on enchaîne Phase 2.
-
-Une fois le plan approuvé, je commence par la migration base de données.
+Dis-moi A / B / C et je lance.
