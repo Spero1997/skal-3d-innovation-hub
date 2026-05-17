@@ -42,6 +42,7 @@ import Validations from "./pages/admin/finance/Validations";
 import Apporteurs from "./pages/admin/finance/Apporteurs";
 import Prestataires from "./pages/admin/finance/Prestataires";
 import Commissions from "./pages/admin/finance/Commissions";
+import AiAgents from "./pages/admin/finance/AiAgents";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -91,6 +92,7 @@ const App = () => (
             <Route path="finances/apporteurs" element={<Apporteurs />} />
             <Route path="finances/prestataires" element={<Prestataires />} />
             <Route path="finances/commissions" element={<Commissions />} />
+            <Route path="finances/ia" element={<AiAgents />} />
             <Route path="documents" element={<AdminDocuments />} />
             <Route path="journal" element={<AdminJournal />} />
             <Route path="parametres" element={<AdminSettings />} />

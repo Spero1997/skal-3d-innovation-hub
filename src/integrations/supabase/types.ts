@@ -14,6 +14,96 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_access_log: {
+        Row: {
+          agent_slug: string | null
+          created_at: string
+          entity: string | null
+          error: string | null
+          granted_level:
+            | Database["public"]["Enums"]["confidentiality_level"]
+            | null
+          id: string
+          prompt_hash: string | null
+          requested_level:
+            | Database["public"]["Enums"]["confidentiality_level"]
+            | null
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          agent_slug?: string | null
+          created_at?: string
+          entity?: string | null
+          error?: string | null
+          granted_level?:
+            | Database["public"]["Enums"]["confidentiality_level"]
+            | null
+          id?: string
+          prompt_hash?: string | null
+          requested_level?:
+            | Database["public"]["Enums"]["confidentiality_level"]
+            | null
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          agent_slug?: string | null
+          created_at?: string
+          entity?: string | null
+          error?: string | null
+          granted_level?:
+            | Database["public"]["Enums"]["confidentiality_level"]
+            | null
+          id?: string
+          prompt_hash?: string | null
+          requested_level?:
+            | Database["public"]["Enums"]["confidentiality_level"]
+            | null
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      ai_agents: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          max_level: Database["public"]["Enums"]["confidentiality_level"]
+          model: string
+          name: string
+          slug: string
+          system_prompt: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          max_level?: Database["public"]["Enums"]["confidentiality_level"]
+          model?: string
+          name: string
+          slug: string
+          system_prompt?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          max_level?: Database["public"]["Enums"]["confidentiality_level"]
+          model?: string
+          name?: string
+          slug?: string
+          system_prompt?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       ai_data_access: {
         Row: {
           created_at: string
@@ -1064,6 +1154,10 @@ export type Database = {
         Args: { _project_id: string; _user_id: string }
         Returns: boolean
       }
+      get_user_max_ai_level: {
+        Args: { _entity: string; _user_id: string }
+        Returns: Database["public"]["Enums"]["confidentiality_level"]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1074,6 +1168,18 @@ export type Database = {
       is_admin_user: { Args: { _user_id: string }; Returns: boolean }
       is_direction: { Args: { _user_id: string }; Returns: boolean }
       is_internal_user: { Args: { _user_id: string }; Returns: boolean }
+      log_ai_access: {
+        Args: {
+          _agent_slug: string
+          _entity: string
+          _error: string
+          _granted: Database["public"]["Enums"]["confidentiality_level"]
+          _prompt_hash: string
+          _requested: Database["public"]["Enums"]["confidentiality_level"]
+          _status: string
+        }
+        Returns: string
+      }
       notify_user: {
         Args: {
           _body: string
