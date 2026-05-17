@@ -61,7 +61,7 @@ function Content() {
     const { error } = await supabase.from('finance_rules').insert({
       rule_set_id: id,
       name: 'Nouvelle règle',
-      priority: (rules.at(-1)?.priority ?? 0) + 10,
+      priority: (rules.length > 0 ? rules[rules.length - 1].priority : 0) + 10,
       condition: {},
       allocations: [],
     });
