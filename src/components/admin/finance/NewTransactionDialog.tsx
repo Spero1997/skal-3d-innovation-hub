@@ -159,7 +159,7 @@ export function NewTransactionDialog({
             <>
               <div className="md:col-span-2">
                 <Field label="Cas de répartition">
-                  <Select value={form.distribution_case} onValueChange={(v) => setForm({ ...form, distribution_case: v })}>
+                  <Select value={form.distribution_case} onValueChange={(v) => setForm({ ...form, distribution_case: v as typeof form.distribution_case })}>
                     <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
                     <SelectContent className="bg-[#111] border-white/10 text-white">
                       <SelectItem value="cas1_interne">Cas 1 — Interne (15% / 70% / 15%)</SelectItem>
