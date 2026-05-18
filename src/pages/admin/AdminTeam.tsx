@@ -105,7 +105,10 @@ export default function AdminTeam() {
       .delete()
       .eq('user_id', userId)
       .eq('role', role as any);
-    if (error) return toast.error('Erreur', { description: error.message });
+    if (error) {
+      console.error('revokeRole error', error);
+      return toast.error('Impossible de retirer le rôle', { description: error.message });
+    }
     toast.success('Rôle retiré');
     load();
   };
