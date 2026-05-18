@@ -1825,6 +1825,7 @@ export type Database = {
       }
     }
     Functions: {
+      apply_ai_distribution: { Args: { _validation_id: string }; Returns: Json }
       apply_finance_rules: { Args: { _transaction_id: string }; Returns: Json }
       can_access_project: {
         Args: { _project_id: string; _user_id: string }
