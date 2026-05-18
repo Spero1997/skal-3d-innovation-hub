@@ -62,7 +62,7 @@ export default function AdminInvoiceDetail() {
         const { data: dirs } = await (supabase as any)
           .from('user_roles')
           .select('user_id')
-          .in('role', ['super_admin', 'associe', 'comptable']);
+          .in('role', ['super_admin', 'associe', 'comptable', 'secretaire']);
         (dirs ?? []).forEach((r: any) => r.user_id && recipients.add(r.user_id));
         if (inv.project_id) {
           const { data: p } = await (supabase as any)
