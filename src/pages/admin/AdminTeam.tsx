@@ -38,6 +38,8 @@ export default function AdminTeam() {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({ email: '', full_name: '', role: 'chef_projet' });
+  // bump to force re-mount of the "add role" Select so it always reopens empty
+  const [selectNonce, setSelectNonce] = useState(0);
 
   const load = async () => {
     setLoading(true);
@@ -77,11 +79,21 @@ export default function AdminTeam() {
   const isSuper = hasRole('super_admin');
 
   const grantRole = async (userId: string, role: string, current: string[]) => {
-    if (current.includes(role)) return;
+    if (current.includes(role)) {
+      toast.info('Ce rôle est déjà attribué');
+      return;
+    }
     const { error } = await supabase
       .from('user_roles')
       .insert({ user_id: userId, role: role as any });
-    if (error) return toast.error('Erreur', { description: error.message });
+    setSelectNonce((n) => n + 1); // reset Select even on error
+    if (error) {
+      console.error('grantRole error', error);
+      toast.error('Impossible d\'ajouter le rôle', {
+        description: error.message + (error.code ? ` (${error.code})` : ''),
+      });
+      return;
+    }
     toast.success(`Rôle ${ROLE_LABELS[role] ?? role} ajouté`);
     load();
   };
@@ -93,7 +105,10 @@ export default function AdminTeam() {
       .delete()
       .eq('user_id', userId)
       .eq('role', role as any);
-    if (error) return toast.error('Erreur', { description: error.message });
+    if (error) {
+      console.error('revokeRole error', error);
+      return toast.error('Impossible de retirer le rôle', { description: error.message });
+    }
     toast.success('Rôle retiré');
     load();
   };
@@ -177,7 +192,11 @@ export default function AdminTeam() {
                     </Badge>
                   ))}
                   {isSuper && (
-                    <Select onValueChange={(v) => grantRole(m.user_id, v, m.roles)}>
+                    <Select
+                      key={`add-role-${m.user_id}-${selectNonce}`}
+                      value=""
+                      onValueChange={(v) => v && grantRole(m.user_id, v, m.roles)}
+                    >
                       <SelectTrigger className="h-7 w-[150px] bg-white/5 border-white/10 text-xs">
                         <Plus className="w-3 h-3 mr-1" />
                         <SelectValue placeholder="Ajouter rôle" />
