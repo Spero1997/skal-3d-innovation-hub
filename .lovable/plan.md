@@ -1,85 +1,85 @@
-# Phase 7 — Moteur financier dynamique & sécurité IA
+# Plan d'exécution (1 → 2 → 3)
 
-Objectif : transformer la logique de répartition aujourd'hui codée en dur (cas1/cas2/cas3 dans `handle_revenue_distribution`) en un **moteur de règles administrable**, et poser les fondations de confidentialité pour les futurs agents IA.
-
-Travail conséquent → je découpe en 4 lots livrables successivement. Je commence par valider le périmètre avec toi avant d'écrire la première migration.
+Le périmètre est large. Je le découpe en 3 phases livrables séquentiellement. **Tu approuves le plan, puis j'exécute Phase 1 d'abord et je te rends la main pour valider avant la 2, etc.** Sinon je risque de tout casser en un seul gros commit.
 
 ---
 
-## Lot 1 — Schéma "Finance Engine" (base de données)
+## Phase 1 — Bug "Ajouter un rôle" + diagnostic global des boutons
 
-Nouvelles tables (toutes RLS `super_admin` only en écriture, `is_direction` en lecture) :
+**Diagnostic à faire d'abord** (je n'ai pas l'erreur exacte) :
+- Ouvrir `/admin/equipe`, tenter d'ajouter un rôle, lire la console et le réseau via outils de debug
+- Vérifier que le `Select` du dropdown se réinitialise après sélection (bug courant : valeur reste collée)
+- Vérifier RLS `user_roles` (déjà : seul `super_admin` peut INSERT — OK si tu es super_admin)
+- Vérifier trigger `on_user_role_change` (SECURITY DEFINER — devrait passer)
 
-- `finance_rule_sets` — un jeu de règles nommé (ex. "Modèle Skal v2", "Modèle BTP forfait"). Champs : `name`, `description`, `is_active`, `version`, `effective_from`, `effective_to`.
-- `finance_rules` — règles ordonnées dans un set. Champs : `rule_set_id`, `priority`, `condition` (JSONB : `{ project_domain, project_type, has_apporteur, has_prestataire_externe, amount_min, amount_max, involvement_level, ... }`), `allocations` (JSONB : tableau `[{ beneficiary_type, beneficiary_role, basis: 'gross'|'net_after_caisse'|'net_after_costs', percent, fixed_amount }]`), `requires_validation` (bool), `notes`.
-- `beneficiary_types` — catalogue : `caisse`, `spero`, `associe`, `apporteur_affaires`, `prestataire_interne`, `prestataire_externe`, `commission_commercial`, `dividende_pool`, `custom`.
-- `apporteurs_affaires` — annuaire (nom, type, taux par défaut, statut).
-- `prestataires` — annuaire (nom, interne/externe, taux ou coût, projets liés).
-- `commissions` — calculées par règle, liées à `transaction_id` + `beneficiary_id` + montant + statut (`a_valider|valide|paye`).
-- `financial_validations` — workflow : `entity_type` (transaction|distribution|payout|commission), `entity_id`, `requested_by`, `validator_id`, `status`, `comment`, `validated_at`.
-- `financial_scenarios` — simulations sauvegardées (snapshot d'un rule_set + paramètres) pour tester avant activation.
-- `ai_confidentiality_levels` — enum stockée (`public`, `internal`, `restricted`, `secret`) + table de mapping `ai_data_access` (`role`, `entity`, `max_level`).
+**Corrections probables** :
+- Réinitialiser le `Select` après `grantRole` (bug UI le plus probable)
+- Ajouter logs d'erreur détaillés (`toast.error(error.message)`) sur tous les boutons critiques
+- Audit rapide des boutons de validation principaux : `NewInvoiceDialog`, `NewProjectDialog`, `NewTransactionDialog`, `ShareDocumentDialog`, `SignDocumentDialog`, marquer facture payée, créer client. Ajouter feedback erreur clair partout.
 
-Refonte de `handle_revenue_distribution` :
-- Devient un orchestrateur qui charge le `finance_rule_set` actif, évalue les règles par priorité, applique la première qui matche, écrit dans `revenue_distributions` + `cash_movements` + `commissions`.
-- Si `requires_validation = true` → la distribution passe en statut `en_attente_validation` au lieu d'être finalisée.
-- Fallback : si aucune règle ne matche → garde les 3 cas historiques pour rétro-compatibilité.
-
-Nouveau type enum `distribution_status` : `appliquee | en_attente_validation | rejetee | annulee`.
-
-## Lot 2 — Panneau Super Admin "Règles financières"
-
-Nouvelles pages (toutes gated par `hasRole('super_admin')`) :
-
-- `/admin/finances/regles` — liste des `rule_sets`, activer/désactiver, dupliquer, versionner.
-- `/admin/finances/regles/:id` — éditeur visuel : drag-and-drop des règles, conditions, allocations en % ou montant fixe, aperçu live "si revenu = X, voici la répartition".
-- `/admin/finances/scenarios` — simulateur : choisir un rule_set + saisir des revenus fictifs → graphique de répartition (Recharts).
-- `/admin/finances/validations` — file d'attente des distributions/commissions à valider.
-- `/admin/finances/apporteurs` & `/admin/finances/prestataires` — annuaires CRUD.
-- `/admin/finances/commissions` — suivi des commissions générées, statuts, paiements.
-- `/admin/finances/dividendes` — déjà existant, étendu : pool calculé depuis le moteur.
-
-Composants : `RuleBuilder`, `AllocationEditor`, `ConditionEditor`, `ScenarioSimulator`, `ValidationQueue`.
-
-## Lot 3 — Sécurité IA & cloisonnement
-
-- Table `ai_agents` (nom, modèle, niveau max accessible, system_prompt).
-- Table `ai_data_access` (role × entity × max_confidentiality_level).
-- Edge function `ai-query` : **toute** requête IA passe par là. Elle :
-  1. Authentifie l'utilisateur (JWT).
-  2. Récupère son rôle + le niveau de confidentialité de l'agent appelé.
-  3. Filtre/masque les données avant envoi au modèle (jamais de % de répartition, jamais de capital, jamais de noms prestataires sauf rôle direction).
-  4. Logge dans `ai_access_log` (qui, quoi, niveau, hash de la requête).
-- Les calculs financiers sensibles (répartitions, commissions) sont **uniquement** exécutés dans des fonctions SQL `SECURITY DEFINER` ou edge functions — jamais recalculés côté client.
-- Le frontend ne reçoit que les **résultats agrégés** auxquels le rôle a droit. Ex. un `chef_projet` voit "montant projet" mais jamais "part associé".
-- Mémoire de sécurité mise à jour : règles financières = `secret`, agents IA ne peuvent jamais les exposer.
-
-## Lot 4 — Moteur IA d'auto-classification
-
-Edge function `ai-classify-project` (Lovable AI Gateway, `google/gemini-3-flash-preview`) :
-- Input : description projet + métadonnées.
-- Output structuré (AI SDK `Output.object`) : `{ project_type, suggested_domain, involvement_level, suggested_rule_set_id, confidence }`.
-- Appelée à la création d'un projet ou d'une transaction → propose la règle à appliquer, le super_admin valide.
-- Edge function `ai-generate-financial-report` : rapport mensuel/trimestriel à partir de `finance_summary` + distributions, en respectant le niveau de confidentialité du demandeur.
+**Livrable Phase 1** : ajout rôle fonctionne + erreurs lisibles sur tous les CTA admin.
 
 ---
 
-## Détails techniques
+## Phase 2 — Import des projets déjà réalisés en admin
 
-- Stack : conserve React/Vite/Tailwind + Lovable Cloud. Pas de nouveau framework.
-- Toutes les nouvelles tables ont RLS strict. Les fonctions de calcul sont `SECURITY DEFINER` avec `EXECUTE` révoqué de `PUBLIC`/`anon`/`authenticated`.
-- Migration backwards-compatible : un rule_set "Skal Historique v1" est seedé avec les 3 cas existants pour que rien ne casse.
-- Recharts pour les graphes de simulation.
-- AI SDK + Lovable AI Gateway pour les edge functions IA (jamais d'appel direct OpenAI/Google).
+**Projets visibles sur le site** (`src/data/projects.ts`) : je vais lire ce fichier pour récupérer la liste exhaustive (nom, client, domaine, budget si présent, dates…).
+
+**Pour chaque projet historique** :
+1. Créer le **client** si absent (table `clients`)
+2. Créer le **projet** avec statut `livre` ou `termine`, dates passées, budget, `amount_collected = budget` (déjà encaissé), `progress = 100`
+3. Créer un **devis** (table `devis_requests` ou via documents — à confirmer, probablement document kind=`devis`)
+4. Créer une **facture** finale : statut `payee`, `amount_paid = amount_ttc`, ligne d'articles plausible
+5. **Pas de répartition** (`distribution_case = NULL`, pas de `revenue_distributions`) — comme demandé
+6. Ajouter quelques documents factices (livrables) si pertinent
+
+**Méthode** : script SQL via outil `insert` (insertion en masse), pas de migration de schéma.
+
+**Livrable Phase 2** : tous les projets historiques visibles dans `/admin/projets`, `/admin/factures`, `/admin/clients`.
 
 ---
 
-## Question avant de démarrer
+## Phase 3 — Guide Admin HTML + Glossaire + Parcours Secrétaire + IA répartition
 
-C'est ~4 livraisons. Tu veux que :
+### 3a. Refonte `SKAL-Guide-Admin.html`
+- Mettre à jour : **Secrétaire = Comptable + Chef de projet** (cumul des deux rôles), avec ses responsabilités explicites
+- **Glossaire enrichi** : passer de ~10 à ~80 termes. Catégories :
+  - Métier (devis, facture pro-forma, facture définitive, acompte, solde, BL, PV de réception, OS, avenant, retenue de garantie)
+  - Comptable (créance, dette, encaissement, décaissement, trésorerie, marge, EBE, BFR, TVA, HT, TTC)
+  - Projet (jalon, livrable, sprint, kanban, Gantt, dépendance, criticité, charge)
+  - SKAL spécifique (Caisse 15%, Cas 1/2/3, Apporteur d'affaires, Prestataire interne/externe, Associé, Direction)
+  - Technique (RLS, rôle, permission, audit log, notification, edge function)
+- **Parcours Secrétaire A → Z** : section dédiée pas-à-pas après recrutement :
+  1. Première connexion (réinitialisation mot de passe, profil)
+  2. Découverte de l'interface (sidebar, recherche globale, notifications)
+  3. Saisir un nouveau client + projet
+  4. Émettre un devis → suivi → conversion en facture
+  5. Marquer une facture payée + déclencher répartition IA
+  6. Gérer les documents (upload, partage, signature, versions)
+  7. Suivi quotidien (caisse, rapports hebdo, alertes)
+  8. Cas particuliers (avoir, annulation, retard de paiement, relance)
 
-**A.** Je livre **tout en une fois** (gros message, ~15-20 fichiers, plusieurs migrations) ?
-**B.** Je livre **lot par lot** en attendant ton feu vert entre chaque ? (recommandé : tu peux tester le moteur avant qu'on branche l'IA dessus).
-**C.** Tu veux d'abord juste le **Lot 1 + Lot 2** (moteur + panneau admin) et on verra l'IA plus tard ?
+### 3b. Répartition IA (caisse 15% obligatoire, règles + IA fallback)
+- Compléter les `finance_rules` existantes pour couvrir tous les cas connus (Cas 1 interne, Cas 2 forfait, Cas 3 au coût, par domaine)
+- Modifier la fonction `handle_revenue_distribution` : si aucune règle ne matche, au lieu d'exiger `distribution_case`, appeler une nouvelle edge function `ai-suggest-distribution` qui propose une répartition (caisse=15% toujours, reste selon contexte projet) et la stocke en `en_attente_validation`
+- Edge function `ai-suggest-distribution/index.ts` : Lovable AI (Gemini 2.5 flash), prompt strict garantissant caisse 15%, sortie JSON structurée
+- UI : sur `/admin/finances/validations`, afficher la suggestion IA avec bouton accepter/modifier/rejeter
 
-Dis-moi A / B / C et je lance.
+---
+
+## Découpage technique
+
+```text
+Phase 1  → ~3-5 fichiers édités, 0 migration   (rapide, <10 min)
+Phase 2  → 1 gros INSERT SQL via outil insert   (rapide, dépend du nb de projets)
+Phase 3a → SKAL-Guide-Admin.html (rewrite total ~1500 lignes)
+Phase 3b → 1 migration + 1 edge function + 1 UI update
+```
+
+---
+
+## Question d'arbitrage avant de démarrer
+
+**Confirme juste** : tu veux que je fasse les 3 phases d'affilée dans une seule longue réponse (risque : énorme, je peux rater des choses) — OU phase par phase avec ta validation entre chaque (recommandé) ?
+
+Si tu ne réponds pas sur ce point, je pars sur **phase par phase**.
