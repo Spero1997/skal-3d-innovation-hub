@@ -30,7 +30,7 @@ export function NewTransactionDialog({
     category: '',
     status: 'encaissee',
     transaction_date: new Date().toISOString().slice(0, 10),
-    distribution_case: 'cas1_interne',
+    distribution_case: 'cas1_interne' as 'cas1_interne' | 'cas2_forfait' | 'cas3_au_cout' | 'ai',
     prestataire_name: '',
     prestataire_cost: '',
   });
@@ -45,6 +45,7 @@ export function NewTransactionDialog({
   const amount = Number(form.amount) || 0;
   const preview = (() => {
     if (type !== 'revenu' || amount <= 0) return null;
+    if (form.distribution_case === 'ai') return null;
     const caisse = Math.round(amount * 0.15);
     if (form.distribution_case === 'cas1_interne') {
       const spero = Math.round(amount * 0.70);
@@ -77,15 +78,21 @@ export function NewTransactionDialog({
       created_by: user?.id,
     };
     if (type === 'revenu') {
-      payload.distribution_case = form.distribution_case;
-      payload.prestataire_name = form.prestataire_name.trim() || null;
-      payload.prestataire_cost = form.distribution_case === 'cas3_au_cout'
-        ? Number(form.prestataire_cost) || 0 : 0;
+      if (form.distribution_case === 'ai') {
+        payload.distribution_case = null;
+      } else {
+        payload.distribution_case = form.distribution_case;
+        payload.prestataire_name = form.prestataire_name.trim() || null;
+        payload.prestataire_cost = form.distribution_case === 'cas3_au_cout'
+          ? Number(form.prestataire_cost) || 0 : 0;
+      }
     }
     const { error } = await supabase.from('transactions').insert(payload);
     setSaving(false);
     if (error) { toast.error('Erreur', { description: error.message }); return; }
-    toast.success('Transaction enregistrée');
+    toast.success(form.distribution_case === 'ai' && type === 'revenu' && form.status === 'encaissee'
+      ? 'Transaction enregistrée — caisse 15% bookée, suggestion IA à générer dans Validations'
+      : 'Transaction enregistrée');
     onOpenChange(false);
     onCreated();
     setForm({
@@ -158,12 +165,13 @@ export function NewTransactionDialog({
                       <SelectItem value="cas1_interne">Cas 1 — Interne (15% / 70% / 15%)</SelectItem>
                       <SelectItem value="cas2_forfait">Cas 2 — Prestataire forfait (15% / 35% / 35% / 15%)</SelectItem>
                       <SelectItem value="cas3_au_cout">Cas 3 — Prestataire au coût (15% / coût / 50-50)</SelectItem>
+                      <SelectItem value="ai">🤖 Laisser l'IA décider (caisse 15% garantie)</SelectItem>
                     </SelectContent>
                   </Select>
                 </Field>
               </div>
 
-              {form.distribution_case !== 'cas1_interne' && (
+              {form.distribution_case !== 'cas1_interne' && form.distribution_case !== 'ai' && (
                 <>
                   <Field label="Nom prestataire (interne)">
                     <Input value={form.prestataire_name} onChange={(e) => setForm({ ...form, prestataire_name: e.target.value })} className="bg-white/5 border-white/10 text-white" placeholder="Confidentiel" />
