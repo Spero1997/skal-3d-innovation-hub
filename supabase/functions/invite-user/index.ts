@@ -22,7 +22,7 @@ Deno.serve(async (req) => {
 
     const { email, role, full_name } = await req.json();
     if (!email || !role) return json({ error: 'email and role required' }, 400);
-    const validRoles = ['super_admin','associe','comptable','chef_projet'];
+    const validRoles = ['super_admin','associe','comptable','chef_projet','secretaire'];
     if (!validRoles.includes(role)) return json({ error: 'invalid role' }, 400);
 
     const admin = createClient(supaUrl, serviceKey);
