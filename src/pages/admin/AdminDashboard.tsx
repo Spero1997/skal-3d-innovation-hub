@@ -69,7 +69,7 @@ export default function AdminDashboard() {
     const revenu = tx.filter(t => t.type === 'revenu' && t.status === 'encaissee').reduce((s, t) => s + Number(t.amount), 0);
     const depense = tx.filter(t => t.type === 'depense').reduce((s, t) => s + Number(t.amount), 0);
     const caisseBal = cash.reduce((s, c) => s + (c.direction === 'entree' ? Number(c.amount) : -Number(c.amount)), 0);
-    const activeProjects = projects.filter(p => p.status === 'en_cours' || p.status === 'prospect').length;
+    const activeProjects = projects.filter(p => p.status === 'en_cours' || p.status === 'prospect' || p.status === 'livre').length;
     return { revenu, depense, caisseBal, activeProjects, marge: revenu - depense };
   }, [tx, cash, projects]);
 
