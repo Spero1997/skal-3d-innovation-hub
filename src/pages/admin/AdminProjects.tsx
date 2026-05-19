@@ -10,6 +10,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Plus, Search, FolderKanban, Loader2 } from 'lucide-react';
 import { NewProjectDialog } from '@/components/admin/projects/NewProjectDialog';
+import { toast } from 'sonner';
 import {
   DOMAIN_LABELS, STATUS_LABELS, STATUS_COLORS,
   formatXOF, formatDate,
@@ -34,10 +35,14 @@ export default function AdminProjects() {
 
   const load = async () => {
     setLoading(true);
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('projects')
       .select('*')
       .order('created_at', { ascending: false });
+    if (error) {
+      console.error('AdminProjects load error', error);
+      toast.error('Impossible de charger les projets', { description: error.message });
+    }
     setProjects((data ?? []) as Project[]);
     setLoading(false);
   };
