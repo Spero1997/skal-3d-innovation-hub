@@ -29,7 +29,7 @@ Deno.serve(async (req) => {
 
     // Destinataires : direction
     const rolesRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/user_roles?select=user_id&role=in.(super_admin,associe,comptable)`,
+      `${SUPABASE_URL}/rest/v1/user_roles?select=user_id&role=in.(super_admin,associe,comptable,secretaire)`,
       { headers: h },
     );
     const roles = (await rolesRes.json()) as Array<{ user_id: string }>;

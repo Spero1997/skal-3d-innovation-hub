@@ -57,7 +57,7 @@ _Généré automatiquement le ${new Date().toLocaleDateString('fr-FR')}._`;
     const { data: directors } = await admin
       .from('user_roles')
       .select('user_id')
-      .in('role', ['super_admin', 'associe', 'comptable']);
+      .in('role', ['super_admin', 'associe', 'comptable', 'secretaire']);
 
     const seen = new Set<string>();
     for (const r of directors ?? []) {
