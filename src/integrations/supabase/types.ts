@@ -1896,6 +1896,10 @@ export type Database = {
         Args: { _amount: number; _context?: Json; _rule_set_id: string }
         Returns: Json
       }
+      user_is_task_assignee_on_project: {
+        Args: { _project_id: string; _user_id: string }
+        Returns: boolean
+      }
       weekly_director_digest_payload: { Args: never; Returns: Json }
     }
     Enums: {
