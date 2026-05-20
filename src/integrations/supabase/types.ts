@@ -1899,6 +1899,10 @@ export type Database = {
         Args: { _amount: number; _context?: Json; _rule_set_id: string }
         Returns: Json
       }
+      simulate_rule_set_all_cases: {
+        Args: { _amount: number; _rule_set_id: string }
+        Returns: Json
+      }
       user_is_task_assignee_on_project: {
         Args: { _project_id: string; _user_id: string }
         Returns: boolean
