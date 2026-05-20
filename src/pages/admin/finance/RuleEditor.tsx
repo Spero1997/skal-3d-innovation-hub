@@ -30,6 +30,7 @@ type Rule = {
   allocations: Allocation[];
   requires_validation: boolean;
   notes: string | null;
+  case_description: string | null;
 };
 
 const BENEFICIARY_TYPES = [
@@ -83,6 +84,7 @@ function Content() {
         allocations: r.allocations,
         requires_validation: r.requires_validation,
         notes: r.notes,
+        case_description: r.case_description,
       })
       .eq('id', r.id);
     if (error) return toast({ title: 'Erreur', description: error.message, variant: 'destructive' });
@@ -184,6 +186,19 @@ function Content() {
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
+              <div>
+                <Label className="text-xs text-white/60">
+                  Description du cas <span className="text-orange-400">(obligatoire — explique en clair quand cette règle s'applique)</span>
+                </Label>
+                <Textarea
+                  value={r.case_description ?? ''}
+                  onChange={(e) => updateRule(idx, { case_description: e.target.value })}
+                  rows={3}
+                  placeholder="Ex : Cas 1 — Service rendu 100% en interne par SKAL. Le client paie tout. On garde 15% en caisse, 70% pour le webmaster/graphiste opérationnel, 15% pour l'associé."
+                  className="text-sm bg-white/5 border-white/10 text-white"
+                />
+              </div>
+
               <div>
                 <Label className="text-xs text-white/60">Conditions (JSON)</Label>
                 <Textarea

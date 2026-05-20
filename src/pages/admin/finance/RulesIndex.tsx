@@ -21,8 +21,18 @@ type RuleSet = {
   created_at: string;
 };
 
+type RuleRow = {
+  id: string;
+  rule_set_id: string;
+  name: string;
+  priority: number;
+  case_description: string | null;
+  requires_validation: boolean;
+};
+
 function Content() {
   const [items, setItems] = useState<RuleSet[]>([]);
+  const [rulesBySet, setRulesBySet] = useState<Record<string, RuleRow[]>>({});
   const [loading, setLoading] = useState(true);
   const [newName, setNewName] = useState('');
 
@@ -33,7 +43,20 @@ function Content() {
       .select('*')
       .order('created_at', { ascending: false });
     if (error) toast({ title: 'Erreur', description: error.message, variant: 'destructive' });
-    setItems((data as RuleSet[]) ?? []);
+    const sets = (data as RuleSet[]) ?? [];
+    setItems(sets);
+    if (sets.length > 0) {
+      const { data: rules } = await supabase
+        .from('finance_rules')
+        .select('id, rule_set_id, name, priority, case_description, requires_validation')
+        .in('rule_set_id', sets.map(s => s.id))
+        .order('priority');
+      const grouped: Record<string, RuleRow[]> = {};
+      ((rules as any[]) ?? []).forEach(r => {
+        (grouped[r.rule_set_id] ??= []).push(r as RuleRow);
+      });
+      setRulesBySet(grouped);
+    }
     setLoading(false);
   };
 
@@ -131,6 +154,26 @@ function Content() {
                 </Button>
               </div>
             </CardHeader>
+            {(rulesBySet[rs.id]?.length ?? 0) > 0 && (
+              <CardContent className="pt-0">
+                <div className="space-y-2">
+                  {rulesBySet[rs.id].map(r => (
+                    <div key={r.id} className="rounded-md border border-white/5 bg-black/30 p-3">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge variant="outline" className="text-[10px]">P{r.priority}</Badge>
+                        <span className="text-sm font-medium text-white">{r.name}</span>
+                        {r.requires_validation && (
+                          <Badge className="bg-amber-500/15 text-amber-300 border-0 text-[10px]">validation</Badge>
+                        )}
+                      </div>
+                      <p className="text-xs text-white/60 leading-relaxed whitespace-pre-line">
+                        {r.case_description || <span className="italic text-white/30">Aucune description du cas. Édite la règle pour expliquer son fonctionnement.</span>}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            )}
           </Card>
         ))}
       </div>

@@ -42,7 +42,7 @@ export default function AdminDomains() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {rows.map((r) => (
-          <Link key={r.domain} to={`/admin/projets`} className="block">
+          <Link key={r.domain} to={`/admin/projets?domain=${r.domain}`} className="block">
             <Card className="p-6 bg-[#111]/80 border-white/5 hover:border-orange-500/30 transition-all group">
               <div className="flex items-start justify-between mb-4">
                 <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${DOMAIN_COLORS[r.domain]} flex items-center justify-center shadow-lg`}>

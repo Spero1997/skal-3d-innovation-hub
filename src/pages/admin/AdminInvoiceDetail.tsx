@@ -125,7 +125,7 @@ export default function AdminInvoiceDetail() {
       <div className="bg-white text-black p-10 rounded-lg shadow-2xl print:shadow-none print:rounded-none print:p-12">
         <div className="flex justify-between items-start mb-10">
           <div>
-            <div className="w-12 h-12 rounded bg-orange-500 flex items-center justify-center text-white font-bold text-lg mb-3">S</div>
+            <img src="/skal-logo.svg" alt="SKAL SERVICES" className="h-16 w-auto mb-3 rounded" />
             <p className="font-bold text-lg">SKAL SERVICES SARL</p>
             <p className="text-xs text-gray-600">Cotonou, Bénin</p>
             <p className="text-xs text-gray-600">servicesskal@gmail.com</p>

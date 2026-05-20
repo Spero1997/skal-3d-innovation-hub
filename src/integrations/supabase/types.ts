@@ -845,6 +845,7 @@ export type Database = {
       finance_rules: {
         Row: {
           allocations: Json
+          case_description: string | null
           condition: Json
           created_at: string
           id: string
@@ -857,6 +858,7 @@ export type Database = {
         }
         Insert: {
           allocations?: Json
+          case_description?: string | null
           condition?: Json
           created_at?: string
           id?: string
@@ -869,6 +871,7 @@ export type Database = {
         }
         Update: {
           allocations?: Json
+          case_description?: string | null
           condition?: Json
           created_at?: string
           id?: string
