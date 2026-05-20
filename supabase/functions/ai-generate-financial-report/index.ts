@@ -121,8 +121,35 @@ Deno.serve(async (req) => {
     let context = `Période : ${toISO(start)} → ${toISO(end)}
 Nombre de transactions : ${(tx ?? []).length}`;
 
+    // Projects history (always include for context — durations, deliveries)
+    const { data: allProjects } = await client
+      .from('projects')
+      .select('id, name, domain, status, budget, amount_collected, start_date, completed_at')
+      .order('start_date', { ascending: true });
+    const delivered = (allProjects ?? []).filter((p: any) => p.status === 'livre');
+    const totalDeliveredCA = delivered.reduce((s: number, p: any) => s + Number(p.budget ?? 0), 0);
+    const totalDeliveredNet = delivered.reduce((s: number, p: any) => s + Number(p.amount_collected ?? 0), 0);
+    const byDomain: Record<string, { count: number; ca: number }> = {};
+    delivered.forEach((p: any) => {
+      const d = p.domain ?? 'autre';
+      byDomain[d] ??= { count: 0, ca: 0 };
+      byDomain[d].count += 1;
+      byDomain[d].ca += Number(p.budget ?? 0);
+    });
+    const oldestStart = delivered[0]?.start_date;
+
+    context += `\n\n--- Historique projets SKAL SERVICES ---
+Total projets livrés : ${delivered.length} depuis ${oldestStart ?? 'n/a'}
+CA cumulé brut livré : ${totalDeliveredCA.toLocaleString('fr-FR')} FCFA
+Bénéfice net SKAL cumulé : ${totalDeliveredNet.toLocaleString('fr-FR')} FCFA
+Répartition par domaine :
+${Object.entries(byDomain).map(([d, v]) => `  - ${d} : ${v.count} projets · ${v.ca.toLocaleString('fr-FR')} FCFA`).join('\n')}
+Derniers projets livrés :
+${delivered.slice(-6).map((p: any) => `  - ${p.start_date} · ${p.name} (${p.domain}) — ${Number(p.budget ?? 0).toLocaleString('fr-FR')} FCFA`).join('\n')}`;
+
     if (rank(level) >= rank('restricted')) {
-      context += `\nRevenus : ${revenu.toLocaleString('fr-FR')} FCFA
+      context += `\n\n--- Période demandée ---
+Revenus : ${revenu.toLocaleString('fr-FR')} FCFA
 Dépenses : ${depense.toLocaleString('fr-FR')} FCFA
 Solde : ${(revenu - depense).toLocaleString('fr-FR')} FCFA
 M-1 — Revenus : ${prevRevenu.toLocaleString('fr-FR')} (${variation(revenu, prevRevenu) ?? 'n/a'}%) | Dépenses : ${prevDepense.toLocaleString('fr-FR')} (${variation(depense, prevDepense) ?? 'n/a'}%)
@@ -141,11 +168,14 @@ N-1 — Revenus : ${yRevenu.toLocaleString('fr-FR')} (${variation(revenu, yReven
 
     const { text } = await withAiRetry(() => generateText({
       model,
-      system: `Tu rédiges un rapport financier synthétique pour SKAL SERVICES.
+      system: `Tu rédiges un rapport financier synthétique pour SKAL SERVICES SARL, entreprise multidisciplinaire au Bénin (Architecture & BTP, Géomatique & SIG, Graphisme & IA, Web & Digital), active depuis 2023.
 Niveau d'accès demandeur : ${level}.
-INTERDIT : pourcentages de répartition, capital social, noms de prestataires, mécanismes internes.
-Format : markdown clair avec sections : Vue d'ensemble, Comparatifs (M-1, N-1), Faits saillants, Recommandations.`,
-      prompt: `Données agrégées :\n${context}\n\nGénère le rapport.`,
+RÈGLES IMPORTANTES :
+- Tu DOIS t'appuyer sur l'historique des projets livrés fournis ci-dessous. NE JAMAIS écrire "rien n'a été fait", "aucune activité", "entreprise nouvelle" ou équivalents : SKAL a un historique réel.
+- Si la période demandée est calme, dis-le explicitement par rapport à l'historique global ("activité ralentie ce mois vs. cumul de N projets livrés depuis 2023…").
+- INTERDIT : pourcentages de répartition internes, capital social, noms de prestataires, mécanismes confidentiels.
+- Format markdown clair avec sections : Vue d'ensemble (contextualisée historique), Comparatifs (M-1, N-1), Performance par domaine, Faits saillants, Recommandations actionnables.`,
+      prompt: `Données agrégées :\n${context}\n\nGénère le rapport en mettant la période demandée en perspective avec l'historique global de l'entreprise.`,
     }));
 
     await client.rpc("log_ai_access", {

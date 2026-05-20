@@ -70,7 +70,10 @@ export default function AdminDashboard() {
     const depense = tx.filter(t => t.type === 'depense').reduce((s, t) => s + Number(t.amount), 0);
     const caisseBal = cash.reduce((s, c) => s + (c.direction === 'entree' ? Number(c.amount) : -Number(c.amount)), 0);
     const activeProjects = projects.filter(p => p.status === 'en_cours' || p.status === 'prospect' || p.status === 'livre').length;
-    return { revenu, depense, caisseBal, activeProjects, marge: revenu - depense };
+    const delivered = projects.filter(p => p.status === 'livre');
+    const totalDeliveredAmount = delivered.reduce((s, p) => s + Number(p.budget ?? 0), 0);
+    const avgProject = delivered.length ? totalDeliveredAmount / delivered.length : 0;
+    return { revenu, depense, caisseBal, activeProjects, marge: revenu - depense, totalDeliveredAmount, avgProject };
   }, [tx, cash, projects]);
 
   // Monthly revenue/expense trend
@@ -138,6 +141,8 @@ export default function AdminDashboard() {
     { label: 'Projets actifs', value: String(kpi.activeProjects), icon: FolderKanban, accent: 'from-blue-500 to-blue-600', to: '/admin/projets' },
     { label: 'Clients', value: String(clientsCount), icon: Users, accent: 'from-purple-500 to-purple-600', to: '/admin/clients' },
     { label: 'Marge brute', value: formatXOF(kpi.marge), icon: Activity, accent: 'from-amber-500 to-amber-600', to: '/admin/finances' },
+    { label: 'Total projets livrés', value: formatXOF(kpi.totalDeliveredAmount), icon: Briefcase, accent: 'from-teal-500 to-teal-600', to: '/admin/projets' },
+    { label: 'Prix moyen / projet', value: formatXOF(kpi.avgProject), icon: Activity, accent: 'from-indigo-500 to-indigo-600', to: '/admin/projets' },
   ];
 
   return (

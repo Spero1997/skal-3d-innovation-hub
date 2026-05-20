@@ -27,18 +27,40 @@ Deno.serve(async (req) => {
 
     const admin = createClient(supaUrl, serviceKey);
 
-    // Send magic link / invite
+    // Try to invite. If user already exists, look them up and just (re)assign the role.
+    let newUserId: string | undefined;
     const { data: invited, error: invErr } = await admin.auth.admin.inviteUserByEmail(email, {
       data: { full_name: full_name ?? email },
     });
-    if (invErr) return json({ error: invErr.message }, 400);
 
-    const newUserId = invited.user?.id;
-    if (newUserId) {
-      await admin.from('user_roles').insert({ user_id: newUserId, role });
+    if (invErr) {
+      const msg = String(invErr.message ?? '').toLowerCase();
+      const alreadyExists =
+        msg.includes('already') || msg.includes('registered') || msg.includes('exists') ||
+        (invErr as any)?.status === 422;
+      if (!alreadyExists) return json({ error: invErr.message }, 400);
+
+      // Find existing user by listing pages (max 10 pages of 100)
+      for (let page = 1; page <= 10 && !newUserId; page++) {
+        const { data: list } = await admin.auth.admin.listUsers({ page, perPage: 100 });
+        const found = list?.users?.find((u: any) => (u.email ?? '').toLowerCase() === email.toLowerCase());
+        if (found) newUserId = found.id;
+        if (!list?.users?.length) break;
+      }
+      if (!newUserId) return json({ error: 'Utilisateur existant mais introuvable' }, 404);
+    } else {
+      newUserId = invited.user?.id;
     }
 
-    return json({ ok: true, user_id: newUserId });
+    if (newUserId) {
+      // Idempotent: ignore unique-violation if role already present
+      const { error: roleErr } = await admin
+        .from('user_roles')
+        .upsert({ user_id: newUserId, role }, { onConflict: 'user_id,role' });
+      if (roleErr) return json({ error: `Rôle non assigné: ${roleErr.message}` }, 400);
+    }
+
+    return json({ ok: true, user_id: newUserId, reused: !!invErr });
   } catch (e) {
     return json({ error: String(e) }, 500);
   }

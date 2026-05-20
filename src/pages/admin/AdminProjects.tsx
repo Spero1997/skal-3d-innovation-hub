@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,11 +26,13 @@ type Project = {
 };
 
 export default function AdminProjects() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [domain, setDomain] = useState<string>('all');
+  const [domain, setDomain] = useState<string>(searchParams.get('domain') ?? 'all');
   const [status, setStatus] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<string>('start_date_desc');
   const [open, setOpen] = useState(false);
 
   const load = async () => {
@@ -38,6 +40,7 @@ export default function AdminProjects() {
     const { data, error } = await supabase
       .from('projects')
       .select('*')
+      .order('start_date', { ascending: false, nullsFirst: false })
       .order('created_at', { ascending: false });
     if (error) {
       console.error('AdminProjects load error', error);
@@ -49,11 +52,33 @@ export default function AdminProjects() {
 
   useEffect(() => { load(); }, []);
 
+  // Sync ?domain= when changed via select
+  useEffect(() => {
+    const cur = searchParams.get('domain') ?? 'all';
+    if (cur !== domain) {
+      const next = new URLSearchParams(searchParams);
+      if (domain === 'all') next.delete('domain');
+      else next.set('domain', domain);
+      setSearchParams(next, { replace: true });
+    }
+  }, [domain]);
+
   const filtered = projects.filter((p) => {
     if (domain !== 'all' && p.domain !== domain) return false;
     if (status !== 'all' && p.status !== status) return false;
     if (search && !`${p.name} ${p.code ?? ''}`.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
+  });
+
+  const sorted = [...filtered].sort((a, b) => {
+    const at = (p: Project) => new Date((p as any).start_date ?? 0).getTime();
+    switch (sortBy) {
+      case 'start_date_asc': return at(a) - at(b);
+      case 'start_date_desc': return at(b) - at(a);
+      case 'budget_desc': return Number(b.budget ?? 0) - Number(a.budget ?? 0);
+      case 'name_asc': return a.name.localeCompare(b.name);
+      default: return 0;
+    }
   });
 
   return (
@@ -103,6 +128,17 @@ export default function AdminProjects() {
               ))}
             </SelectContent>
           </Select>
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-white">
+              <SelectValue placeholder="Trier" />
+            </SelectTrigger>
+            <SelectContent className="bg-[#111] border-white/10 text-white">
+              <SelectItem value="start_date_desc">Date ↓ (récent)</SelectItem>
+              <SelectItem value="start_date_asc">Date ↑ (ancien)</SelectItem>
+              <SelectItem value="budget_desc">Budget ↓</SelectItem>
+              <SelectItem value="name_asc">Nom A→Z</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </Card>
 
@@ -110,7 +146,7 @@ export default function AdminProjects() {
         <div className="flex items-center justify-center py-20">
           <Loader2 className="w-6 h-6 animate-spin text-orange-500" />
         </div>
-      ) : filtered.length === 0 ? (
+      ) : sorted.length === 0 ? (
         <Card className="p-12 text-center bg-[#111]/80 border-white/5">
           <FolderKanban className="w-10 h-10 text-white/20 mx-auto mb-4" />
           <p className="text-white/60">Aucun projet pour ces critères.</p>
@@ -120,7 +156,7 @@ export default function AdminProjects() {
         </Card>
       ) : (
         <div className="grid gap-3">
-          {filtered.map((p) => (
+          {sorted.map((p) => (
             <Link key={p.id} to={`/admin/projets/${p.id}`}>
               <Card className="p-5 bg-[#111]/80 border-white/5 hover:border-orange-500/30 hover:bg-[#141414] transition-all">
                 <div className="flex flex-wrap items-start justify-between gap-4">
