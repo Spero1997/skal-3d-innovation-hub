@@ -66,14 +66,19 @@ export default function AdminDashboard() {
   }, []);
 
   const kpi = useMemo(() => {
-    const revenu = tx.filter(t => t.type === 'revenu' && t.status === 'encaissee').reduce((s, t) => s + Number(t.amount), 0);
+    const txRevenu = tx.filter(t => t.type === 'revenu' && t.status === 'encaissee').reduce((s, t) => s + Number(t.amount), 0);
     const depense = tx.filter(t => t.type === 'depense').reduce((s, t) => s + Number(t.amount), 0);
-    const caisseBal = cash.reduce((s, c) => s + (c.direction === 'entree' ? Number(c.amount) : -Number(c.amount)), 0);
+    const cashBal = cash.reduce((s, c) => s + (c.direction === 'entree' ? Number(c.amount) : -Number(c.amount)), 0);
     const activeProjects = projects.filter(p => p.status === 'en_cours' || p.status === 'prospect' || p.status === 'livre').length;
     const delivered = projects.filter(p => p.status === 'livre');
     const totalDeliveredAmount = delivered.reduce((s, p) => s + Number(p.budget ?? 0), 0);
+    const totalNetSkal = delivered.reduce((s, p) => s + Number(p.amount_collected ?? 0), 0);
     const avgProject = delivered.length ? totalDeliveredAmount / delivered.length : 0;
-    return { revenu, depense, caisseBal, activeProjects, marge: revenu - depense, totalDeliveredAmount, avgProject };
+    // CA = transactions encaissées OU, à défaut, CA brut cumulé des projets livrés
+    const revenu = txRevenu > 0 ? txRevenu : totalDeliveredAmount;
+    // Caisse = mouvements de caisse OU, à défaut, 15 % du CA brut cumulé livré (réserve obligatoire)
+    const caisseBal = cashBal > 0 ? cashBal : Math.round(totalDeliveredAmount * 0.15);
+    return { revenu, depense, caisseBal, activeProjects, marge: revenu - depense, totalDeliveredAmount, totalNetSkal, avgProject };
   }, [tx, cash, projects]);
 
   // Monthly revenue/expense trend
