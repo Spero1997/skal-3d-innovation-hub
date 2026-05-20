@@ -29,7 +29,7 @@ function Content() {
 
   const simulate = async () => {
     if (!ruleSetId) return;
-    const { data, error } = await supabase.rpc('simulate_rule_set' as any, { _rule_set_id: ruleSetId, _gross: gross });
+    const { data, error } = await supabase.rpc('simulate_rule_set' as any, { _rule_set_id: ruleSetId, _amount: gross, _context: {} });
     if (error) return toast({ title: 'Erreur', description: error.message, variant: 'destructive' });
     setResult(data);
   };
