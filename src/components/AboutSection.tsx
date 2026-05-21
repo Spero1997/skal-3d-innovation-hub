@@ -82,18 +82,20 @@ const AboutSection: React.FC = () => {
           </div>
 
           {principles.map((p, i) => {
-            // Asymmetric column allocation: 5 / 4 / 3 — progressive vertical offsets
-            const spans = ['md:col-span-4', 'md:col-span-3 md:col-start-6', 'md:col-span-3 md:col-start-10'];
-            const offsets = ['md:mt-0', 'md:mt-16', 'md:mt-32'];
-            // Mobile: alternating indent so the column doesn't feel like a generic stack
-            const mobileIndent = ['ml-0', 'ml-6 sm:ml-12', 'ml-12 sm:ml-24'];
+            // Asymmetric column allocation everywhere: full bleed on mobile, 4/3/3 on tablet+
+            const spans = [
+              'col-span-11 sm:col-span-10 md:col-span-4',
+              'col-span-10 col-start-2 sm:col-span-9 sm:col-start-3 md:col-span-3 md:col-start-6 md:col-start-6',
+              'col-span-9 col-start-3 sm:col-span-8 sm:col-start-5 md:col-span-3 md:col-start-10',
+            ];
+            const offsets = ['mt-0', 'mt-10 sm:mt-14 md:mt-20', 'mt-10 sm:mt-14 md:mt-40'];
             return (
               <motion.div
                 key={p.n}
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.15 + i * 0.12, ease: [0.2, 0.7, 0.2, 1] }}
-                className={`col-span-12 ${spans[i]} ${offsets[i]} ${mobileIndent[i]} md:ml-0 group`}
+                className={`${spans[i]} ${offsets[i]} group`}
               >
                 <div className="border-t hairline-strong pt-4 sm:pt-5 transition-colors duration-500 group-hover:border-[hsl(var(--tangerine))]">
                   <div className="flex items-baseline justify-between mb-6">
