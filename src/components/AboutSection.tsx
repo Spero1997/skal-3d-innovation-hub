@@ -69,23 +69,47 @@ const AboutSection: React.FC = () => {
         </motion.div>
       </div>
 
-      <div className="mt-14 sm:mt-20 grid grid-cols-1 md:grid-cols-3 gap-px bg-[hsl(var(--ink))/0.12] border hairline">
-          {principles.map((p, i) => (
-            <motion.div
-              key={p.n}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
-              className="bg-background p-6 sm:p-8 group hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500"
-            >
-              <div className="flex items-baseline justify-between mb-6 sm:mb-8">
-                <span className="mono text-[10px] uppercase tracking-[0.25em] opacity-60">{p.n}</span>
-                <span className="mono text-[10px] uppercase tracking-[0.25em] opacity-60">Principe</span>
-              </div>
-              <h3 className="display-serif text-2xl sm:text-3xl">{p.t}</h3>
-              <p className="text-sm mt-3 opacity-70">{p.d}</p>
-            </motion.div>
-          ))}
+      {/* Principles — asymmetric editorial rail (5 / 4 / 3 of 12) with staggered vertical offsets */}
+      <div className="mt-20 sm:mt-28 lg:mt-32">
+        <div className="grid grid-cols-12 gap-x-6 gap-y-10 items-start">
+          <div className="col-span-12 md:col-span-2">
+            <div className="mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground pb-3 border-b hairline-strong">
+              § Principes
+            </div>
+            <p className="mt-4 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground/70">
+              03 — Méthode
+            </p>
+          </div>
+
+          {principles.map((p, i) => {
+            // Asymmetric column allocation: 5 / 4 / 3 — and progressive vertical offsets
+            const spans = ['md:col-span-4', 'md:col-span-3 md:col-start-6', 'md:col-span-3 md:col-start-10'];
+            const offsets = ['md:mt-0', 'md:mt-16', 'md:mt-32'];
+            return (
+              <motion.div
+                key={p.n}
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.15 + i * 0.12, ease: [0.2, 0.7, 0.2, 1] }}
+                className={`col-span-12 ${spans[i]} ${offsets[i]} group`}
+              >
+                <div className="border-t hairline-strong pt-4 sm:pt-5 transition-colors duration-500 group-hover:border-[hsl(var(--tangerine))]">
+                  <div className="flex items-baseline justify-between mb-6">
+                    <span className="display-serif italic text-5xl sm:text-6xl font-light text-foreground/15 group-hover:text-[hsl(var(--tangerine))] transition-colors duration-500 leading-none">
+                      {p.n}
+                    </span>
+                  </div>
+                  <h3 className="display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[1] tracking-tight">
+                    {p.t}.
+                  </h3>
+                  <p className="text-sm sm:text-[15px] mt-5 text-foreground/65 leading-relaxed max-w-xs">
+                    {p.d}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
