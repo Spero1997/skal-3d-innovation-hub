@@ -34,43 +34,49 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b hairline">
-      <div className="section-x h-14 sm:h-16 flex items-center justify-between gap-3 sm:gap-6">
+    <header className="sticky top-0 z-50 w-full bg-background/75 backdrop-blur-xl border-b hairline">
+      <div className="section-x h-12 sm:h-14 flex items-center justify-between gap-4 sm:gap-8">
         <Link to="/" className="flex items-center gap-3 group min-w-0" aria-label="Skal Services — Accueil">
           <img
             src={skalLogo}
             alt="Skal Services"
-            className="h-8 sm:h-9 md:h-10 w-auto object-contain"
+            className="h-7 sm:h-8 md:h-9 w-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]"
             loading="eager"
             decoding="async"
           />
-          <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hidden lg:inline truncate">
-            Studio · BJ
+          <span className="mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground hidden lg:inline truncate border-l hairline pl-3">
+            Studio multidisciplinaire · Bénin
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-1">
-          {links.map((l) => {
+        <nav className="hidden md:flex items-center gap-7 lg:gap-10">
+          {links.map((l, i) => {
             const active = location.pathname === l.to;
             return (
               <Link
                 key={l.to}
                 to={l.to}
-                className={`mono text-[11px] uppercase tracking-[0.18em] px-3 py-2 rounded-full transition-colors ${
-                  active ? 'text-foreground bg-[hsl(var(--ink))/0.06]' : 'text-muted-foreground hover:text-foreground'
-                }`}
+                data-active={active}
+                className="nav-link inline-flex items-center gap-2 py-2"
               >
+                <span className="opacity-40 text-[9px]">0{i + 1}</span>
                 {l.label}
               </Link>
             );
           })}
         </nav>
 
-        <div className="hidden md:flex items-center gap-3 lg:gap-4">
-          <span className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground hidden lg:inline">
+        <div className="hidden md:flex items-center gap-4 lg:gap-6">
+          <span className="mono text-[9px] uppercase tracking-[0.25em] text-muted-foreground hidden xl:inline tabular-nums">
             {time}
           </span>
-          <Link to="/devis" className="btn-ink !py-2 !px-4">Devis →</Link>
+          <Link
+            to="/devis"
+            className="group inline-flex items-center gap-2 mono text-[10px] uppercase tracking-[0.22em] py-2 pl-4 pr-2 border hairline-strong rounded-full hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500"
+          >
+            Devis
+            <span className="w-6 h-6 rounded-full bg-[hsl(var(--tangerine))] text-foreground flex items-center justify-center text-[10px] transition-transform duration-500 group-hover:rotate-45">→</span>
+          </Link>
         </div>
 
         <button
