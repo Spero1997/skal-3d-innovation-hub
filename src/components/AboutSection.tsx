@@ -82,16 +82,18 @@ const AboutSection: React.FC = () => {
           </div>
 
           {principles.map((p, i) => {
-            // Asymmetric column allocation: 5 / 4 / 3 — and progressive vertical offsets
+            // Asymmetric column allocation: 5 / 4 / 3 — progressive vertical offsets
             const spans = ['md:col-span-4', 'md:col-span-3 md:col-start-6', 'md:col-span-3 md:col-start-10'];
             const offsets = ['md:mt-0', 'md:mt-16', 'md:mt-32'];
+            // Mobile: alternating indent so the column doesn't feel like a generic stack
+            const mobileIndent = ['ml-0', 'ml-6 sm:ml-12', 'ml-12 sm:ml-24'];
             return (
               <motion.div
                 key={p.n}
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.15 + i * 0.12, ease: [0.2, 0.7, 0.2, 1] }}
-                className={`col-span-12 ${spans[i]} ${offsets[i]} group`}
+                className={`col-span-12 ${spans[i]} ${offsets[i]} ${mobileIndent[i]} md:ml-0 group`}
               >
                 <div className="border-t hairline-strong pt-4 sm:pt-5 transition-colors duration-500 group-hover:border-[hsl(var(--tangerine))]">
                   <div className="flex items-baseline justify-between mb-6">
