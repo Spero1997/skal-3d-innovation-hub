@@ -36,10 +36,10 @@ const Services: React.FC = () => {
             const DIcon = d.icon;
             // Bento layout: 7/5, 5/7 — alternated, with vertical offsets for asymmetry
             const bento = [
-              'col-span-12 md:col-span-7 md:row-span-2 min-h-[300px] md:min-h-[440px]',
-              'col-span-12 md:col-span-5 min-h-[200px] md:min-h-[210px]',
-              'col-span-12 md:col-span-5 md:mt-0 min-h-[200px] md:min-h-[210px]',
-              'col-span-12 md:col-span-7 md:-mt-px min-h-[260px] md:min-h-[300px]',
+              'col-span-12 md:col-span-7 md:row-span-2 min-h-[320px] md:min-h-[440px]',
+              'col-span-11 col-start-2 md:col-span-5 md:col-start-auto min-h-[220px] md:min-h-[210px]',
+              'col-span-10 col-start-3 md:col-span-5 md:col-start-auto min-h-[220px] md:min-h-[210px]',
+              'col-span-11 md:col-span-7 md:-mt-px min-h-[260px] md:min-h-[300px]',
             ];
             const isLarge = i === 0 || i === 3;
             return (

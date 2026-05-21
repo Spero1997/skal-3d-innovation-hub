@@ -91,21 +91,33 @@ const Navbar: React.FC = () => {
 
       {open && (
         <div className="md:hidden border-t hairline bg-background animate-fade-in-fast">
-          <nav className="section-x py-6 flex flex-col gap-1">
-            {links.map((l) => (
+          <nav className="section-x py-10 flex flex-col gap-0">
+            <div className="mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground pb-4 mb-2 border-b hairline">
+              § Navigation
+            </div>
+            {links.map((l, i) => (
               <Link
                 key={l.to}
                 to={l.to}
                 onClick={() => setOpen(false)}
-                className="display-serif text-2xl sm:text-3xl py-2 hover:text-[hsl(var(--tangerine))] transition-colors"
+                className="group flex items-baseline gap-4 py-4 border-b hairline last:border-b-0"
+                style={{ paddingLeft: `${i * 12}px` }}
               >
-                {l.label}
+                <span className="mono text-[10px] tabular-nums text-muted-foreground/60">0{i + 1}</span>
+                <span className="display-serif text-4xl sm:text-5xl font-light leading-none group-hover:italic group-hover:text-[hsl(var(--tangerine))] transition-all duration-300">
+                  {l.label}
+                </span>
               </Link>
             ))}
-            <Link to="/devis" onClick={() => setOpen(false)} className="btn-ink mt-4 w-fit">
-              Demander un devis →
+            <Link
+              to="/devis"
+              onClick={() => setOpen(false)}
+              className="group inline-flex items-center justify-between mt-8 px-5 py-4 bg-foreground text-[hsl(var(--cream))] rounded-full mono text-[11px] uppercase tracking-[0.22em]"
+            >
+              Demander un devis
+              <span className="w-7 h-7 rounded-full bg-[hsl(var(--tangerine))] text-foreground flex items-center justify-center transition-transform group-hover:rotate-45">→</span>
             </Link>
-            <div className="mt-6 pt-4 border-t hairline mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="mt-8 pt-4 border-t hairline mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground tabular-nums">
               {time}
             </div>
           </nav>
@@ -113,7 +125,7 @@ const Navbar: React.FC = () => {
       )}
     </header>
       {!isHome && (
-        <div className="sticky top-14 sm:top-16 z-40 w-full bg-background/70 backdrop-blur-md border-b hairline">
+        <div className="sticky top-12 sm:top-14 z-40 w-full bg-background/70 backdrop-blur-md border-b hairline">
           <div className="section-x h-10 flex items-center">
             <button
               type="button"
