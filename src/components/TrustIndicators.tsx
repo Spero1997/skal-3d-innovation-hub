@@ -1,79 +1,111 @@
-
 import React from 'react';
-import { CheckCircle, Award, Star, Users, Clock, ShieldCheck } from 'lucide-react';
+import { Star } from 'lucide-react';
 
-const TrustIndicators: React.FC = () => {
-  const trustStats = [
-    { icon: <CheckCircle className="w-6 h-6 text-[hsl(var(--optimind-glow))]" />, value: '100%', label: 'Satisfaction client' },
-    { icon: <Award className="w-6 h-6 text-[hsl(var(--optimind-glow))]" />, value: '15+', label: "Années d'expertise" },
-    { icon: <Users className="w-6 h-6 text-[hsl(var(--optimind-glow))]" />, value: '50+', label: 'Clients satisfaits' },
-    { icon: <Clock className="w-6 h-6 text-[hsl(var(--optimind-glow))]" />, value: '100%', label: 'Projets livrés à temps' },
-  ];
+const registry = [
+  { label: 'Forme', value: 'SARL' },
+  { label: 'RCCM', value: 'RB/ABC/21 A 26495' },
+  { label: 'IFU', value: '0202112334177' },
+  { label: 'Agréments', value: 'DGT · DGC · AL' },
+];
 
-  const testimonials = [
-    { quote: "L'équipe de Skal Services a parfaitement compris nos besoins et a livré un travail de qualité exceptionnelle, bien au-delà de nos attentes.", author: "ACAKPO Charnel", company: "Chargé de la communication, La Ruche d'Or", rating: 5 },
-    { quote: "Leur expertise en cartographie et leur conseil en IA nous ont permis d'optimiser considérablement nos processus. Un partenaire de confiance.", author: "TCHESSI JUNIOR", company: "Logisticien", rating: 5 },
-    { quote: "Un professionnalisme remarquable et une réactivité constante. Skal Services a transformé notre vision en réalité avec une précision impressionnante.", author: "DANNON Imelda", company: "Directrice Générale, MEL SHOP", rating: 5 },
-    { quote: "Service exceptionnel et résultats à la hauteur de nos attentes. Je recommande vivement leur expertise pour tous vos projets.", author: "GUENDEHOU Côme", company: "Directeur, TECOMAV-ALU", rating: 5 },
-  ];
+const stats = [
+  { value: '100', suffix: '%', label: 'Satisfaction' },
+  { value: '15', suffix: '+', label: "Années" },
+  { value: '50', suffix: '+', label: 'Clients' },
+  { value: '48', suffix: 'h', label: 'Délai devis' },
+];
 
-  return (
-    <div className="py-12">
-      <div className="mb-16">
-        <h3 className="text-2xl optimind-heading text-center mb-10 text-foreground">UNE ENTREPRISE EN RÈGLE</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-          {[
-            { label: 'Forme juridique', value: 'SARL' },
-            { label: 'RCCM', value: 'RB/ABC/21 A 26495' },
-            { label: 'IFU', value: '0202112334177' },
-            { label: 'Agréments', value: 'DGT · DGC · AL' },
-          ].map((item, i) => (
-            <div key={i} className="p-4 rounded-2xl bg-[hsl(var(--optimind-card))] border border-[hsl(var(--border))] flex flex-col items-center text-center">
-              <ShieldCheck className="w-5 h-5 text-[hsl(var(--optimind-glow))] mb-2" />
-              <span className="text-xs text-muted-foreground uppercase tracking-wider">{item.label}</span>
-              <span className="text-sm font-semibold text-foreground mt-1 break-all">{item.value}</span>
-            </div>
-          ))}
+const testimonials = [
+  { quote: "L'équipe a parfaitement compris nos besoins et a livré un travail de qualité exceptionnelle, bien au-delà de nos attentes.", author: 'ACAKPO Charnel', company: "Communication, La Ruche d'Or" },
+  { quote: "Leur expertise en cartographie et leur conseil en IA nous ont permis d'optimiser considérablement nos processus.", author: 'TCHESSI Junior', company: 'Logisticien' },
+  { quote: "Un professionnalisme remarquable. Skal a transformé notre vision en réalité avec une précision impressionnante.", author: 'DANNON Imelda', company: 'Directrice, MEL SHOP' },
+  { quote: "Service exceptionnel et résultats à la hauteur. Je recommande vivement leur expertise pour tous vos projets.", author: 'GUENDEHOU Côme', company: 'Directeur, TECOMAV-ALU' },
+];
+
+const TrustIndicators: React.FC = () => (
+  <div className="py-16 sm:py-20">
+    {/* Registry — editorial colophon */}
+    <div className="grid grid-cols-12 gap-x-6 gap-y-8 mb-20 sm:mb-28">
+      <div className="col-span-12 md:col-span-3">
+        <div className="mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground pb-3 border-b hairline-strong">
+          § Registre légal
         </div>
-        <p className="text-center text-xs text-muted-foreground mt-4">
-          SKAL SERVICES SARL — société immatriculée au Bénin, intervenant sur toute l'Afrique de l'Ouest.
+        <p className="mt-4 text-sm text-foreground/65 leading-relaxed max-w-xs">
+          Société immatriculée au Bénin, intervenant sur toute l'Afrique de l'Ouest.
         </p>
       </div>
-
-      <div className="mb-16">
-        <h3 className="text-2xl optimind-heading text-center mb-10 text-foreground">POURQUOI NOUS FAIRE CONFIANCE ?</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {trustStats.map((stat, index) => (
-            <div key={index} className="p-6 rounded-2xl bg-[hsl(var(--optimind-card))] border border-[hsl(var(--border))] flex flex-col items-center transition-all duration-300 hover:shadow-lg" style={{ animation: `fadeIn 0.5s ease-out forwards`, animationDelay: `${0.1 * index}s` }}>
-              {stat.icon}
-              <span className="text-3xl font-bold mt-3 text-foreground">{stat.value}</span>
-              <span className="text-muted-foreground text-sm">{stat.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-      
-      <div className="mb-16">
-        <h3 className="text-2xl optimind-heading text-center mb-10 text-foreground">CE QUE NOS CLIENTS DISENT</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className="p-6 rounded-2xl bg-[hsl(var(--optimind-card))] border border-[hsl(var(--border))] flex flex-col transition-all duration-300 hover:shadow-lg" style={{ animation: `fadeIn 0.5s ease-out forwards`, animationDelay: `${0.1 * index}s` }}>
-              <div className="flex mb-4">
-                {Array(testimonial.rating).fill(0).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-[hsl(var(--optimind-glow))] text-[hsl(var(--optimind-glow))]" />
-                ))}
-              </div>
-              <p className="italic text-muted-foreground mb-4 text-sm">"{testimonial.quote}"</p>
-              <div className="mt-auto">
-                <p className="font-semibold text-foreground text-sm">{testimonial.author}</p>
-                <p className="text-xs text-muted-foreground">{testimonial.company}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="col-span-12 md:col-span-8 md:col-start-5 grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-6">
+        {registry.map((r) => (
+          <div key={r.label} className="border-t hairline-strong pt-4">
+            <div className="mono text-[9px] uppercase tracking-[0.25em] text-muted-foreground">{r.label}</div>
+            <div className="display-serif text-base sm:text-lg md:text-xl font-light mt-2 break-words leading-tight">{r.value}</div>
+          </div>
+        ))}
       </div>
     </div>
-  );
-};
+
+    {/* Stats — asymmetric editorial rail */}
+    <div className="grid grid-cols-12 gap-x-6 gap-y-10 items-end mb-20 sm:mb-28">
+      <div className="col-span-12 md:col-span-3">
+        <div className="mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground pb-3 border-b hairline-strong">
+          § Chiffres clés
+        </div>
+      </div>
+      {stats.map((s, i) => {
+        const offsets = ['md:mt-0', 'md:mt-10', 'md:mt-20', 'md:mt-6'];
+        return (
+          <div
+            key={s.label}
+            className={`col-span-6 md:col-span-2 ${i === 0 ? 'md:col-start-5' : ''} ${offsets[i]} border-t hairline-strong pt-5`}
+          >
+            <div className="display-serif text-5xl sm:text-6xl md:text-7xl font-light leading-none tabular-nums">
+              {s.value}<span className="text-[hsl(var(--tangerine))] italic">{s.suffix}</span>
+            </div>
+            <div className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground mt-3">{s.label}</div>
+          </div>
+        );
+      })}
+    </div>
+
+    {/* Testimonials — editorial pull-quotes asymmetric */}
+    <div className="grid grid-cols-12 gap-x-6 gap-y-10 items-start">
+      <div className="col-span-12 md:col-span-3">
+        <div className="mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground pb-3 border-b hairline-strong">
+          § Témoignages
+        </div>
+        <h3 className="display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[0.95] tracking-tight mt-6">
+          La parole<br /><span className="italic text-foreground/55">des clients.</span>
+        </h3>
+      </div>
+      <div className="col-span-12 md:col-span-8 md:col-start-5 grid grid-cols-12 gap-x-5 gap-y-10">
+        {testimonials.map((t, i) => {
+          const spans = [
+            'col-span-12 sm:col-span-7',
+            'col-span-12 sm:col-span-5 sm:mt-12',
+            'col-span-12 sm:col-span-5 sm:col-start-2',
+            'col-span-12 sm:col-span-6 sm:mt-8',
+          ];
+          return (
+            <figure key={i} className={`${spans[i]} group`}>
+              <div className="border-t hairline-strong pt-5">
+                <div className="flex items-center gap-0.5 mb-4">
+                  {Array(5).fill(0).map((_, k) => (
+                    <Star key={k} className="w-3 h-3 fill-[hsl(var(--tangerine))] text-[hsl(var(--tangerine))]" />
+                  ))}
+                </div>
+                <blockquote className="display-serif text-lg sm:text-xl md:text-2xl font-light italic leading-[1.3]">
+                  « {t.quote} »
+                </blockquote>
+                <figcaption className="mt-5 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                  {t.author} <span className="opacity-50">— {t.company}</span>
+                </figcaption>
+              </div>
+            </figure>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+);
 
 export default TrustIndicators;
