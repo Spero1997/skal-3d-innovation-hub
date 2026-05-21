@@ -17,12 +17,22 @@ const FAQ: React.FC = () => {
 
   return (
     <section ref={ref} className="section-x section-y border-t hairline">
-      <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-12 md:col-span-4">
-          <span className="ticker-tag">§ Questions</span>
-          <h2 className="display-serif fluid-display font-light leading-[0.95] mt-4">
-            Vous vous <span className="italic">demandez</span>...
+      <div className="grid grid-cols-12 gap-x-6 gap-y-10">
+        <div className="col-span-12 md:col-span-4 md:sticky md:top-24 md:self-start">
+          <div className="mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground pb-3 border-b hairline-strong">
+            § Questions
+          </div>
+          <h2 className="display-serif text-5xl sm:text-6xl md:text-7xl font-light leading-[0.9] tracking-tight mt-6">
+            Vous vous<br />
+            <span className="italic text-foreground/55">demandez</span>...
           </h2>
+          <p className="mt-6 text-sm text-foreground/65 leading-relaxed max-w-xs">
+            Six questions essentielles avant de démarrer.
+            Réponse personnalisée sous 48h pour le reste.
+          </p>
+          <p className="mt-8 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground/70 tabular-nums">
+            06 — Réponses
+          </p>
         </div>
 
         <motion.div
@@ -31,20 +41,20 @@ const FAQ: React.FC = () => {
           transition={{ duration: 0.5 }}
           className="col-span-12 md:col-span-7 md:col-start-6"
         >
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full border-t hairline-strong">
             {faqItems.map((item, i) => (
-              <AccordionItem key={i} value={`item-${i}`} className="border-b hairline">
-                <AccordionTrigger className="text-left py-6 hover:no-underline group">
-                  <div className="flex items-baseline gap-3 sm:gap-6 w-full">
-                    <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+              <AccordionItem key={i} value={`item-${i}`} className="border-b hairline-strong">
+                <AccordionTrigger className="text-left py-6 sm:py-8 hover:no-underline group">
+                  <div className="grid grid-cols-12 gap-3 sm:gap-6 w-full items-baseline">
+                    <span className="col-span-2 sm:col-span-1 display-serif italic text-3xl sm:text-4xl font-light text-foreground/20 group-hover:text-[hsl(var(--tangerine))] transition-colors duration-500 tabular-nums leading-none">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <span className="display-serif text-lg sm:text-2xl md:text-3xl font-light flex-1 group-hover:text-[hsl(var(--tangerine))] transition-colors">
+                    <span className="col-span-10 sm:col-span-11 display-serif text-xl sm:text-3xl md:text-4xl font-light leading-[1.1] group-hover:text-[hsl(var(--tangerine))] transition-colors">
                       {item.q}
                     </span>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="text-sm sm:text-base text-foreground/70 leading-relaxed pl-8 sm:pl-[3.5rem] pr-2 pb-6">
+                <AccordionContent className="text-sm sm:text-base text-foreground/70 leading-relaxed pl-10 sm:pl-[5.5rem] pr-2 pb-8">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>
