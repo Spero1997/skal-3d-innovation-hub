@@ -3,7 +3,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import OptimindLayout from '@/components/OptimindLayout';
 import SEO from '@/components/SEO';
-import { Send, CheckCircle, Loader2, Paperclip, X } from 'lucide-react';
+import { ArrowDownRight, CheckCircle2, Loader2, Paperclip, X } from 'lucide-react';
+import PageHero from '@/components/PageHero';
 import { z } from 'zod';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -134,8 +135,8 @@ const DevisPage: React.FC = () => {
     }
   };
 
-  const inputCls = "w-full px-4 py-2.5 border border-[hsl(var(--border))] rounded-lg bg-[hsl(var(--secondary))] text-foreground text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--optimind-glow)/0.3)]";
-  const labelCls = "block text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wider";
+  const inputCls = "w-full bg-transparent border-b hairline display-serif text-lg sm:text-xl font-light py-2 outline-none focus:border-[hsl(var(--tangerine))] transition-colors";
+  const labelCls = "block mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-1.5";
 
   return (
     <OptimindLayout>
@@ -145,37 +146,47 @@ const DevisPage: React.FC = () => {
         path="/devis"
       />
       <Navbar />
-      <div className="pt-32 pb-16">
-        <div className="container mx-auto px-4 md:px-6 max-w-2xl">
-          <div className="text-center mb-12 animate-fade-in">
-            <div className="inline-block px-4 py-1 mb-4 rounded-full bg-[hsl(var(--optimind-glow)/0.1)]">
-              <span className="text-[hsl(var(--optimind-glow))] text-sm font-medium">Devis gratuit</span>
-            </div>
-            <h1 className="text-3xl md:text-4xl optimind-heading mb-4 text-foreground">DEMANDER UN DEVIS</h1>
-            <p className="text-muted-foreground max-w-lg mx-auto">
-              Décrivez votre projet et recevez une estimation personnalisée sous 48h. Sans engagement.
-            </p>
-          </div>
-
+      <PageHero
+        index="04"
+        kicker="Devis gratuit"
+        title={<>Décrivez votre projet,<br /><span className="italic">recevez une estimation sous 48h.</span></>}
+        lede="Sans engagement. Un seul interlocuteur revient vers vous avec un premier retour qualifié et une proposition chiffrée."
+      />
+      <div className="section-x section-y">
+        <div className="grid grid-cols-12 gap-6">
           {submitted ? (
-            <div className="optimind-service-card rounded-2xl p-10 text-center animate-fade-in">
-              <CheckCircle className="w-16 h-16 mx-auto mb-6 text-green-500" />
-              <h2 className="text-2xl font-semibold text-foreground mb-3">Demande envoyée !</h2>
-              <p className="text-muted-foreground mb-6">
+          <div className="col-span-12 md:col-span-8 md:col-start-3 border hairline-strong bg-[hsl(var(--cream))] p-10 md:p-16 text-center animate-fade-in">
+            <CheckCircle2 className="w-12 h-12 mx-auto mb-6 text-[hsl(var(--tangerine))]" strokeWidth={1.2} />
+            <h2 className="display-serif text-3xl md:text-4xl font-light mb-4">Demande envoyée.</h2>
+            <p className="text-foreground/70 mb-8 max-w-md mx-auto">
                 Merci pour votre demande. Un email de confirmation vous a été envoyé. Notre équipe vous contactera sous 48h avec une proposition détaillée.
               </p>
               <button
                 onClick={() => setSubmitted(false)}
-                className="text-sm text-[hsl(var(--optimind-glow))] hover:underline"
+                className="mono text-[10px] uppercase tracking-[0.25em] text-foreground hover:text-[hsl(var(--tangerine))] transition-colors"
               >
-                Envoyer une autre demande
+                → Envoyer une autre demande
               </button>
             </div>
           ) : (
+            <>
+            {/* Asymmetric meta column */}
+            <aside className="col-span-12 md:col-span-3 md:sticky md:top-24 md:self-start">
+              <span className="ticker-tag">§ Formulaire</span>
+              <p className="display-serif text-xl md:text-2xl font-light mt-4 leading-snug">
+                Plus votre brief est <span className="italic">précis</span>, plus notre retour le sera.
+              </p>
+              <ul className="mt-8 space-y-3 mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                <li className="flex gap-3 border-t hairline pt-3"><span className="text-[hsl(var(--tangerine))] tabular-nums">01</span> Réponse sous 48h</li>
+                <li className="flex gap-3 border-t hairline pt-3"><span className="text-[hsl(var(--tangerine))] tabular-nums">02</span> Sans engagement</li>
+                <li className="flex gap-3 border-t hairline pt-3"><span className="text-[hsl(var(--tangerine))] tabular-nums">03</span> Premier RDV offert</li>
+              </ul>
+            </aside>
+
             <form
               ref={formRef}
               onSubmit={handleSubmit}
-              className="optimind-service-card rounded-2xl p-8 md:p-10 animate-fade-in space-y-6"
+              className="col-span-12 md:col-span-8 md:col-start-5 border hairline-strong bg-[hsl(var(--cream))] p-6 sm:p-10 md:p-14 animate-fade-in space-y-8"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -217,22 +228,22 @@ const DevisPage: React.FC = () => {
 
               <div>
                 <label htmlFor="devis-message" className={labelCls}>Décrivez votre besoin *</label>
-                <textarea id="devis-message" name="message" rows={5} required maxLength={2000}
+                <textarea id="devis-message" name="message" rows={6} required maxLength={2000}
                   placeholder="Décrivez votre projet, vos objectifs, vos délais éventuels..."
-                  className={inputCls} />
+                  className={`${inputCls} resize-none`} />
               </div>
 
               <div>
                 <label className={labelCls}>Pièce jointe (cahier des charges, plan, brief…)</label>
-                <div className="flex items-center gap-3">
-                  <label htmlFor="devis-file" className="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 border border-[hsl(var(--border))] rounded-lg bg-[hsl(var(--secondary))] text-foreground text-sm hover:bg-[hsl(var(--secondary))]/70 transition">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <label htmlFor="devis-file" className="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 border hairline-strong mono text-[10px] uppercase tracking-[0.2em] text-foreground hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors rounded-full">
                     <Paperclip className="w-4 h-4" />
                     {file ? "Changer le fichier" : "Joindre un fichier"}
                   </label>
                   <input id="devis-file" type="file" onChange={handleFileChange} className="hidden"
                     accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.zip,.dwg,.dxf,.xlsx,.xls" />
                   {file && (
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground truncate">
+                    <div className="flex items-center gap-2 mono text-[11px] text-muted-foreground truncate">
                       <span className="truncate max-w-[180px]">{file.name}</span>
                       <button type="button" onClick={() => setFile(null)} className="text-muted-foreground hover:text-foreground">
                         <X className="w-4 h-4" />
@@ -240,23 +251,20 @@ const DevisPage: React.FC = () => {
                     </div>
                   )}
                 </div>
-                <p className="text-xs text-muted-foreground mt-1.5">PDF, image, DWG, ZIP… 10 Mo max.</p>
+                <p className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mt-3">PDF, image, DWG, ZIP… 10 Mo max.</p>
               </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-foreground text-[hsl(var(--optimind-card))] font-medium rounded-full hover:opacity-90 transition-opacity text-sm uppercase tracking-wider disabled:opacity-50"
-              >
-                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                {loading ? "Envoi en cours…" : "Envoyer ma demande de devis"}
-              </button>
-
-              <p className="text-xs text-muted-foreground text-center">
-                En soumettant ce formulaire, vous acceptez notre{' '}
-                <a href="/privacy" className="text-[hsl(var(--optimind-glow))] hover:underline">politique de confidentialité</a>.
-              </p>
+              <div className="border-t hairline pt-6 flex items-center justify-between flex-wrap gap-4">
+                <p className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground max-w-xs">
+                  En soumettant ce formulaire, vous acceptez notre{' '}
+                  <a href="/privacy" className="underline hover:text-[hsl(var(--tangerine))]">politique de confidentialité</a>.
+                </p>
+                <button type="submit" disabled={loading} className="btn-ink disabled:opacity-50">
+                  {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Envoi en cours…</> : <>Envoyer ma demande <ArrowDownRight className="w-4 h-4" /></>}
+                </button>
+              </div>
             </form>
+            </>
           )}
         </div>
       </div>

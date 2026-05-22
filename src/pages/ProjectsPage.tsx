@@ -2,50 +2,64 @@
 import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { ExternalLink } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { projects } from '@/data/projects';
 import OptimindLayout from '@/components/OptimindLayout';
 import SEO from '@/components/SEO';
+import PageHero from '@/components/PageHero';
 
 const ProjectCard: React.FC<{
   id: number;
+  index: number;
   title: string;
   subtitle?: string;
   category: string;
   description: string;
   image: string;
-  delay: number;
-}> = ({ id, title, subtitle, category, description, image, delay }) => {
+}> = ({ id, index, title, subtitle, category, description, image }) => {
+  const num = String(index + 1).padStart(2, '0');
+  // Asymmetric column placement: large left, narrow right, alternating
+  const layouts = [
+    'md:col-span-8 md:col-start-1',
+    'md:col-span-6 md:col-start-7',
+    'md:col-span-7 md:col-start-2',
+    'md:col-span-5 md:col-start-8',
+  ];
+  const colClass = layouts[index % layouts.length];
+  const offset = index % 3 === 1 ? 'md:mt-20' : index % 3 === 2 ? 'md:mt-10' : '';
   return (
-    <div 
-      className="optimind-service-card overflow-hidden group animate-fade-in p-0"
-      style={{ animationDelay: `${delay}s` }}
+    <Link
+      to={`/projects/${id}`}
+      className={`group block col-span-12 ${colClass} ${offset}`}
     >
-      <div className="relative h-48 overflow-hidden">
-        <img 
-          src={image} 
-          alt={title} 
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+      <div className="relative aspect-[4/3] overflow-hidden bg-foreground">
+        <img
+          src={image}
+          alt={title}
+          loading="lazy"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-          <div className="p-4 w-full">
-            <Link 
-              to={`/projects/${id}`} 
-              className="text-white flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm"
-            >
-              Voir le projet <ExternalLink className="w-4 h-4" />
-            </Link>
-          </div>
+        <div className="absolute top-4 left-4 mono text-[10px] uppercase tracking-[0.25em] text-[hsl(var(--cream))] tabular-nums">
+          {num} / {String(projects.length).padStart(2, '0')}
+        </div>
+        <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[hsl(var(--cream))] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <ArrowUpRight className="w-4 h-4 text-foreground" />
         </div>
       </div>
-      <div className="p-6">
-        <span className="text-xs font-medium text-[hsl(var(--optimind-glow))] mb-2 block">{category}</span>
-        <h3 className="text-xl font-semibold mb-1 text-foreground">{title}</h3>
-        {subtitle && <h4 className="text-md font-medium mb-2 text-muted-foreground">{subtitle}</h4>}
-        <p className="text-muted-foreground text-sm">{description}</p>
+      <div className="mt-5 flex items-baseline justify-between gap-4 border-t hairline pt-4">
+        <div>
+          <h3 className="display-serif text-2xl md:text-3xl font-light leading-tight">
+            {title}
+            {subtitle && <span className="italic text-foreground/60"> — {subtitle}</span>}
+          </h3>
+          <p className="mt-2 text-sm text-foreground/70 leading-relaxed max-w-md">{description}</p>
+        </div>
+        <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground shrink-0 whitespace-nowrap">
+          {category}
+        </span>
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -62,38 +76,29 @@ const ProjectsPage: React.FC = () => {
         path="/projects"
       />
       <Navbar />
-      <div className="pt-32">
-        <section className="section-padding relative z-10">
-          <div className="container mx-auto">
-            <div className="text-center mb-16 animate-fade-in">
-              <div className="inline-block px-4 py-1 mb-4 rounded-full bg-[hsl(var(--optimind-glow)/0.1)]">
-                <span className="text-[hsl(var(--optimind-glow))] text-sm font-medium">Nos Projets</span>
-              </div>
-              <h2 className="text-3xl md:text-4xl optimind-heading mb-4 text-foreground">
-                RÉALISATIONS RÉCENTES
-              </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Découvrez quelques-uns de nos projets récents qui démontrent notre expertise et notre capacité à délivrer des solutions innovantes.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project) => (
-                <ProjectCard 
-                  key={project.id}
-                  id={project.id}
-                  title={project.title}
-                  subtitle={project.subtitle}
-                  category={project.category}
-                  description={project.description}
-                  image={project.image}
-                  delay={project.delay}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      </div>
+      <PageHero
+        index="03"
+        kicker="Réalisations récentes"
+        title={<>Des projets, <span className="italic">une matière.</span></>}
+        lede="Une sélection de missions menées au Bénin et en Afrique de l'Ouest — urbanisme, cartographie SIG, identité visuelle, IA appliquée."
+        meta={`${String(projects.length).padStart(2, '0')} projets`}
+      />
+      <section className="section-x section-y">
+        <div className="grid grid-cols-12 gap-x-6 gap-y-16 md:gap-y-24">
+          {projects.map((project, i) => (
+            <ProjectCard
+              key={project.id}
+              id={project.id}
+              index={i}
+              title={project.title}
+              subtitle={project.subtitle}
+              category={project.category}
+              description={project.description}
+              image={project.image}
+            />
+          ))}
+        </div>
+      </section>
       <Footer />
     </OptimindLayout>
   );

@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import Services from '@/components/Services';
 import OptimindLayout from '@/components/OptimindLayout';
 import SEO from '@/components/SEO';
+import PageHero from '@/components/PageHero';
 
 const ServicesPage: React.FC = () => {
   useEffect(() => {
@@ -19,9 +20,13 @@ const ServicesPage: React.FC = () => {
         path="/services"
       />
       <Navbar />
-      <div className="pt-32 pb-16">
-        <Services />
-      </div>
+      <PageHero
+        index="01"
+        kicker="Catalogue des services"
+        title={<>Six expertises,<br /><span className="italic">une seule signature.</span></>}
+        lede="Design graphique, stratégie de marque, web, cartographie SIG, arpentage et conseil IA — orchestrés par un guichet unique au service de vos projets."
+      />
+      <Services />
       <Footer />
     </OptimindLayout>
   );

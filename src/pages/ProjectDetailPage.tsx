@@ -59,28 +59,41 @@ const ProjectDetailPage: React.FC = () => {
         }}
       />
       <Navbar />
-      
-      <div className="pt-32 pb-16">
-        <div className="container mx-auto px-4 md:px-6">
-          <Link to="/projects" className="inline-flex items-center text-[hsl(var(--optimind-glow))] hover:opacity-80 mb-6 text-sm uppercase tracking-wider">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Retour aux projets
-          </Link>
-          
-          <div className="optimind-service-card rounded-2xl overflow-hidden animate-fade-in p-0">
-            {/* Gallery */}
-            <div className="relative h-64 md:h-96 overflow-hidden">
+
+      <div className="pt-24 sm:pt-28 md:pt-32 section-x pb-16 sm:pb-24">
+        <Link to="/projects" className="inline-flex items-center mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hover:text-foreground transition-colors mb-10">
+          <ArrowLeft className="mr-2 h-3.5 w-3.5" /> Retour aux projets
+        </Link>
+
+        {/* Editorial title block */}
+        <div className="grid grid-cols-12 gap-4 mb-10 sm:mb-14 items-end border-b hairline-strong pb-10">
+          <div className="col-span-12 md:col-span-2 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            <div className="text-[hsl(var(--tangerine))] mb-2">§ {project.category}</div>
+            <div className="tabular-nums">N° {String(project.id).padStart(3, '0')}</div>
+          </div>
+          <div className="col-span-12 md:col-span-10">
+            <h1 className="display-serif fluid-display-lg font-light leading-[0.9] tracking-[-0.03em]">
+              {project.title}
+              {project.subtitle && <span className="italic text-foreground/55"> — {project.subtitle}</span>}
+            </h1>
+          </div>
+        </div>
+
+        <div className="animate-fade-in">
+            {/* Gallery — full-bleed */}
+            <div className="relative h-72 sm:h-[420px] md:h-[560px] overflow-hidden bg-foreground">
               <img 
                 src={current.src}
                 alt={current.caption || project.title}
                 className="w-full h-full object-cover transition-opacity duration-300" 
               />
               {(current.caption || current.description) && (
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4 md:p-6 pt-10 text-white">
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[hsl(var(--ink))/0.9] via-[hsl(var(--ink))/0.5] to-transparent p-4 md:p-8 pt-12 text-[hsl(var(--cream))]">
                   {current.caption && (
-                    <div className="text-sm md:text-base font-semibold leading-tight">{current.caption}</div>
+                    <div className="display-serif text-lg md:text-2xl leading-tight">{current.caption}</div>
                   )}
                   {current.description && (
-                    <p className="text-xs md:text-sm text-white/80 mt-1 max-w-3xl">{current.description}</p>
+                    <p className="text-xs md:text-sm text-[hsl(var(--cream))/0.8] mt-2 max-w-3xl leading-relaxed">{current.description}</p>
                   )}
                 </div>
               )}
@@ -88,101 +101,103 @@ const ProjectDetailPage: React.FC = () => {
                 <>
                   <button 
                     onClick={() => setActiveImage(i => (i - 1 + gallery.length) % gallery.length)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-[hsl(var(--cream))/0.95] text-foreground p-2 rounded-full hover:bg-[hsl(var(--tangerine))] transition-colors"
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
                   <button 
                     onClick={() => setActiveImage(i => (i + 1) % gallery.length)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-[hsl(var(--cream))/0.95] text-foreground p-2 rounded-full hover:bg-[hsl(var(--tangerine))] transition-colors"
                   >
                     <ChevronRight className="w-5 h-5" />
                   </button>
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
-                    {gallery.map((_, i) => (
-                      <button 
-                        key={i}
-                        onClick={() => setActiveImage(i)}
-                        className={`w-2 h-2 rounded-full transition-colors ${i === activeImage ? 'bg-white' : 'bg-white/40'}`}
-                      />
-                    ))}
+                  <div className="absolute top-4 right-4 mono text-[10px] uppercase tracking-[0.25em] text-[hsl(var(--cream))] tabular-nums">
+                    {String(activeImage + 1).padStart(2, '0')} / {String(gallery.length).padStart(2, '0')}
                   </div>
                 </>
               )}
             </div>
-            
-            <div className="p-6 md:p-10">
-              <div className="mb-6">
-                <span className="text-xs font-medium text-[hsl(var(--optimind-glow))] mb-2 block uppercase tracking-wider">{project.category}</span>
-                <h1 className="text-2xl md:text-3xl font-semibold mb-2 text-foreground">{project.title}</h1>
-                {project.subtitle && <h2 className="text-lg md:text-xl font-medium mb-4 text-muted-foreground">{project.subtitle}</h2>}
-              </div>
-              
-              <p className="text-muted-foreground leading-relaxed mb-8">{project.description}</p>
 
-              {/* Services utilisés */}
-              <div className="mb-8">
-                <h3 className="text-lg font-semibold mb-4 text-foreground uppercase tracking-wider">Services mobilisés</h3>
-                <div className="flex flex-wrap gap-2">
-                  {project.services.map((service, i) => (
-                    <span key={i} className="px-4 py-1.5 rounded-full bg-[hsl(var(--optimind-glow)/0.1)] text-[hsl(var(--optimind-glow))] text-sm font-medium">
-                      {service}
-                    </span>
-                  ))}
-                </div>
+            {/* Editorial body */}
+            <div className="grid grid-cols-12 gap-6 mt-14 md:mt-20">
+              <div className="col-span-12 md:col-span-5">
+                <span className="ticker-tag">§ Synopsis</span>
+                <p className="display-serif text-2xl md:text-3xl font-light leading-snug mt-5">
+                  {project.description}
+                </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <div className="col-span-12 md:col-span-6 md:col-start-7 md:mt-12 space-y-12">
                 <div>
-                  <h3 className="text-lg font-semibold mb-4 text-foreground uppercase tracking-wider">Objectifs</h3>
-                  <ul className="space-y-3">
-                    {project.objectives.map((obj, i) => (
-                      <li key={i} className="flex items-start gap-3 text-muted-foreground text-sm">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--optimind-glow))] mt-2 flex-shrink-0" />
-                        {obj}
-                      </li>
+                  <div className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-4 pb-3 border-b hairline">§ Services mobilisés</div>
+                  <div className="flex flex-wrap gap-2">
+                    {project.services.map((s, i) => (
+                      <span key={i} className="px-3 py-1.5 border hairline-strong mono text-[10px] uppercase tracking-[0.18em] text-foreground rounded-full">
+                        {s}
+                      </span>
                     ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-4 text-foreground uppercase tracking-wider">Technologies</h3>
-                  <ul className="space-y-3">
-                    {project.technologies.map((tech, i) => (
-                      <li key={i} className="flex items-start gap-3 text-muted-foreground text-sm">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--optimind-glow))] mt-2 flex-shrink-0" />
-                        {tech}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Testimonial */}
-              {project.testimonial && (
-                <div className="border border-[hsl(var(--border))] rounded-2xl p-6 md:p-8 mb-8 bg-[hsl(var(--secondary))]">
-                  <Quote className="w-8 h-8 text-[hsl(var(--optimind-glow))] mb-4 opacity-50" />
-                  <blockquote className="text-foreground italic leading-relaxed mb-4">
-                    "{project.testimonial.quote}"
-                  </blockquote>
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{project.testimonial.author}</p>
-                    <p className="text-xs text-muted-foreground">{project.testimonial.role}</p>
                   </div>
                 </div>
-              )}
-              
-              <div className="mt-8">
-                <h3 className="text-lg font-semibold mb-4 text-foreground">Vous avez un projet similaire ?</h3>
-                <Link to="/contact">
-                  <Button className="bg-foreground text-[hsl(var(--optimind-card))] hover:opacity-90 rounded-full px-8 uppercase tracking-wider text-sm">
-                    Contactez-nous
-                  </Button>
+
+                <div className="grid grid-cols-2 gap-8">
+                  <div>
+                    <div className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-4 pb-3 border-b hairline">§ Objectifs</div>
+                    <ul className="space-y-3">
+                      {project.objectives.map((obj, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm text-foreground/80 leading-relaxed">
+                          <span className="mono text-[10px] tabular-nums text-[hsl(var(--tangerine))] mt-1">{String(i+1).padStart(2,'0')}</span>
+                          <span>{obj}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <div className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-4 pb-3 border-b hairline">§ Technologies</div>
+                    <ul className="space-y-3">
+                      {project.technologies.map((t, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm text-foreground/80 leading-relaxed">
+                          <span className="mono text-[10px] tabular-nums text-[hsl(var(--tangerine))] mt-1">{String(i+1).padStart(2,'0')}</span>
+                          <span>{t}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial — editorial pull-quote */}
+            {project.testimonial && (
+              <div className="mt-20 md:mt-28 grid grid-cols-12 gap-6 border-t hairline-strong pt-12">
+                <div className="col-span-12 md:col-span-2 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                  § Témoignage
+                </div>
+                <div className="col-span-12 md:col-span-9 md:col-start-3">
+                  <Quote className="w-10 h-10 text-[hsl(var(--tangerine))] mb-6" strokeWidth={1.2} />
+                  <blockquote className="display-serif text-2xl md:text-4xl font-light italic leading-tight">
+                    « {project.testimonial.quote} »
+                  </blockquote>
+                  <div className="mt-8 flex items-baseline gap-4 border-t hairline pt-5">
+                    <p className="display-serif text-lg">{project.testimonial.author}</p>
+                    <p className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">{project.testimonial.role}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* CTA */}
+            <div className="mt-20 md:mt-28 grid grid-cols-12 gap-6 items-end border-t hairline-strong pt-12">
+              <h3 className="col-span-12 md:col-span-7 display-serif text-3xl md:text-5xl font-light leading-tight">
+                Vous avez un projet <span className="italic">similaire ?</span>
+              </h3>
+              <div className="col-span-12 md:col-span-4 md:col-start-9 md:text-right">
+                <Link to="/contact" className="btn-ink">
+                  Démarrer la conversation
                 </Link>
               </div>
             </div>
           </div>
         </div>
-      </div>
       
       <Footer />
     </OptimindLayout>
