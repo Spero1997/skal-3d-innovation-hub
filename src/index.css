@@ -189,6 +189,14 @@
   100% { transform: translateY(-50%); }
 }
 
+.vertical-marquee {
+  animation: marquee-y 28s linear infinite;
+}
+.writing-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
 /* Legal document body — restore list/strong styling inside prose-legal */
 .prose-legal strong { color: hsl(var(--foreground)); font-weight: 500; }
 .prose-legal ul { list-style: none; padding: 0; margin: 0; }
