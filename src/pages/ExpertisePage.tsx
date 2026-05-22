@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import { BrainCircuit, Layers, Medal, Target, Lightbulb, Users } from 'lucide-react';
 import OptimindLayout from '@/components/OptimindLayout';
 import SEO from '@/components/SEO';
+import PageHero from '@/components/PageHero';
 
 const expertiseList = [
   {
@@ -46,24 +47,30 @@ const expertiseList = [
 ];
 
 const ExpertiseCard: React.FC<{
+  index: number;
   icon: JSX.Element;
   title: string;
   description: string;
-  delay: number;
-}> = ({ icon, title, description, delay }) => {
+}> = ({ index, icon, title, description }) => {
+  const num = String(index + 1).padStart(2, '0');
   return (
-    <div 
-      className="optimind-service-card animate-fade-in"
-      style={{ 
-        animationDelay: `${delay}s`,
-      }}
-    >
-      <div className="mb-4 p-3 rounded-lg bg-[hsl(var(--optimind-glow)/0.1)] inline-block text-[hsl(var(--optimind-glow))]">
-        {icon}
+    <article className="group relative py-10 sm:py-12 border-t hairline-strong">
+      <div className="grid grid-cols-12 gap-4 sm:gap-6 items-start">
+        <div className="col-span-2 md:col-span-1 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground tabular-nums pt-2">
+          {num}
+        </div>
+        <div className="col-span-10 md:col-span-1 text-[hsl(var(--tangerine))]">
+          {icon}
+        </div>
+        <h3 className="col-span-12 md:col-span-6 display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[0.95]">
+          {title}
+        </h3>
+        <p className="col-span-12 md:col-span-4 text-sm md:text-base text-foreground/70 leading-relaxed md:pt-3">
+          {description}
+        </p>
       </div>
-      <h3 className="text-xl font-semibold mb-3 text-foreground">{title}</h3>
-      <p className="text-muted-foreground">{description}</p>
-    </div>
+      <div className="absolute left-0 right-0 -top-px h-px bg-[hsl(var(--tangerine))] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
+    </article>
   );
 };
 
@@ -80,35 +87,19 @@ const ExpertisePage: React.FC = () => {
         path="/expertise"
       />
       <Navbar />
-      <div className="pt-32">
-        <section className="section-padding relative z-10">
-          <div className="container mx-auto">
-            <div className="text-center mb-16 animate-fade-in">
-              <div className="inline-block px-4 py-1 mb-4 rounded-full bg-[hsl(var(--optimind-glow)/0.1)]">
-                <span className="text-[hsl(var(--optimind-glow))] text-sm font-medium">Notre Expertise</span>
-              </div>
-              <h2 className="text-3xl md:text-4xl optimind-heading mb-4 text-foreground">
-                DOMAINES DE SPÉCIALISATION
-              </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Notre équipe d'experts vous apporte des compétences pointues dans plusieurs domaines techniques et stratégiques pour répondre à vos besoins les plus exigeants.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {expertiseList.map((expertise, index) => (
-                <ExpertiseCard 
-                  key={index}
-                  icon={expertise.icon}
-                  title={expertise.title}
-                  description={expertise.description}
-                  delay={expertise.delay}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      </div>
+      <PageHero
+        index="02"
+        kicker="Domaines de spécialisation"
+        title={<>Une expertise <span className="italic">pluridisciplinaire,</span><br />pensée pour les projets exigeants.</>}
+        lede="IA, cartographie de précision, design primé, géolocalisation centimétrique, web et conseil stratégique — autant de leviers que nous mobilisons sur chaque mission."
+      />
+      <section className="section-x section-y">
+        <div className="border-b hairline-strong">
+          {expertiseList.map((e, i) => (
+            <ExpertiseCard key={i} index={i} icon={e.icon} title={e.title} description={e.description} />
+          ))}
+        </div>
+      </section>
       <Footer />
     </OptimindLayout>
   );
