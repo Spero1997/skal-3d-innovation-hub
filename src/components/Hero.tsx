@@ -86,13 +86,17 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Vertical discipline marquee — visible md+ */}
-        <div className="hidden md:flex md:col-span-1 md:col-start-12 justify-end overflow-hidden">
-          <div className="h-44 overflow-hidden relative">
-            <div className="vertical-marquee mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground writing-vertical">
+        <div className="hidden md:flex md:col-span-2 md:col-start-11 justify-end items-start">
+          <div className="h-48 w-full overflow-hidden relative border-l hairline-strong pl-4">
+            <div className="vertical-marquee mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
               {[...DISCIPLINES, ...DISCIPLINES].map((d, i) => (
-                <span key={i} className="block py-3 whitespace-nowrap">— {d}</span>
+                <span key={i} className="block py-2.5 whitespace-nowrap">
+                  <span className="text-[hsl(var(--tangerine))] mr-2">—</span>{d}
+                </span>
               ))}
             </div>
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-background to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-background to-transparent" />
           </div>
         </div>
       </div>
