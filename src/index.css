@@ -190,11 +190,7 @@
 }
 
 .vertical-marquee {
-  animation: marquee-y 28s linear infinite;
-}
-.writing-vertical {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
+  animation: marquee-y 22s linear infinite;
 }
 
 /* Legal document body — restore list/strong styling inside prose-legal */
