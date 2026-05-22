@@ -184,6 +184,29 @@
   100% { transform: translateX(-50%); }
 }
 
+@keyframes marquee-y {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+/* Legal document body — restore list/strong styling inside prose-legal */
+.prose-legal strong { color: hsl(var(--foreground)); font-weight: 500; }
+.prose-legal ul { list-style: none; padding: 0; margin: 0; }
+.prose-legal ul li {
+  position: relative;
+  padding-left: 1.25rem;
+  margin-top: 0.5rem;
+}
+.prose-legal ul li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.7em;
+  width: 6px; height: 1px;
+  background: hsl(var(--tangerine));
+}
+.prose-legal a { color: hsl(var(--foreground)); border-bottom: 1px solid hsl(var(--tangerine)); transition: color .3s; }
+.prose-legal a:hover { color: hsl(var(--tangerine)); }
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
