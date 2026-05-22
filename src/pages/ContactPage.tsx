@@ -19,7 +19,7 @@ const ContactPage: React.FC = () => {
         path="/contact"
       />
       <Navbar />
-      <div className="pt-32 pb-0">
+      <div className="pt-24 sm:pt-28 md:pt-32">
         <Contact />
       </div>
       <Footer />
