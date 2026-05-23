@@ -62,38 +62,44 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Asymmetric stats — staggered vertical offsets */}
-        <div className="col-span-12 md:col-span-3 md:col-start-7 grid grid-cols-3 gap-3 sm:gap-5">
-          <Stat n="120+" label="Projets livrés" offset="" />
-          <Stat n="48h" label="Délai devis" offset="mt-8 md:mt-14" />
-          <Stat n="06" label="Disciplines" offset="mt-4 md:mt-6" />
+        {/* Stats — vertical stacked column */}
+        <div className="col-span-6 md:col-span-2 md:col-start-7 flex flex-col gap-8 md:gap-12 pt-2">
+          <StatStacked n="120" suffix="+" label="Projets livrés" />
+          <StatStacked n="48" suffix="h" label="Délai devis" dot />
+          <StatStacked n="06" label="Disciplines" />
         </div>
 
-        {/* Vertical discipline marquee — visible md+ */}
-        <div className="hidden md:flex md:col-span-3 md:col-start-10 justify-end items-start">
-          <div className="h-48 w-full relative border-l hairline-strong pl-4 overflow-y-hidden overflow-x-visible">
-            <div className="vertical-marquee mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+        {/* Spacious vertical discipline marquee */}
+        <div className="col-span-6 md:col-span-4 md:col-start-9 relative h-72 md:h-[440px] overflow-hidden border-l hairline">
+          <div
+            className="absolute inset-0"
+            style={{
+              maskImage: 'linear-gradient(to bottom, transparent, black 18%, black 82%, transparent)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 18%, black 82%, transparent)',
+            }}
+          >
+            <div className="vertical-marquee flex flex-col gap-10 md:gap-14 pl-6 md:pl-10 pt-4">
               {[...DISCIPLINES, ...DISCIPLINES].map((d, i) => (
-                <span key={i} className="flex items-center gap-2 py-2.5 whitespace-nowrap">
-                  {shortDisciplineImages[d] ? (
-                    <span className="relative w-5 h-5 shrink-0 overflow-hidden rounded-full border hairline">
+                <div key={i} className="group flex items-center gap-5 whitespace-nowrap">
+                  <span className="w-11 h-11 shrink-0 rounded-full overflow-hidden border hairline p-[2px] transition-colors duration-500 group-hover:border-[hsl(var(--tangerine))]">
+                    {shortDisciplineImages[d] ? (
                       <img
                         src={shortDisciplineImages[d]}
                         alt=""
                         aria-hidden
                         loading="lazy"
-                        className="w-full h-full object-cover grayscale"
+                        className="w-full h-full object-cover rounded-full grayscale transition-all duration-500 group-hover:grayscale-0"
                       />
-                    </span>
-                  ) : (
-                    <span className="text-[hsl(var(--tangerine))]">—</span>
-                  )}
-                  {d}
-                </span>
+                    ) : (
+                      <span className="block w-full h-full rounded-full bg-[hsl(var(--tangerine-soft))]" />
+                    )}
+                  </span>
+                  <span className="mono text-[11px] md:text-xs font-medium uppercase tracking-[0.28em] text-foreground transition-colors duration-500 group-hover:text-[hsl(var(--tangerine))]">
+                    {d}
+                  </span>
+                </div>
               ))}
             </div>
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-background to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-background to-transparent" />
           </div>
         </div>
       </div>
@@ -178,13 +184,20 @@ const TitleLine: React.FC<{ n: string; word: React.ReactNode; italic?: boolean }
   </div>
 );
 
-const Stat: React.FC<{ n: string; label: string; offset: string }> = ({ n, label, offset }) => (
-  <div className={`border-t hairline-strong pt-3 ${offset}`}>
-    <div className="display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-none">
-      {n}
-      <span className="text-[hsl(var(--tangerine))]">.</span>
+const StatStacked: React.FC<{ n: string; label: string; suffix?: string; dot?: boolean }> = ({ n, label, suffix, dot }) => (
+  <div className="flex flex-col">
+    <div className="flex items-baseline">
+      <span className="display-serif text-5xl md:text-6xl lg:text-7xl font-light text-foreground leading-none">
+        {n}
+      </span>
+      {suffix && (
+        <span className="display-serif text-3xl md:text-4xl font-light ml-1 leading-none" style={{ color: suffix === '+' ? 'hsl(var(--tangerine))' : undefined }}>
+          {suffix}
+        </span>
+      )}
+      {dot && <span className="w-2 h-2 rounded-full bg-[hsl(var(--tangerine))] ml-2 mb-2 self-end" />}
     </div>
-    <div className="mono text-[9px] uppercase tracking-[0.22em] text-muted-foreground mt-2">{label}</div>
+    <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground mt-3">{label}</span>
   </div>
 );
 
