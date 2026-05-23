@@ -5,6 +5,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { disciplines } from '@/data/disciplines';
 import { domains } from '@/data/domains';
 import AutoVideo from './media/AutoVideo';
+import { disciplineImages, domainImages } from '@/assets/disciplines';
 
 const Services: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -52,24 +53,37 @@ const Services: React.FC = () => {
               >
                 <Link
                   to={`/domaines/${d.slug}`}
-                  className="group relative h-full w-full border hairline-strong p-6 sm:p-8 md:p-10 bg-[hsl(var(--cream))] hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-700 cursor-pointer flex flex-col overflow-hidden"
+                  className="group relative h-full w-full border hairline-strong p-6 sm:p-8 md:p-10 bg-[hsl(var(--cream))] text-foreground hover:text-[hsl(var(--cream))] transition-colors duration-700 cursor-pointer flex flex-col overflow-hidden"
                 >
+                  {/* Background photo — fades in on hover */}
+                  {domainImages[d.slug] && (
+                    <>
+                      <img
+                        src={domainImages[d.slug]}
+                        alt=""
+                        aria-hidden
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700 grayscale contrast-110"
+                      />
+                      <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/75 transition-colors duration-700" />
+                    </>
+                  )}
                   {/* corner accent */}
                   <span
                     aria-hidden
-                    className="absolute top-0 left-0 w-8 h-px bg-[hsl(var(--tangerine))] transition-all duration-700 group-hover:w-full"
+                    className="absolute top-0 left-0 w-8 h-px bg-[hsl(var(--tangerine))] transition-all duration-700 group-hover:w-full z-10"
                   />
-                  <div className="flex items-start justify-between">
+                  <div className="relative z-10 flex items-start justify-between">
                     <span className="mono text-[10px] uppercase tracking-[0.3em] opacity-60 tabular-nums">
                       {d.num} / 04{d.flagship ? ' · ★' : ''}
                     </span>
                     <ArrowUpRight className="w-5 h-5 opacity-40 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all duration-500" />
                   </div>
-                  <DIcon className={`${isLarge ? 'w-10 h-10 md:w-12 md:h-12' : 'w-8 h-8'} mt-6 stroke-[1.1] text-[hsl(var(--tangerine))]`} />
-                  <h3 className={`display-serif font-light mt-auto pt-8 leading-[0.92] tracking-tight ${isLarge ? 'text-4xl sm:text-5xl md:text-6xl' : 'text-2xl sm:text-3xl md:text-4xl'}`}>
+                  <DIcon className={`relative z-10 ${isLarge ? 'w-10 h-10 md:w-12 md:h-12' : 'w-8 h-8'} mt-6 stroke-[1.1] text-[hsl(var(--tangerine))]`} />
+                  <h3 className={`relative z-10 display-serif font-light mt-auto pt-8 leading-[0.92] tracking-tight ${isLarge ? 'text-4xl sm:text-5xl md:text-6xl' : 'text-2xl sm:text-3xl md:text-4xl'}`}>
                     {d.title}
                   </h3>
-                  <p className={`mt-4 leading-relaxed opacity-70 group-hover:opacity-90 ${isLarge ? 'text-base max-w-md' : 'text-sm max-w-xs'}`}>
+                  <p className={`relative z-10 mt-4 leading-relaxed opacity-70 group-hover:opacity-90 ${isLarge ? 'text-base max-w-md' : 'text-sm max-w-xs'}`}>
                     {d.tagline}
                   </p>
                 </Link>
@@ -124,14 +138,27 @@ const Services: React.FC = () => {
               <Link
                 to={`/services/${s.slug}`}
                 aria-label={`En savoir plus sur ${s.title}`}
-                className="group relative border hairline rounded-md p-5 sm:p-6 bg-[hsl(var(--cream))] hover:bg-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500 cursor-pointer min-h-[240px] sm:min-h-[260px] flex flex-col h-full"
+                className="group relative overflow-hidden border hairline rounded-md bg-[hsl(var(--cream))] text-foreground hover:text-[hsl(var(--cream))] transition-colors duration-500 cursor-pointer min-h-[280px] sm:min-h-[320px] flex flex-col h-full"
               >
+              {/* Thumbnail strip on top */}
+              {disciplineImages[s.slug] && (
+                <div className="relative h-32 sm:h-36 w-full overflow-hidden border-b hairline">
+                  <img
+                    src={disciplineImages[s.slug]}
+                    alt={s.title}
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                  />
+                  <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/0 transition-colors duration-500" />
+                </div>
+              )}
+              <div className="relative z-10 flex-1 p-5 sm:p-6 flex flex-col group-hover:bg-foreground transition-colors duration-500">
               <div className="flex items-start justify-between">
                 <span className="mono text-[10px] uppercase tracking-[0.25em] opacity-60">{s.num} / 06</span>
                 <ArrowUpRight className="w-5 h-5 opacity-40 group-hover:opacity-100 group-hover:rotate-45 transition-all duration-500" />
               </div>
 
-              <Icon className="w-6 h-6 sm:w-7 sm:h-7 mt-6 sm:mt-8 stroke-[1.2] text-[hsl(var(--tangerine))]" />
+              <Icon className="w-6 h-6 sm:w-7 sm:h-7 mt-4 sm:mt-6 stroke-[1.2] text-[hsl(var(--tangerine))]" />
 
               <h3 className="display-serif text-2xl sm:text-3xl md:text-4xl font-normal mt-auto pt-6 leading-[0.95]">
                 {s.title}
@@ -141,6 +168,7 @@ const Services: React.FC = () => {
               </p>
               <div className="mt-4 mono text-[10px] uppercase tracking-[0.25em] opacity-50">
                 / {s.tag}
+              </div>
               </div>
               </Link>
             </motion.div>
