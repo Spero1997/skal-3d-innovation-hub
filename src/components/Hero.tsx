@@ -63,7 +63,7 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Asymmetric stats — staggered vertical offsets */}
-        <div className="col-span-12 md:col-span-4 md:col-start-7 grid grid-cols-3 gap-3 sm:gap-5">
+        <div className="col-span-12 md:col-span-3 md:col-start-7 grid grid-cols-3 gap-3 sm:gap-5">
           <Stat n="120+" label="Projets livrés" offset="" />
           <Stat n="48h" label="Délai devis" offset="mt-8 md:mt-14" />
           <Stat n="06" label="Disciplines" offset="mt-4 md:mt-6" />
