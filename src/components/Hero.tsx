@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDownRight, Asterisk, MapPin } from 'lucide-react';
 import LiveClock from './LiveClock';
 import { Scene3D } from './Scene3D';
+import { shortDisciplineImages } from '@/assets/disciplines';
 
 const DISCIPLINES = [
   'Architecture & BTP',
@@ -73,8 +74,21 @@ const Hero: React.FC = () => {
           <div className="h-48 w-full overflow-hidden relative border-l hairline-strong pl-4">
             <div className="vertical-marquee mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
               {[...DISCIPLINES, ...DISCIPLINES].map((d, i) => (
-                <span key={i} className="block py-2.5 whitespace-nowrap">
-                  <span className="text-[hsl(var(--tangerine))] mr-2">—</span>{d}
+                <span key={i} className="flex items-center gap-2 py-2.5 whitespace-nowrap">
+                  {shortDisciplineImages[d] ? (
+                    <span className="relative w-5 h-5 shrink-0 overflow-hidden rounded-full border hairline">
+                      <img
+                        src={shortDisciplineImages[d]}
+                        alt=""
+                        aria-hidden
+                        loading="lazy"
+                        className="w-full h-full object-cover grayscale"
+                      />
+                    </span>
+                  ) : (
+                    <span className="text-[hsl(var(--tangerine))]">—</span>
+                  )}
+                  {d}
                 </span>
               ))}
             </div>

@@ -6,6 +6,16 @@ import { BrainCircuit, Layers, Medal, Target, Lightbulb, Users } from 'lucide-re
 import OptimindLayout from '@/components/OptimindLayout';
 import SEO from '@/components/SEO';
 import PageHero from '@/components/PageHero';
+import { disciplineImages } from '@/assets/disciplines';
+
+const expertiseImages = [
+  disciplineImages['conseil-ia'],
+  disciplineImages['cartographie-sig'],
+  disciplineImages['design-graphique'],
+  disciplineImages['arpentage'],
+  disciplineImages['web-application'],
+  disciplineImages['strategie-de-marque'],
+];
 
 const expertiseList = [
   {
@@ -53,6 +63,7 @@ const ExpertiseCard: React.FC<{
   description: string;
 }> = ({ index, icon, title, description }) => {
   const num = String(index + 1).padStart(2, '0');
+  const image = expertiseImages[index];
   return (
     <article className="group relative py-10 sm:py-12 border-t hairline-strong">
       <div className="grid grid-cols-12 gap-4 sm:gap-6 items-start">
@@ -62,12 +73,25 @@ const ExpertiseCard: React.FC<{
         <div className="col-span-10 md:col-span-1 text-[hsl(var(--tangerine))]">
           {icon}
         </div>
-        <h3 className="col-span-12 md:col-span-6 display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[0.95]">
+        <h3 className="col-span-12 md:col-span-5 display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[0.95]">
           {title}
         </h3>
-        <p className="col-span-12 md:col-span-4 text-sm md:text-base text-foreground/70 leading-relaxed md:pt-3">
+        <p className="col-span-12 md:col-span-3 text-sm md:text-base text-foreground/70 leading-relaxed md:pt-3">
           {description}
         </p>
+        {image && (
+          <div className="col-span-12 md:col-span-2 mt-4 md:mt-0">
+            <div className="relative aspect-[4/3] w-full overflow-hidden border hairline">
+              <img
+                src={image}
+                alt=""
+                aria-hidden
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+              />
+            </div>
+          </div>
+        )}
       </div>
       <div className="absolute left-0 right-0 -top-px h-px bg-[hsl(var(--tangerine))] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
     </article>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Lock } from 'lucide-react';
 import skalLogo from '@/assets/skal-logo.png';
 import LiveClock from './LiveClock';
+import { shortDisciplineImages } from '@/assets/disciplines';
 
 const disciplines = [
   'Architecture & BTP',
@@ -47,7 +48,18 @@ const Footer: React.FC = () => {
           </div>
           <ul className="space-y-3 display-serif text-lg sm:text-xl font-light leading-tight">
             {disciplines.map((d, i) => (
-              <li key={d} className="flex items-baseline gap-3">
+              <li key={d} className="group flex items-center gap-3">
+                {shortDisciplineImages[d] && (
+                  <span className="relative w-9 h-9 shrink-0 overflow-hidden rounded-full border border-[hsl(var(--cream))/0.15]">
+                    <img
+                      src={shortDisciplineImages[d]}
+                      alt=""
+                      aria-hidden
+                      loading="lazy"
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
+                    />
+                  </span>
+                )}
                 <span className="mono text-[10px] tabular-nums text-[hsl(var(--cream))/0.4]">0{i + 1}</span>
                 <span>{d}</span>
               </li>
