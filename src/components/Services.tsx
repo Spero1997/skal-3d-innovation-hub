@@ -22,9 +22,6 @@ const Services: React.FC = () => {
             <div className="mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground pb-3 border-b hairline-strong">
               § Disciplines
             </div>
-            <p className="mt-4 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground/70 tabular-nums">
-              04 — Domaines
-            </p>
           </div>
           <h2 className="col-span-12 md:col-span-8 md:col-start-4 display-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light leading-[0.92] tracking-tight">
             Quatre expertises,<br />
@@ -74,8 +71,8 @@ const Services: React.FC = () => {
                     className="absolute top-0 left-0 w-8 h-px bg-[hsl(var(--tangerine))] transition-all duration-700 group-hover:w-full z-10"
                   />
                   <div className="relative z-10 flex items-start justify-between">
-                    <span className="mono text-[10px] uppercase tracking-[0.3em] opacity-60 tabular-nums">
-                      {d.num} / 04{d.flagship ? ' · ★' : ''}
+                    <span className="mono text-[10px] uppercase tracking-[0.3em] opacity-60">
+                      {d.flagship ? '★ Phare' : '\u00A0'}
                     </span>
                     <ArrowUpRight className="w-5 h-5 opacity-40 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all duration-500" />
                   </div>
@@ -154,7 +151,7 @@ const Services: React.FC = () => {
               )}
               <div className="relative z-10 flex-1 p-5 sm:p-6 flex flex-col group-hover:bg-foreground transition-colors duration-500">
               <div className="flex items-start justify-between">
-                <span className="mono text-[10px] uppercase tracking-[0.25em] opacity-60">{s.num} / 06</span>
+                <span className="mono text-[10px] uppercase tracking-[0.25em] opacity-60">{s.tag}</span>
                 <ArrowUpRight className="w-5 h-5 opacity-40 group-hover:opacity-100 group-hover:rotate-45 transition-all duration-500" />
               </div>
 
@@ -166,9 +163,6 @@ const Services: React.FC = () => {
               <p className="text-sm mt-3 leading-relaxed opacity-70 group-hover:opacity-90">
                 {s.desc}
               </p>
-              <div className="mt-4 mono text-[10px] uppercase tracking-[0.25em] opacity-50">
-                / {s.tag}
-              </div>
               </div>
               </Link>
             </motion.div>

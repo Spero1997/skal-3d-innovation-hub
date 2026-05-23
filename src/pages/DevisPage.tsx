@@ -177,9 +177,9 @@ const DevisPage: React.FC = () => {
                 Plus votre brief est <span className="italic">précis</span>, plus notre retour le sera.
               </p>
               <ul className="mt-8 space-y-3 mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                <li className="flex gap-3 border-t hairline pt-3"><span className="text-[hsl(var(--tangerine))] tabular-nums">01</span> Réponse sous 48h</li>
-                <li className="flex gap-3 border-t hairline pt-3"><span className="text-[hsl(var(--tangerine))] tabular-nums">02</span> Sans engagement</li>
-                <li className="flex gap-3 border-t hairline pt-3"><span className="text-[hsl(var(--tangerine))] tabular-nums">03</span> Premier RDV offert</li>
+                <li className="flex gap-3 border-t hairline pt-3"><span className="text-[hsl(var(--tangerine))]">→</span> Réponse sous 48h</li>
+                <li className="flex gap-3 border-t hairline pt-3"><span className="text-[hsl(var(--tangerine))]">→</span> Sans engagement</li>
+                <li className="flex gap-3 border-t hairline pt-3"><span className="text-[hsl(var(--tangerine))]">→</span> Premier RDV offert</li>
               </ul>
             </aside>
 

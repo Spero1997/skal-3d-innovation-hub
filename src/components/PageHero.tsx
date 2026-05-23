@@ -15,7 +15,7 @@ const PageHero: React.FC<PageHeroProps> = ({ index, kicker, title, lede, meta })
       {/* Breadcrumb / index row */}
       <div className="grid grid-cols-12 gap-4 mb-10 sm:mb-14 items-baseline">
         <div className="col-span-6 md:col-span-4 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground tabular-nums">
-          <span className="text-[hsl(var(--tangerine))]">§</span> {index} — {kicker}
+          <span className="text-[hsl(var(--tangerine))]">§</span> {kicker}
         </div>
         <div className="col-span-6 md:col-span-4 md:col-start-9 md:text-right mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
           {meta ?? (
