@@ -22,23 +22,6 @@ const Hero: React.FC = () => {
 
   return (
     <section ref={ref} className="relative overflow-hidden">
-      {/* ── ROW 1 — Editorial colophon (no padding-top, sits just under navbar) ── */}
-      <div className="section-x border-b hairline pt-8 sm:pt-12 pb-4 grid grid-cols-12 gap-4 items-baseline">
-        <div className="col-span-6 md:col-span-3 mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground tabular-nums">
-          <span className="text-[hsl(var(--tangerine))]">§</span> N° 001 — Édition 2026
-        </div>
-        <div className="hidden md:flex md:col-span-3 mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground items-center gap-2">
-          <MapPin className="w-3 h-3" />
-          Abomey-Calavi · 6.45°N / 2.36°E
-        </div>
-        <div className="col-span-6 md:col-span-3 md:text-center mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
-          <LiveClock />
-        </div>
-        <div className="hidden md:block md:col-span-3 mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground text-right">
-          Studio multidisciplinaire — Bénin
-        </div>
-      </div>
-
       {/* ── ROW 2 — Monumental editorial title with index numerals ── */}
       <div className="section-x pt-10 sm:pt-14 md:pt-20 pb-12 sm:pb-16">
         <motion.div style={{ y }} className="grid grid-cols-12 gap-x-3 sm:gap-x-6 gap-y-1">
