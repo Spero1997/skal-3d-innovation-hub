@@ -3,9 +3,9 @@ import { motion, useInView } from 'framer-motion';
 import AutoVideo from './media/AutoVideo';
 
 const principles = [
-  { n: '01', t: 'Précision', d: 'Chaque pixel, chaque coordonnée, chaque ligne de code à sa place.' },
-  { n: '02', t: 'Lenteur juste', d: 'Nous prenons le temps de comprendre avant de produire.' },
-  { n: '03', t: 'Transparence', d: 'Devis clair, points hebdomadaires, pas de surprises.' },
+  { t: 'Précision', d: 'Chaque pixel, chaque coordonnée, chaque ligne de code à sa place.' },
+  { t: 'Lenteur juste', d: 'Nous prenons le temps de comprendre avant de produire.' },
+  { t: 'Transparence', d: 'Devis clair, points hebdomadaires, pas de surprises.' },
 ];
 
 const AboutSection: React.FC = () => {
@@ -77,32 +77,20 @@ const AboutSection: React.FC = () => {
               § Principes
             </div>
             <p className="mt-4 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground/70">
-              03 — Méthode
+              Méthode
             </p>
           </div>
 
           {principles.map((p, i) => {
-            // Asymmetric column allocation everywhere: full bleed on mobile, 4/3/3 on tablet+
-            const spans = [
-              'col-span-11 sm:col-span-10 md:col-span-4',
-              'col-span-10 col-start-2 sm:col-span-9 sm:col-start-3 md:col-span-3 md:col-start-6 md:col-start-6',
-              'col-span-9 col-start-3 sm:col-span-8 sm:col-start-5 md:col-span-3 md:col-start-10',
-            ];
-            const offsets = ['mt-0', 'mt-10 sm:mt-14 md:mt-20', 'mt-10 sm:mt-14 md:mt-40'];
             return (
               <motion.div
-                key={p.n}
+                key={p.t}
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.15 + i * 0.12, ease: [0.2, 0.7, 0.2, 1] }}
-                className={`${spans[i]} ${offsets[i]} group`}
+                className="col-span-12 md:col-span-3 lg:col-span-3 group flex"
               >
-                <div className="border-t hairline-strong pt-4 sm:pt-5 transition-colors duration-500 group-hover:border-[hsl(var(--tangerine))]">
-                  <div className="flex items-baseline justify-between mb-6">
-                    <span className="display-serif italic text-5xl sm:text-6xl font-light text-foreground/15 group-hover:text-[hsl(var(--tangerine))] transition-colors duration-500 leading-none">
-                      {p.n}
-                    </span>
-                  </div>
+                <div className="w-full border-t hairline-strong pt-5 transition-colors duration-500 group-hover:border-[hsl(var(--tangerine))]">
                   <h3 className="display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[1] tracking-tight">
                     {p.t}.
                   </h3>
