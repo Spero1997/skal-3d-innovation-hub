@@ -30,9 +30,6 @@ const FAQ: React.FC = () => {
             Six questions essentielles avant de démarrer.
             Réponse personnalisée sous 48h pour le reste.
           </p>
-          <p className="mt-8 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground/70 tabular-nums">
-            06 — Réponses
-          </p>
         </div>
 
         <motion.div
@@ -45,16 +42,13 @@ const FAQ: React.FC = () => {
             {faqItems.map((item, i) => (
               <AccordionItem key={i} value={`item-${i}`} className="border-b hairline-strong">
                 <AccordionTrigger className="text-left py-6 sm:py-8 hover:no-underline group">
-                  <div className="grid grid-cols-12 gap-3 sm:gap-6 w-full items-baseline">
-                    <span className="col-span-2 sm:col-span-1 display-serif italic text-3xl sm:text-4xl font-light text-foreground/20 group-hover:text-[hsl(var(--tangerine))] transition-colors duration-500 tabular-nums leading-none">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <span className="col-span-10 sm:col-span-11 display-serif text-xl sm:text-3xl md:text-4xl font-light leading-[1.1] group-hover:text-[hsl(var(--tangerine))] transition-colors">
+                  <div className="w-full">
+                    <span className="block display-serif text-xl sm:text-3xl md:text-4xl font-light leading-[1.1] group-hover:text-[hsl(var(--tangerine))] transition-colors">
                       {item.q}
                     </span>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="text-sm sm:text-base text-foreground/70 leading-relaxed pl-10 sm:pl-[5.5rem] pr-2 pb-8">
+                <AccordionContent className="text-sm sm:text-base text-foreground/70 leading-relaxed pr-2 pb-8">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>

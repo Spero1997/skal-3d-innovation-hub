@@ -26,7 +26,7 @@ const LegalDocument: React.FC<LegalDocumentProps> = ({ index, kicker, title, upd
       <header className="section-x pt-24 sm:pt-28 md:pt-32 pb-10 sm:pb-14 border-b hairline-strong">
         <div className="grid grid-cols-12 gap-4 mb-8 items-baseline">
           <div className="col-span-6 md:col-span-4 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground tabular-nums">
-            <span className="text-[hsl(var(--tangerine))]">§</span> {index} — {kicker}
+            <span className="text-[hsl(var(--tangerine))]">§</span> {kicker}
           </div>
           <div className="col-span-6 md:col-span-4 md:col-start-9 md:text-right mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
             {updated ?? `Mise à jour : ${new Date().toLocaleDateString('fr-FR')}`}
@@ -50,7 +50,6 @@ const LegalDocument: React.FC<LegalDocumentProps> = ({ index, kicker, title, upd
                     href={`#sec-${i + 1}`}
                     className="flex gap-3 mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    <span className="text-[hsl(var(--tangerine))] tabular-nums">{String(i + 1).padStart(2, '0')}</span>
                     <span className="flex-1">{s.title}</span>
                   </a>
                 </li>
@@ -66,9 +65,6 @@ const LegalDocument: React.FC<LegalDocumentProps> = ({ index, kicker, title, upd
                 className="border-t hairline-strong first:border-t-0 first:pt-0 pt-10 md:pt-14 pb-10 md:pb-14 scroll-mt-24"
               >
                 <div className="flex items-baseline gap-4 mb-6">
-                  <span className="mono text-[10px] uppercase tracking-[0.25em] text-[hsl(var(--tangerine))] tabular-nums">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
                   <h2 className="display-serif text-2xl sm:text-3xl md:text-4xl font-light leading-tight">
                     {s.title}
                   </h2>

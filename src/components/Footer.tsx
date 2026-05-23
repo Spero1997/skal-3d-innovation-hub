@@ -60,7 +60,6 @@ const Footer: React.FC = () => {
                     />
                   </span>
                 )}
-                <span className="mono text-[10px] tabular-nums text-[hsl(var(--cream))/0.4]">0{i + 1}</span>
                 <span>{d}</span>
               </li>
             ))}

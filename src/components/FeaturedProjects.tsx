@@ -17,9 +17,6 @@ const FeaturedProjects: React.FC = () => {
           <div className="mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground pb-3 border-b hairline-strong">
             § Sélection 24—26
           </div>
-          <p className="mt-4 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground/70 tabular-nums">
-            04 — Travaux
-          </p>
         </div>
         <h2 className="col-span-12 md:col-span-8 md:col-start-4 display-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light leading-[0.88] tracking-tight">
           Travaux <span className="italic text-foreground/55">récents.</span>
@@ -65,10 +62,7 @@ const FeaturedProjects: React.FC = () => {
                     aria-hidden
                     className="absolute top-0 left-0 h-px w-0 bg-[hsl(var(--tangerine))] group-hover:w-full transition-all duration-700"
                   />
-                  <div className="col-span-2 sm:col-span-1 mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] opacity-60 tabular-nums self-start pt-2">
-                    {String(i + 1).padStart(2, '0')} / 04
-                  </div>
-                  <h3 className={`${titleSpan[i % titleSpan.length]} display-serif text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-light leading-[0.9] tracking-tight`}>
+                  <h3 className={`col-start-1 ${titleSpan[i % titleSpan.length]} display-serif text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-light leading-[0.9] tracking-tight`}>
                     {i % 2 === 1 ? <em className="italic font-light">{p.title}</em> : p.title}
                   </h3>
                   <div className="hidden md:block col-span-2 mono text-[10px] uppercase tracking-[0.25em] opacity-60 self-start pt-2">

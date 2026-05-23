@@ -62,15 +62,11 @@ const ExpertiseCard: React.FC<{
   title: string;
   description: string;
 }> = ({ index, icon, title, description }) => {
-  const num = String(index + 1).padStart(2, '0');
   const image = expertiseImages[index];
   return (
     <article className="group relative py-10 sm:py-12 border-t hairline-strong">
       <div className="grid grid-cols-12 gap-4 sm:gap-6 items-start">
-        <div className="col-span-2 md:col-span-1 mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground tabular-nums pt-2">
-          {num}
-        </div>
-        <div className="col-span-10 md:col-span-1 text-[hsl(var(--tangerine))]">
+        <div className="col-span-2 md:col-span-2 text-[hsl(var(--tangerine))]">
           {icon}
         </div>
         <h3 className="col-span-12 md:col-span-5 display-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[0.95]">

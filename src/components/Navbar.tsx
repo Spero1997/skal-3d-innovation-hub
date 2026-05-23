@@ -59,7 +59,6 @@ const Navbar: React.FC = () => {
                 data-active={active}
                 className="nav-link inline-flex items-center gap-2 py-2"
               >
-                <span className="opacity-40 text-[9px]">0{i + 1}</span>
                 {l.label}
               </Link>
             );
@@ -103,7 +102,6 @@ const Navbar: React.FC = () => {
                 className="group flex items-baseline gap-4 py-4 border-b hairline last:border-b-0"
                 style={{ paddingLeft: `${i * 12}px` }}
               >
-                <span className="mono text-[10px] tabular-nums text-muted-foreground/60">0{i + 1}</span>
                 <span className="display-serif text-4xl sm:text-5xl font-light leading-none group-hover:italic group-hover:text-[hsl(var(--tangerine))] transition-all duration-300">
                   {l.label}
                 </span>

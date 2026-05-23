@@ -111,21 +111,12 @@ const Hero: React.FC = () => {
 
           {/* Top-left chapter mark */}
           <div className="absolute top-6 left-4 sm:left-6 md:left-10 lg:left-14 xl:left-20 z-20 mono text-[10px] uppercase tracking-[0.3em] text-[hsl(var(--cream))/0.6]">
-            <span className="text-[hsl(var(--tangerine))]">§</span> Chapitre 01 — Signature
+            <span className="text-[hsl(var(--tangerine))]">§</span> Signature
           </div>
           {/* Top-right meta */}
           <div className="hidden md:block absolute top-6 right-10 lg:right-14 xl:right-20 z-20 mono text-[10px] uppercase tracking-[0.3em] text-[hsl(var(--cream))/0.5] text-right">
             Bénin · 2026<br />
             Identité en mouvement
-          </div>
-
-          {/* Side rail numbering */}
-          <div className="hidden md:flex absolute left-10 lg:left-14 xl:left-20 top-1/2 -translate-y-1/2 z-20 flex-col gap-3 mono text-[10px] uppercase tracking-[0.3em] text-[hsl(var(--cream))/0.45] tabular-nums">
-            <span>01</span>
-            <span className="h-10 w-px bg-[hsl(var(--cream))/0.3]" />
-            <span>02</span>
-            <span className="h-10 w-px bg-[hsl(var(--cream))/0.3]" />
-            <span>03</span>
           </div>
 
           {/* Bottom editorial overlay */}
@@ -164,7 +155,7 @@ const Hero: React.FC = () => {
         >
           <span>Scroll pour explorer</span>
           <span className="h-px flex-1 mx-6 bg-[hsl(var(--ink))/0.15]" />
-          <span className="tabular-nums">↓ 04 sections</span>
+          <span>↓ Explorer</span>
         </motion.div>
       </div>
     </section>
@@ -173,9 +164,6 @@ const Hero: React.FC = () => {
 
 const TitleLine: React.FC<{ n: string; word: React.ReactNode; italic?: boolean }> = ({ n, word, italic }) => (
   <div className="col-span-12 flex items-start gap-3 sm:gap-5 md:gap-7 border-t hairline first:border-t-0 pt-2 md:pt-3">
-    <span className="mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[hsl(var(--tangerine))] tabular-nums pt-3 md:pt-6 shrink-0">
-      {n}
-    </span>
     <span
       className={`display-serif fluid-display-xl leading-[0.85] font-light tracking-[-0.04em] ${italic ? 'italic font-normal' : ''}`}
     >

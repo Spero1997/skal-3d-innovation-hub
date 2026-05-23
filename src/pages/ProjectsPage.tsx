@@ -18,7 +18,6 @@ const ProjectCard: React.FC<{
   description: string;
   image: string;
 }> = ({ id, index, title, subtitle, category, description, image }) => {
-  const num = String(index + 1).padStart(2, '0');
   // Asymmetric column placement: large left, narrow right, alternating
   const layouts = [
     'md:col-span-8 md:col-start-1',
@@ -40,9 +39,6 @@ const ProjectCard: React.FC<{
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute top-4 left-4 mono text-[10px] uppercase tracking-[0.25em] text-[hsl(var(--cream))] tabular-nums">
-          {num} / {String(projects.length).padStart(2, '0')}
-        </div>
         <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[hsl(var(--cream))] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <ArrowUpRight className="w-4 h-4 text-foreground" />
         </div>
@@ -81,7 +77,6 @@ const ProjectsPage: React.FC = () => {
         kicker="Réalisations récentes"
         title={<>Des projets, <span className="italic">une matière.</span></>}
         lede="Une sélection de missions menées au Bénin et en Afrique de l'Ouest — urbanisme, cartographie SIG, identité visuelle, IA appliquée."
-        meta={`${String(projects.length).padStart(2, '0')} projets`}
       />
       <section className="section-x section-y">
         <div className="grid grid-cols-12 gap-x-6 gap-y-16 md:gap-y-24">
