@@ -76,10 +76,24 @@ const ArticlesGallery: React.FC = () => {
         })}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-6 gap-4 sm:gap-6">
         {items.map((a, i) => {
           const config = typeConfig[a.type];
           const isHovered = hoveredId === a.id;
+
+          // Fill any trailing empty cells: compute span so the last row
+          // always spans the full width of the grid (avoids ghost columns).
+          const total = items.length;
+          const smRemainder = total % 3; // lg view uses 3 columns
+          const lgIndexFromEnd = total - 1 - i;
+          let lgSpan = 'lg:col-span-2'; // default: 3 per row in a 6-col grid
+          if (smRemainder === 1 && lgIndexFromEnd === 0) lgSpan = 'lg:col-span-6';
+          if (smRemainder === 2 && lgIndexFromEnd <= 1) lgSpan = 'lg:col-span-3';
+
+          const tabRemainder = total % 2; // sm/md view uses 2 columns (col-span-3 each)
+          const tabIndexFromEnd = total - 1 - i;
+          let smSpan = 'sm:col-span-3';
+          if (tabRemainder === 1 && tabIndexFromEnd === 0) smSpan = 'sm:col-span-6';
 
           return (
             <motion.article
@@ -89,7 +103,7 @@ const ArticlesGallery: React.FC = () => {
               transition={{ duration: 0.55, delay: reduceMotion ? 0 : i * 0.07, ease: [0.22, 1, 0.36, 1] }}
               onMouseEnter={() => setHoveredId(a.id)}
               onMouseLeave={() => setHoveredId(null)}
-              className={`group relative border hairline bg-[hsl(var(--cream))] overflow-hidden flex flex-col rounded-sm transition-shadow duration-500 ${config.hoverGlow}`}
+              className={`group relative border hairline bg-[hsl(var(--cream))] overflow-hidden flex flex-col rounded-sm transition-shadow duration-500 ${smSpan} ${lgSpan} ${config.hoverGlow}`}
             >
               {/* Image container with hover overlay */}
               <div className="relative overflow-hidden aspect-[4/3] bg-muted">
