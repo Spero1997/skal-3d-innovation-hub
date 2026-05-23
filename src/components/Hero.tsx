@@ -63,15 +63,15 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Asymmetric stats — staggered vertical offsets */}
-        <div className="col-span-12 md:col-span-4 md:col-start-7 grid grid-cols-3 gap-3 sm:gap-5">
+        <div className="col-span-12 md:col-span-3 md:col-start-7 grid grid-cols-3 gap-3 sm:gap-5">
           <Stat n="120+" label="Projets livrés" offset="" />
           <Stat n="48h" label="Délai devis" offset="mt-8 md:mt-14" />
           <Stat n="06" label="Disciplines" offset="mt-4 md:mt-6" />
         </div>
 
         {/* Vertical discipline marquee — visible md+ */}
-        <div className="hidden md:flex md:col-span-2 md:col-start-11 justify-end items-start">
-          <div className="h-48 w-full overflow-hidden relative border-l hairline-strong pl-4">
+        <div className="hidden md:flex md:col-span-3 md:col-start-10 justify-end items-start">
+          <div className="h-48 w-full relative border-l hairline-strong pl-4 overflow-y-hidden overflow-x-visible">
             <div className="vertical-marquee mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
               {[...DISCIPLINES, ...DISCIPLINES].map((d, i) => (
                 <span key={i} className="flex items-center gap-2 py-2.5 whitespace-nowrap">
