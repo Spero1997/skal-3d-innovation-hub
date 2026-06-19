@@ -272,6 +272,7 @@ export const projects: ProjectData[] = [
     description: "Réalisation de relevés métriques, de plans techniques et d'une automatisation d'envoi des factures clients pour TECOMAV-ALU, spécialisée en aluminium et menuiserie technique. Les plans cotés servent au dimensionnement et à la fabrication en atelier ; le workflow d'automatisation déclenche l'envoi des factures par email aux clients selon leur langue.",
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2076&auto=format&fit=crop",
     gallery: [
+      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2076&auto=format&fit=crop",
       {
         src: tecomavAluInvoiceAutomation.url,
         caption: "Automatisation des factures clients — TECOMAV-ALU",
