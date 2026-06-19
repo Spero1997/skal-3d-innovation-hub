@@ -273,7 +273,7 @@ export const projects: ProjectData[] = [
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2076&auto=format&fit=crop",
     gallery: [
       {
-        src: "/__l5e/assets-v1/44e1865c-d1ca-4085-8a8a-95f76dbcbeca/tecomav-alu-factures-automation.jpeg",
+        src: tecomavAluInvoiceAutomation.url,
         caption: "Automatisation des factures clients — TECOMAV-ALU",
         description: "Workflow webhook → router conditionnel par langue (it / pt / es) → envoi d'email facture via Resend.",
       },
