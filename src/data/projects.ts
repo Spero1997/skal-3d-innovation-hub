@@ -1,3 +1,5 @@
+import tecomavAluInvoiceAutomation from "@/assets/tecomav-alu-factures-automation.jpeg.asset.json";
+
 export interface GalleryItem {
   src: string;
   caption?: string;
