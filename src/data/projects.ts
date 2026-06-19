@@ -1,3 +1,5 @@
+import tecomavAluInvoiceAutomation from "@/assets/tecomav-alu-factures-automation.jpeg.asset.json";
+
 export interface GalleryItem {
   src: string;
   caption?: string;
@@ -262,21 +264,30 @@ export const projects: ProjectData[] = [
     },
     delay: 1.4,
   },
-  {
+{
     id: 15,
-    title: "Relevés et plans techniques — TECOMAV-ALU",
+    title: "Relevés, plans et automatisation — TECOMAV-ALU",
     subtitle: "Mission pour TECOMAV-ALU",
-    category: "Topographie & Plans techniques",
-    description: "Réalisation de relevés métriques et de plans techniques pour TECOMAV-ALU, spécialisée en aluminium et menuiserie technique. Production de plans cotés exploitables en atelier pour le dimensionnement et la fabrication des ouvrages.",
+    category: "Topographie, Plans techniques & Automatisation",
+    description: "Réalisation de relevés métriques, de plans techniques et d'une automatisation d'envoi des factures clients pour TECOMAV-ALU, spécialisée en aluminium et menuiserie technique. Les plans cotés servent au dimensionnement et à la fabrication en atelier ; le workflow d'automatisation déclenche l'envoi des factures par email aux clients selon leur langue.",
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2076&auto=format&fit=crop",
-    services: ["Relevés métriques", "Plans techniques cotés", "Conseil en implantation"],
+    gallery: [
+      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2076&auto=format&fit=crop",
+      {
+        src: tecomavAluInvoiceAutomation.url,
+        caption: "Automatisation des factures clients — TECOMAV-ALU",
+        description: "Workflow webhook → router conditionnel par langue (it / pt / es) → envoi d'email facture via Resend.",
+      },
+    ],
+    services: ["Relevés métriques", "Plans techniques cotés", "Conseil en implantation", "Automatisation des factures clients"],
     objectives: [
       "Effectuer des relevés précis sur sites clients",
       "Produire des plans cotés directement exploitables en atelier",
       "Fiabiliser le dimensionnement des ouvrages aluminium",
       "Réduire les erreurs de fabrication et de pose",
+      "Automatiser l'envoi des factures clients par email selon la langue",
     ],
-    technologies: ["AutoCAD", "Distance-mètre laser", "Station totale", "Plans 2D cotés"],
+    technologies: ["AutoCAD", "Distance-mètre laser", "Station totale", "Plans 2D cotés", "Webhooks", "Router logique", "Resend"],
     testimonial: {
       quote: "Service exceptionnel et résultats à la hauteur de nos attentes. Je recommande vivement leur expertise pour tous vos projets.",
       author: "GUENDEHOU Côme",
